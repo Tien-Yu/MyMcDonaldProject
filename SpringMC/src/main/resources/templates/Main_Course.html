@@ -22,7 +22,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/Thymeleaf.html to edit
                             <div th:text="'$'+${p.price}">price</div>
                             <div th:switch="${p.state}">
                                 <span class="text-danger btn" th:case="0">缺貨中</span>
-                                <span th:if="${p.state} == 1">
+                                <span th:case="1">
                                     <a th:if="${p.id!=9 && p.id!=10}" class="btn btn-default"  href="#">買起來</a>
                                     <a th:if="${p.id==9 || p.id==10}" class="btn btn-danger"  href="#">星爆</a>
                                 </span>

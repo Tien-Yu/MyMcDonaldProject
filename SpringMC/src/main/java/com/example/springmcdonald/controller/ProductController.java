@@ -24,30 +24,38 @@ public class ProductController {
     ProductService prodService;
     
     @GetMapping("")
-    public String homepage(){
-        return share_menu();
+    public String homepage(Model m){
+        return share_menu(m);
     }
     
     @GetMapping("/share")
-    public String share_menu(){
+    public String share_menu(Model m){
+        m.addAttribute("list", prodService.findByCategory("SHARE"));
         return "ProductHome";
     }
-    
-    
+        
     @GetMapping("/combo")
-    public String combo_menu(){
+    public String combo_menu(Model m){
+        m.addAttribute("list", prodService.findByCategory("COMBO"));
         return "Combo_Menu";
     }
-    
-    
+        
     @GetMapping("/main_course")
     public String main_course(Model m){
-        m.addAttribute("list", prodService.listAll());        
+        m.addAttribute("list", prodService.findByCategory("MAIN"));               
         return "Main_Course";
     }
     
+    @GetMapping("/sub_course")
+    public String sub_course(Model m){
+        m.addAttribute("list", prodService.findByCategory("SUB"));        
+        //not exist yet
+        return "Sub_Course";
+    }
+    
     @GetMapping("/drinks")
-    public String drinks(){
+    public String drinks(Model m){
+        m.addAttribute("list", prodService.findByCategory("DRINK"));
         return "Drinks";
     }
 

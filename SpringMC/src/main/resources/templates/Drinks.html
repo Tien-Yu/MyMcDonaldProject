@@ -13,7 +13,25 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/Thymeleaf.html to edit
     </head>
     <body>
         <div layout:fragment="content">
-           <div>Drinks</div>
+        
+            <div class="container">
+                <div style="margin-top: 20px">
+                    <article class="img-thumbnail" style="padding: 50px; border-width: 2px" th:each="p : ${list}">
+                        <h4 style="margin-top: 0px"  th:text="${p.name}">name</h4>
+                        <div style="width: 150px; height: 150px"><img style="width: 150px; height: 130px" th:src="${p.photo?.photo_location}" alt="photo"/>
+                            <div th:text="'$'+${p.price}">price</div>
+                            <div th:switch="${p.state}">
+                                <span class="text-danger btn" th:case="0">缺貨中</span>
+                                <span th:case="1">
+                                    <a th:if="${p.id!=9 && p.id!=10}" class="btn btn-default"  href="#">買起來</a>
+                                    <a th:if="${p.id==9 || p.id==10}" class="btn btn-danger"  href="#">星爆</a>
+                                </span>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+   
         </div>
         
         

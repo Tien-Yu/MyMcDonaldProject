@@ -6,7 +6,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 
 @SpringBootApplication
-//@EnableAutoConfiguration(exclude = DataSourceAutoConfiguration.class)
 public class SpringmcdonaldApplication {
 
 	public static void main(String[] args) {
