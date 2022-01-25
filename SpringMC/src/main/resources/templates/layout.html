@@ -13,66 +13,64 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/Thymeleaf.html to edit
         <link rel=stylesheet th:href="@{/css/style.css}" href="../static/css/style.css" />
     </head>
     <body>
-        <div class="container">
-            <div class="bg-title">
-            <nav>
-                <ul class="nav navbar-nav">
-                    <li class="h1">
-                        <strong>麥當勞24hr歡樂送</strong>
-                    </li>
-                </ul>
-                <ul class="nav navbar-nav navbar-right" style="padding-right: 50px">
-                    <li class="h2" style="border-right: 1px solid">
-                        <a href="#">登入</a>
-                    </li>
-                    <li class="h2">
-                        <a href="https://google.com">支援</a>
-                    </li>
-                </ul>
-            </nav>
-        </div>
 
-        <div class="wrapper">
-            <div class="sidebar">
-                <h2>一般餐點</h2>
-                <ul>
-                    <li>
-                        <a href="#" th:href="@{/menu/share}">邊緣人分享餐</a>
-                    </li>
-                    <li>
-                        <a href="#" th:href="@{/menu/combo}">超值套餐</a>
-                    </li>
-                    <li>
-                        <a href="#" th:href="@{/menu/main_course}">主餐單點</a>
-                    </li>
-                    <li>
-                        <a href="#" th:href="@{/menu/sub_course}">副食</a>
-                    </li>
-                    <li>
-                        <a href="#" th:href="@{/menu/drinks}">飲料</a>
-                    </li>
-                    
-                </ul>
-            </div>
-            
-            <div class="main_content">
-                <div class="header"><h3>單點專區</h3></div>
-                <div class="info">
-                    <div layout:fragment="content">
-                        <p>Welcome to Thymeleaf Layout Dialect</p>
-                    </div>
+        <div class="container" style="padding: 50px">
+
+            <div class="wrapper">
+                <div class="topbar">                   
+                    <ul class="nav navbar-nav">                     
+                        <li class="text-center" style="border-right: 1px solid">                            
+                            <a>麥當勞24hr歡樂送</a>
+                        </li>
+                        <li style="border-right: 1px solid">
+                            <a href="#">最新資訊</a>
+                        </li>
+                        <li style="border-right: 1px solid">
+                            <a href="#">我的帳戶</a>
+                        </li>
+                        <li>
+                            <a href="https://google.com">支援</a>
+                        </li>
+                    </ul>
                 </div>
+
+                <div class="sidebar">
+                    <h3>一般餐點</h3>
+                    <ul>
+                        <li>
+                            <a href="#" th:href="@{/menu/share}">快樂分享餐</a>
+                        </li>
+                        <li>
+                            <a href="#" th:href="@{/menu/main_course}">超值全餐和主餐單點</a>
+                        </li>
+                        <li>
+                            <a href="#" th:href="@{/menu/sub_course}">配餐單點</a>
+                        </li>                      
+                        <li>
+                            <a href="#" th:href="@{/menu/drinks}">飲料</a>
+                        </li>
+                        <li>
+                            <a href="#" th:href="@{/menu/dessert}">點心與拼盤</a>
+                        </li>
+
+                    </ul>
+                </div>    
+
+                <!--                <div class="main_content">
+                                    <div class="header"><h3>瀏覽菜單</h3></div>-->
+
+                <div layout:fragment="content" class="main_content">
+                    <p>Welcome to Thymeleaf Layout Dialect</p>
+                </div>
+
+                <!--                </div>-->
+
             </div>
+
 
         </div>
         <div class="text-right" style="margin-right: 20px">
             <h5>Copyright &copy; MyCompany Ltd.</h5>
         </div>
-            
-            
-        </div>
-        
-
-
     </body>
 </html>

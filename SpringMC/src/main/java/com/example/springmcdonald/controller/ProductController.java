@@ -34,12 +34,6 @@ public class ProductController {
         return "ProductHome";
     }
         
-    @GetMapping("/combo")
-    public String combo_menu(Model m){
-        m.addAttribute("list", prodService.findByCategory("COMBO"));
-        return "Combo_Menu";
-    }
-        
     @GetMapping("/main_course")
     public String main_course(Model m){
         m.addAttribute("list", prodService.findByCategory("MAIN"));               
@@ -49,7 +43,6 @@ public class ProductController {
     @GetMapping("/sub_course")
     public String sub_course(Model m){
         m.addAttribute("list", prodService.findByCategory("SUB"));        
-        //not exist yet
         return "Sub_Course";
     }
     
@@ -57,6 +50,12 @@ public class ProductController {
     public String drinks(Model m){
         m.addAttribute("list", prodService.findByCategory("DRINK"));
         return "Drinks";
+    }
+    
+    @GetMapping("/dessert")
+    public String dessert(Model m){
+        m.addAttribute("list", prodService.findByCategory("DESSERT"));
+        return "Dessert";
     }
 
 }
