@@ -7,10 +7,12 @@ package com.example.springmcdonald.controller;
 import com.example.springmcdonald.pojo.Product;
 import com.example.springmcdonald.service.ProductService;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
@@ -23,6 +25,9 @@ public class ProductController {
     @Autowired
     ProductService prodService;
     
+    /*
+        redirect
+    */
     @GetMapping("")
     public String homepage(Model m){
         return share_menu(m);
@@ -56,6 +61,16 @@ public class ProductController {
     public String dessert(Model m){
         m.addAttribute("list", prodService.findByCategory("DESSERT"));
         return "Dessert";
+    }
+    
+    /*
+        cart function
+    */
+    @GetMapping("/{id}/confirmInfo")
+    public String confirmInfo(@PathVariable("id") int id, Model m){
+        Optional<Product> tmpProd = prodService.findById(id);
+        m.addAttribute("product", tmpProd.isPresent()?tmpProd.get():null);        
+        return "confirmInfo";
     }
 
 }

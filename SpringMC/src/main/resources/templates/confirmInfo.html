@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/Thymeleaf.html to edit this template
+-->
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <!--使用本地端伺服器資源-->
+        <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" href="../static/css/bootstrap.min.css"/>
+
+        <script>
+           function btnAdd(){
+               var qty = document.getElementById("qty").value;
+               qty = Number(qty)+1;
+           
+               document.getElementById("qty").value = qty;
+               var product = [[${product.price}]]
+               document.getElementById("total").value = product * qty;
+              
+               
+               
+           }
+           function btnMinus(){
+               var qty = document.getElementById("qty").value;
+               qty = Number(qty);
+               
+               if(qty <= 1){
+                    qty = 1;
+                }else{
+                    qty -= 1;
+                }
+               document.getElementById("qty").value = qty;
+               var product = [[${product.price}]]  
+               document.getElementById("total").value = product * qty;
+           }
+           
+          
+        </script>
+    </head>
+    <body th:object="${product}">
+        <div class="container" style="max-width: 800px">
+
+            <div class="well">
+                <form action="#" method="POST">
+                    <div class="form-group">
+                        <span th:text="*{name}"></span>
+                        <label>數量:</label>
+                        <input type="button" onclick="btnMinus()" value="-"/>                     
+                        <input id="qty" name="qty" type="text" value="1"/>
+                        <input type="button" onclick="btnAdd()" value="+"/>
+                        <label>總價:</label>
+                        <input id="total" th:value="*{price}"></input>
+                    </div>
+                    <div>
+                        <input type="radio" name="套餐"/>
+                    </div>
+                    <div class="form-group">
+                        <p>
+                            <button type="submit">加入購物車</button>
+                        </p>
+                    </div>
+
+                </form>
+
+            </div>  
+
+        </div>
+
+
+
+
+        <!--使用本地端伺服器資源-->
+        <script th:src="@{/js/bootstrap.min.js}" src="../static/js/bootstrap.min.js"/>    
+    </body>
+</html>

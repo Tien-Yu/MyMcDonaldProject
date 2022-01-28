@@ -7,6 +7,7 @@ package com.example.springmcdonald.service;
 import com.example.springmcdonald.pojo.Product;
 import com.example.springmcdonald.repository.ProductRepository;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,8 +21,13 @@ public class ProductService {
     ProductRepository prodRepository;
     
     public List<Product> findByCategory(String category){
-        return prodRepository.findByCategory(category);
+        return prodRepository.findByCategory(category);        
     }
+    
+    public Optional<Product> findById(int id){
+        return prodRepository.findById(id);
+    }
+    
     
     
 }

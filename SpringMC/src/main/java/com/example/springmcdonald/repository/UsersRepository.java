@@ -4,17 +4,13 @@
  */
 package com.example.springmcdonald.repository;
 
-import com.example.springmcdonald.pojo.Product;
-import java.util.List;
-import java.util.Optional;
+import com.example.springmcdonald.pojo.Users;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
  *
- * @author Nathan
+ * @author timothy
  */
-public interface ProductRepository extends JpaRepository<Product, Integer>{
-    
-    public List<Product> findByCategory(String category);
+public interface UsersRepository extends JpaRepository<Users, Integer>{
     
 }
