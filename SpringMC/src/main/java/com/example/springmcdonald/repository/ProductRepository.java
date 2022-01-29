@@ -6,8 +6,8 @@ package com.example.springmcdonald.repository;
 
 import com.example.springmcdonald.pojo.Product;
 import java.util.List;
-import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
+
 
 /**
  *
@@ -16,5 +16,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface ProductRepository extends JpaRepository<Product, Integer>{
     
     public List<Product> findByCategory(String category);
-    
+
 }

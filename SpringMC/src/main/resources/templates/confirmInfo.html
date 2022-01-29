@@ -12,50 +12,60 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/Thymeleaf.html to edit
         <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" href="../static/css/bootstrap.min.css"/>
 
         <script>
-           function btnAdd(){
-               var qty = document.getElementById("qty").value;
-               qty = Number(qty)+1;
-           
-               document.getElementById("qty").value = qty;
-               var product = [[${product.price}]]
-               document.getElementById("total").value = product * qty;
-              
-               
-               
-           }
-           function btnMinus(){
-               var qty = document.getElementById("qty").value;
-               qty = Number(qty);
-               
-               if(qty <= 1){
-                    qty = 1;
-                }else{
-                    qty -= 1;
+            function btnAdd() {
+                var amount = document.getElementById("amount").value;
+                amount = Number(amount) + 1;
+                document.getElementById("amount").value = amount;
+            }
+
+            function btnMinus() {
+                var amount = document.getElementById("amount").value;
+                amount = Number(amount);
+                if (amount <= 1) {
+                    amount = 0;
+                } else {
+                    amount -= 1;
                 }
-               document.getElementById("qty").value = qty;
-               var product = [[${product.price}]]  
-               document.getElementById("total").value = product * qty;
-           }
-           
-          
+                document.getElementById("amount").value = amount;
+            }
         </script>
     </head>
     <body th:object="${product}">
         <div class="container" style="max-width: 800px">
 
             <div class="well">
-                <form action="#" method="POST">
+                <form action="#" th:action="@{/menu/shoppingcart}" method="POST">
+                    <!-- 確認區段 -->
+                    <input type="hidden" th:value="*{id}" name="id"/>
+                    <div class="form-group">
+                        <img style="width: 50%; height: 50%" th:src="${product.photo?.photo_location}" alt="photo"/>
+                    </div>
                     <div class="form-group">
                         <span th:text="*{name}"></span>
                         <label>數量:</label>
                         <input type="button" onclick="btnMinus()" value="-"/>                     
-                        <input id="qty" name="qty" type="text" value="1"/>
+                        <input id="amount" name="amount" type="text" value="0"/>
                         <input type="button" onclick="btnAdd()" value="+"/>
-                        <label>總價:</label>
-                        <input id="total" th:value="*{price}"></input>
+                        <label>價格:</label>
+                        <span th:text="'$'+*{price}"></span>
                     </div>
+                    <!-- 訊息區段 -->
                     <div>
-                        <input type="radio" name="套餐"/>
+                        <ul>
+                            <li th:each="pd : ${product.productDetails}">
+                                <span th:text="${pd.detail}"></span>
+                                <select name="selection" th:if="${pd.selectable==1}">
+                                    <option value="0">可口可樂</option>
+                                    <option value="1">雪碧</option>
+                                    <option value="2">檸檬紅茶</option>
+                                </select>
+                            </li>
+                        </ul>
+                    </div>
+                    <hr/>
+                    <div>
+
+
                     </div>
                     <div class="form-group">
                         <p>
