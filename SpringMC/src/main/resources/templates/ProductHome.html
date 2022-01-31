@@ -14,7 +14,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/Thymeleaf.html to edit
     <body>
         <div layout:fragment="content">
             <div class="header"><h3>快樂分享餐</h3></div>
-            <div class="container">
+            <div class="container" style="max-width: 1000px">
                 <div style="margin-top: 20px">
                     <article class="img-thumbnail" style="padding: 50px; border-width: 2px" th:each="p : ${list}">
                         <h4 style="margin-top: 0px" th:text="${p.name}" class="text-center">name</h4>
