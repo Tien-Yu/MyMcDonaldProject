@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  *
@@ -73,13 +74,25 @@ public class ProductController {
         return "Dessert";
     }
     
-    /*
-        cart function
-    */
+    /**
+     * 加入購物車前的確認(加上網址列參數用來判斷產品數量)
+     * @param id 產品編號
+     * @param count 計算產品數量
+     * @param m 將產品傳給前端UI
+     * @return 
+     */
+    
     @GetMapping("/{id}/confirmInfo")
-    public String confirmInfo(@PathVariable("id") int id, Model m){
+    public String confirmInfo(@PathVariable("id") int id,
+                              @RequestParam(defaultValue = "0") int count,
+                              Model m){
+        if(count < 0 ){
+            count = 0;
+        }
+        
         Optional<Product> tmpProd = prodService.findById(id);
         m.addAttribute("product", tmpProd.isPresent()?tmpProd.get():null);
+        m.addAttribute("count", count);
         return "confirmInfo";
     }
     
@@ -98,10 +111,12 @@ public class ProductController {
         int amount = orderLineForm.getAmount();
         //數量為0時重新導向至選擇畫面
         if(amount == 0){
-            return confirmInfo(id, m);
-        }        
+            return confirmInfo(id, 0, m);
+        }
+        
         orderLineForm.setPurchasePrice(price*amount);
         orderLineForm.setProduct(tmpProd.get());
+        
         //取得OrderLine物件
         OrderLine orderLine = orderLineForm.convertToOrderLine();
         orderLineService.insert(orderLine);
@@ -129,11 +144,12 @@ public class ProductController {
    
     @GetMapping("/{id}/remove")
     public String removeProduct(@PathVariable int id ,HttpSession session){
-        List<OrderLine> productList = (List)session.getAttribute("orderLines");
-        List<OrderLine> newProductList = productList.stream().filter(o -> o.getId() != id).collect(Collectors.toList());
+        List<OrderLine> oldList = (List)session.getAttribute("orderLines");
+        List<OrderLine> newList = oldList.stream().filter(o -> o.getId() != id).collect(Collectors.toList());
         orderLineService.remove(id);
-        session.setAttribute("orderLines", newProductList);
-        return shoppingCart(session);
+        session.setAttribute("orderLines", newList);
+//        return shoppingCart(session);
+        return "redirect:/menu/shoppingcart";
     }
   
 }

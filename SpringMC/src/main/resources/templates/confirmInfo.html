@@ -18,7 +18,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/Thymeleaf.html to edit
                 document.getElementById("amount").value = amount;
             }
 
-            function btnMinus() {
+            function btnReduce() {
                 var amount = document.getElementById("amount").value;
                 amount = Number(amount);
                 if (amount <= 1) {
@@ -43,16 +43,20 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/Thymeleaf.html to edit
                     <div class="form-group">
                         <span th:text="*{name}"></span>
                         <label>數量:</label>
-                        <input type="button" onclick="btnMinus()" value="-"/>                     
-                        <input id="amount" name="amount" type="text" value="0"/>
-                        <input type="button" onclick="btnAdd()" value="+"/>
+                        <!--                        <input type="button" onclick="btnReduce()" value="-"/>                     
+                                                <input id="amount" name="amount" type="text" value="0"/>
+                                                <input type="button" onclick="btnAdd()" value="+"/>-->
+    
+                        <a class="btn btn-default" href="#" th:href="@{'/menu/'+*{id}+'/confirmInfo?count='+${count-1}}">-</a>    
+                        <input id="amount" name="amount" type="text" th:value="${count}"/>
+                        <a class="btn btn-default" href="#" th:href="@{'/menu/'+*{id}+'/confirmInfo?count='+${count+1}}">+</a> 
                         <label>價格:</label>
                         <span th:text="'$'+*{price}"></span>
                     </div>
-                    <!-- 訊息區段 -->
-                    <div>
-                        <ul>
-                            <li th:each="pd : ${product.productDetails}">
+                    <!-- 訊息區段-->
+                    <div th:unless="${count == 0}">
+                        <ul th:each="c : ${#numbers.sequence(1, count)}">
+                            <li th:if="${#strings.equals(product.category, 'SHARE')}" th:each="pd : ${product.productDetails}">
                                 <span th:text="${pd.detail}"></span>
                                 <select name="selection" th:if="${pd.selectable==1}">
                                     <option value="0">可口可樂</option>
@@ -60,6 +64,13 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/Thymeleaf.html to edit
                                     <option value="2">檸檬紅茶</option>
                                 </select>
                             </li>
+                            <!-- 增加主餐單點與套餐的選項 -->
+                            <li th:if="${#strings.equals(product.category, 'MAIN')}"></li>
+                            
+                            <!-- 增加單點時的選項 -->
+                            <li th:if="${product.category != 'MAIN' || product.category != SHARE}"></li>
+                            
+                            
                         </ul>
                     </div>
                     <hr/>
@@ -83,6 +94,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/Thymeleaf.html to edit
 
 
         <!--使用本地端伺服器資源-->
+        <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
         <script th:src="@{/js/bootstrap.min.js}" src="../static/js/bootstrap.min.js"/>    
     </body>
 </html>

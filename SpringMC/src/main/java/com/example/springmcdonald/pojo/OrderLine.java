@@ -22,12 +22,12 @@ public class OrderLine {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     
-    @OneToOne(mappedBy = "orderLine")
+    @OneToOne
     private Product product;
     
     private int amount; //產品的數量
     private int purchasePrice; //總價 : 數量 * 單價
-    private String[] selection; //可更換的附餐
+    private String[] selection; //應該改成description
     
     
 }

@@ -40,7 +40,7 @@ public class Product implements Serializable{
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<ProductDetail> productDetails;
     
-    @OneToOne
+    @OneToOne(mappedBy = "product")
     private OrderLine orderLine;
 
 }
