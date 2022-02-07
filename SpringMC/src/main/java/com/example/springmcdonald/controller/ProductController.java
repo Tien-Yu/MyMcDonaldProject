@@ -78,6 +78,7 @@ public class ProductController {
      * 加入購物車前的確認(加上網址列參數用來判斷產品數量)
      * @param id 產品編號
      * @param count 計算產品數量
+     * @param countsp 套餐專用數量計算器
      * @param m 將產品傳給前端UI
      * @return 
      */
@@ -85,14 +86,20 @@ public class ProductController {
     @GetMapping("/{id}/confirmInfo")
     public String confirmInfo(@PathVariable("id") int id,
                               @RequestParam(defaultValue = "0") int count,
+                              @RequestParam(defaultValue = "0") int countsp,
                               Model m){
-        if(count < 0 ){
+        if(count < 0){
             count = 0;
         }
+        if(countsp < 0){
+            countsp = 0;
+        }
+        
         
         Optional<Product> tmpProd = prodService.findById(id);
         m.addAttribute("product", tmpProd.isPresent()?tmpProd.get():null);
         m.addAttribute("count", count);
+        m.addAttribute("countsp", countsp);
         return "confirmInfo";
     }
     
@@ -111,7 +118,7 @@ public class ProductController {
         int amount = orderLineForm.getAmount();
         //數量為0時重新導向至選擇畫面
         if(amount == 0){
-            return confirmInfo(id, 0, m);
+            return confirmInfo(id, 0, 0, m);
         }
         
         orderLineForm.setPurchasePrice(price*amount);
