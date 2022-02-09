@@ -9,12 +9,10 @@ import java.io.Serializable;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -38,8 +36,8 @@ public class Product implements Serializable{
     @OneToOne(mappedBy = "product", cascade = CascadeType.ALL)
     private Photo photo;
     
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-//    @ManyToMany
+//    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany
     private List<ProductDetail> productDetails;
     
     @OneToOne(mappedBy = "product")
