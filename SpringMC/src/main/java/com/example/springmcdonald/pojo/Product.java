@@ -13,6 +13,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import lombok.Data;
@@ -38,6 +39,7 @@ public class Product implements Serializable{
     private Photo photo;
     
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+//    @ManyToMany
     private List<ProductDetail> productDetails;
     
     @OneToOne(mappedBy = "product")

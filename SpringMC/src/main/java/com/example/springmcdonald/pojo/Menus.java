@@ -5,17 +5,14 @@
 package com.example.springmcdonald.pojo;
 
 import java.util.List;
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 /**
  *
@@ -23,15 +20,16 @@ import lombok.NoArgsConstructor;
  */
 @Entity
 @Data
-@NoArgsConstructor
-public class ProductDetail {
+public class Menus {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private String detail;
-    private int selectable;
+    private String menu_name;
     
-    @ManyToOne
-//    @ManyToMany(mappedBy = "productDetails")
-    private Product product;
+    @ManyToMany
+//    @JoinTable(name="menu_wine", joinColumns = @JoinColumn(name="menu_id"), 
+//                                 inverseJoinColumns = @JoinColumn(name="wine_id"))
+    private List<Wine> wines;
+    
+    
 }
