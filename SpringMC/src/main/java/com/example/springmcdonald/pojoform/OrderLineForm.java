@@ -18,11 +18,12 @@ import org.springframework.beans.BeanUtils;
 public class OrderLineForm{
 
     private Product product;
-    private int amount;
+    private int amount;    
     private int purchasePrice;
     private String[] selection;
 
-    
+    private int count;
+    private int countsp;
     
     //物件呼叫方法
     public OrderLine convertToOrderLine(){

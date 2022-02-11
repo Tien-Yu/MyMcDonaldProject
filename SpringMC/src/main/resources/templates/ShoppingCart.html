@@ -31,13 +31,15 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/Thymeleaf.html to edit
                             <td th:text="*{orderLine.amount}"></td>
                             <td th:text="*{orderLine.purchasePrice}"></td>
                             <td>
+                                <!-- 可能要判斷selection 為null 的情況 -->
                                 <span th:each="selec : ${orderLine.selection}">
                                     <!-- 加個標註之類的 -->
-                                    <span th:switch="${selec}">
+                                    <span th:text="${selec}">text</span>
+<!--                                    <span th:switch="${selec}">
                                         <span th:case="0">可口可樂</span>
                                         <span th:case="1">雪碧</span>
                                         <span th:case="2">檸檬紅茶</span>
-                                    </span>
+                                    </span>-->
                                 </span>
                             </td>
                             <td>

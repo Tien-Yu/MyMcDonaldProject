@@ -77,7 +77,7 @@ public class ProductController {
     /**
      * 加入購物車前的確認(加上網址列參數用來判斷產品數量)
      * @param id 產品編號
-     * @param count 計算產品數量
+     * @param count 產品數量計算器
      * @param countsp 套餐專用數量計算器
      * @param m 將產品傳給前端UI
      * @return 
@@ -94,12 +94,20 @@ public class ProductController {
         if(countsp < 0){
             countsp = 0;
         }
-        
-        
+
         Optional<Product> tmpProd = prodService.findById(id);
+        
+        List<Product> subProd = prodService.findByCategory("SUB");
+        List<Product> drinkProd = prodService.findByCategory("DRINK");
+        
         m.addAttribute("product", tmpProd.isPresent()?tmpProd.get():null);
+        
+        m.addAttribute("sub", subProd);
+        m.addAttribute("drink", drinkProd);
+        
         m.addAttribute("count", count);
         m.addAttribute("countsp", countsp);
+      
         return "confirmInfo";
     }
     
@@ -111,31 +119,37 @@ public class ProductController {
      * @return 
      */
     @PostMapping("/shoppingcart")
-    public String shoppingCart(int id, OrderLineForm orderLineForm, HttpSession session, Model m){
-        //OrderLine 產品, 數量, 總價, 可更換的附餐
+    public String shoppingCart(int id, OrderLineForm orderLineForm, HttpSession session, Model m){        
         Optional<Product> tmpProd = prodService.findById(id);                
         int price = tmpProd.get().getPrice();
-        int amount = orderLineForm.getAmount();
-        //數量為0時重新導向至選擇畫面
+        int count = orderLineForm.getCount();
+        int countsp = orderLineForm.getCountsp();
+        int amount = count + countsp;
+        
+        //if the form data amount is 0, redirect to confirmInfo page and show the same product
         if(amount == 0){
             return confirmInfo(id, 0, 0, m);
         }
         
-        orderLineForm.setPurchasePrice(price*amount);
+        orderLineForm.setAmount(amount);
+        orderLineForm.setPurchasePrice(price*count + (price+68)*countsp);
         orderLineForm.setProduct(tmpProd.get());
         
-        //取得OrderLine物件
+        //convert OrderLineForm to OrderLine
         OrderLine orderLine = orderLineForm.convertToOrderLine();
+        
+        //insert record to database
         orderLineService.insert(orderLine);
-        //判斷是否存在
-        //不存在則建立新的List
+        
+        //get the list of OrderLine, if not exists then create one        
         List<OrderLine> orderLines = (List)session.getAttribute("orderLines");
         if(orderLines == null){
             orderLines = new ArrayList();
             session.setAttribute("orderLines", orderLines);
-        }
-        //將orderLine放到List(orderLines)當中
+        }        
+        //add orderLine to the orderLine list
         orderLines.add(orderLine);
+               
         session.setAttribute("orderLines", orderLines);
         return "ShoppingCart";
     }

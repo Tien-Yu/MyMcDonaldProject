@@ -35,74 +35,101 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/Thymeleaf.html to edit
 
             <div class="well">
                 <form action="#" th:action="@{/menu/shoppingcart}" method="POST">
-                    <!-- 確認區段 -->
+
                     <input type="hidden" th:value="*{id}" name="id"/>
                     <div class="form-group">
                         <img style="width: 50%; height: 50%" th:src="${product.photo?.photo_location}" alt="photo"/>
                     </div>
+
+                    <!-- 產品確認 共用區段 -->
                     <div class="form-group">
                         <span th:text="*{name}"></span>
                         <label>數量:</label>         
                         <a class="btn btn-default" href="#" th:href="@{'/menu/'+*{id}+'/confirmInfo?count='+${count-1}+'&countsp='+${countsp}}">-</a>    
-                        <input id="amount" name="amount" type="text" th:value="${count}"/>
+                        <input name="count" type="text" th:value="${count}"/>
                         <a class="btn btn-default" href="#" th:href="@{'/menu/'+*{id}+'/confirmInfo?count='+${count+1}+'&countsp='+${countsp}}">+</a> 
                         <label>價格:</label>
                         <span th:text="'$'+*{price}"></span>
                     </div>
-                    <!-- 套餐專用區段 -->
-                    <div class="form-group" th:if="${#strings.equals(product.category, 'MAIN')}">
-                        <span th:text="*{name}+' 套餐'"></span>
-                        <label>數量:</label>         
-                        <a class="btn btn-default" href="#" th:href="@{'/menu/'+*{id}+'/confirmInfo?count='+${count}+'&countsp='+${countsp-1}}">-</a>    
-                        <input id="amount" name="amount" type="text" th:value="${countsp}"/>
-                        <a class="btn btn-default" href="#" th:href="@{'/menu/'+*{id}+'/confirmInfo?count='+${count}+'&countsp='+${countsp+1}}">+</a> 
-                        <label>價格:</label>
-                        <span th:text="'$'+*{price+68}"></span>
-                    </div>
 
-                    <!-- 訊息區段-->
+                    <!-- 分享餐 訊息區段-->
                     <div th:if="${#strings.equals(product.category, 'SHARE')}">
                         <div th:unless="${count == 0}">
                             <ul th:each="c : ${#numbers.sequence(1, count)}">
                                 <li th:each="pd : ${product.productDetails}">
                                     <span th:text="${pd.detail}"></span>
                                     <select name="selection" th:if="${pd.selectable==1}">
-                                        <option value="0">可口可樂</option>
-                                        <option value="1">雪碧</option>
-                                        <option value="2">檸檬紅茶</option>
+                                        <div th:each="d : ${drink}">
+                                            <option>[[${d.name}]]</option>
+                                        </div> 
                                     </select>
+                                    <!--                                    <select name="selection" th:if="${pd.selectable==1}">
+                                                                            <option value="0">可口可樂</option>
+                                                                            <option value="1">雪碧</option>
+                                                                            <option value="2">檸檬紅茶</option>
+                                                                        </select>-->
                                 </li>
                             </ul>
                         </div>
                     </div>
 
-                    <!-- 增加主餐單點與套餐的選項 -->
+                    <!-- 套餐專用區段 -->
+                    <div class="form-group" th:if="${#strings.equals(product.category, 'MAIN')}">
+                        <span th:text="*{name}+' 套餐'"></span>
+                        <label>數量:</label>         
+                        <a class="btn btn-default" href="#" th:href="@{'/menu/'+*{id}+'/confirmInfo?count='+${count}+'&countsp='+${countsp-1}}">-</a>    
+                        <input name="countsp" type="text" th:value="${countsp}"/>
+                        <a class="btn btn-default" href="#" th:href="@{'/menu/'+*{id}+'/confirmInfo?count='+${count}+'&countsp='+${countsp+1}}">+</a> 
+                        <label>價格:</label>
+                        <span th:text="'$'+*{price+68}"></span>
+                    </div>
+
+                    <!-- 主餐單點&套餐 訊息區段-->
                     <div th:if="${#strings.equals(product.category, 'MAIN')}">
+                        <!-- 單點 -->
+                        <div th:unless="${count == 0}">
+                            <ul th:each="c : ${#numbers.sequence(1, count)}">
+                                <li>
+                                    <span th:text="*{name}"></span>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- 套餐 -->
                         <div th:unless="${countsp == 0}">
                             <div th:each="c : ${#numbers.sequence(1, countsp)}">
-                                <input type="checkbox" name="selection" checked/>單點
-                                <br/>
-                                <input type="checkbox" name="selection"/>經典配餐 : 中薯+$38飲料                                
-                                <br/>
-                                <input type="checkbox" name="selection"/>清爽配餐 : 四季沙拉(大)+$38飲料
-                                <br/>
-                                <input type="checkbox" name="selection"/>勁脆配餐 : 賣脆雞腿一塊+$38飲料
+                                <ul>
+                                    <li>
+                                        <span th:text="*{name}"></span>
+                                    </li>
+                                    <li th:each="pd : ${product.productDetails}">
+                                        <span th:text="${pd.detail}"></span>
+                                        <select name="selection" th:if="${pd.selectable==2}">
+                                            <div th:each="s : ${sub}">
+                                                <option>[[${s.name}]]</option>
+                                            </div>                                        
+                                        </select>
+                                        <select name="selection" th:if="${pd.selectable==1}">
+                                            <div th:each="d : ${drink}">
+                                                <option>[[${d.name}]]</option>
+                                            </div> 
+                                        </select>
+                                    </li>
+                                </ul>
                             </div>
-
                         </div>
                     </div>
 
-                    <!-- 增加單點時的選項 -->
-                    <!--                            <li th:if="${product.category != 'MAIN' || product.category != SHARE}"></li>-->
-
-
-
-
-                    <hr/>
-                    <div>
-
-
+                    <!-- 其他單點 -->
+                    <div class="form-group" th:unless="${#strings.equals(product.category, 'SHARE') || #strings.equals(product.category, 'MAIN')}">
+                        <div th:unless="${count == 0}">
+                            <ul th:each="c : ${#numbers.sequence(1, count)}">
+                                <li>
+                                    <span th:text="*{name}"></span>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
+
                     <div class="form-group">
                         <p>
                             <button type="submit">加入購物車</button>

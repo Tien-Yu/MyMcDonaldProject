@@ -24,7 +24,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/Thymeleaf.html to edit
                             <div th:switch="${p.state}" class="text-center">
                                 <span class="btn btn-warning" th:case="0">缺貨中</span>
                                 <span class="btn btn-default" th:case="1" >
-                                    <a href="#">購買</a>
+                                    <a href="#" th:href="@{/menu/{id}/confirmInfo(id=${p.id})}">購買</a>
                                 </span>                                   
                                 
                             </div>
