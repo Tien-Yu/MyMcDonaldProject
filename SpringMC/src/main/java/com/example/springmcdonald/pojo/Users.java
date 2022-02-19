@@ -31,6 +31,8 @@ public class Users {
     private String password;
     @Column(length = 20, unique = true)
     private String userEmail;
+    @Column(length = 20, unique = true)
+    private String address;
     
     
 }

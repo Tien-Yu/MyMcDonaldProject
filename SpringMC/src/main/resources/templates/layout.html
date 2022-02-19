@@ -13,10 +13,19 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/Thymeleaf.html to edit
         <link rel=stylesheet th:href="@{/css/style.css}" href="../static/css/style.css" />
     </head>
     <body>
-
-        <div class="container" style="padding: 50px">
+        <div class="container">
+            <div class="container">    
+                <div class="user">
+                    <span class="nav navbar-right">
+                        <a href="#" th:href="@{users/login}">登入</a>                    
+                        |
+                        <a href="#">追蹤訂單</a>
+                    </span>
+                </div>
+            </div>
 
             <div class="wrapper">
+
                 <div class="topbar">                   
                     <ul class="nav navbar-nav">                     
                         <li class="text-center" style="border-right: 1px solid">                            

@@ -5,6 +5,7 @@
 package com.example.springmcdonald.repository;
 
 import com.example.springmcdonald.pojo.Users;
+import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
@@ -12,5 +13,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @author timothy
  */
 public interface UsersRepository extends JpaRepository<Users, Integer>{
+    
+    public Optional<Users> findByUserName(String userName);
     
 }
