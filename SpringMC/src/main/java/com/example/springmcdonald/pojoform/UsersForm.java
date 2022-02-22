@@ -4,11 +4,13 @@
  */
 package com.example.springmcdonald.pojoform;
 
+import com.example.springmcdonald.pojo.Users;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.beans.BeanUtils;
 
 /**
  *
@@ -39,4 +41,21 @@ public class UsersForm {
     public boolean matchPassword(){
         return password.equals(confirmPassword);
     }
+    
+    public Users convertToUsers(){
+        return new UsersFormConvert().convertTo(this);
+    }
+    
+    
+    private class UsersFormConvert implements IFormConvert<UsersForm, Users>{
+
+        @Override
+        public Users convertTo(UsersForm s) {
+            Users tmpUsers = new Users();
+            BeanUtils.copyProperties(s, tmpUsers);
+            return tmpUsers;
+        }
+        
+    }
+    
 }

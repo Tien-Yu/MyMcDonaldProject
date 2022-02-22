@@ -27,6 +27,10 @@ public class UsersService {
         return usersRepository.findByUserName(name);
     }
     
+    public Optional<Users> findByNameAndPassword(String name, String password){
+        return usersRepository.findByUserNameAndPassword(name, password);                
+    }
+    
     public void insert(Users users){
         usersRepository.save(users);
     }

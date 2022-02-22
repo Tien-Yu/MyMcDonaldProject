@@ -4,9 +4,11 @@
  */
 package com.example.springmcdonald.controller;
 
+import com.example.springmcdonald.pojo.Users;
 import com.example.springmcdonald.pojoform.LoginForm;
 import com.example.springmcdonald.pojoform.UsersForm;
 import com.example.springmcdonald.service.UsersService;
+import java.util.Optional;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,12 +16,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
- *
+ * next : confirmAddress 與 下單時的處裡
  * @author timothy
  */
 @Controller
@@ -32,13 +33,12 @@ public class UsersController {
     */       
     @GetMapping("/account")
     public String usersHome(){
-        
-        
+
         return "UsersHome";
     }
     @GetMapping("/register")
     public String register(Model m){
-        m.addAttribute("usersform", new UsersForm());        
+        m.addAttribute("usersForm", new UsersForm());        
         return "Register";
     }
     @GetMapping("/login")
@@ -48,9 +48,8 @@ public class UsersController {
     }
     @GetMapping("/logout")
     public String logout(HttpSession session){
-        
-        
-        return "ProductHome";
+        session.invalidate();        
+        return "redirect:/menu";
     }
     @GetMapping("/confirmAddress")
     public String confirmAddress(){
@@ -74,20 +73,30 @@ public class UsersController {
      */
     @PostMapping("/registerSave")
     public String registerSave(@Valid UsersForm usersForm ,BindingResult br){
+        if(!usersForm.matchPassword()){
+            br.rejectValue("confirmPassword", "Match", "重複輸入密碼錯誤!");
+        }
         
+        if(br.hasErrors()){
+            return "Register";
+        }
         
-        return "UsersHome";
+        Users tmpUsers = usersForm.convertToUsers();
+        usersService.insert(tmpUsers);
+        
+        return "redirect:/users/login";
     }
     
     /**
      * user(loginform) validation required
      * @param lg
      * @param br
+     * @param session
      * @param m
      * @return 
      */
     @PostMapping("/loginPost")
-    public String loginPost(@Valid LoginForm lg ,BindingResult br, Model m){
+    public String loginPost(@Valid LoginForm lg ,BindingResult br, HttpSession session, Model m){
 //        m.addAttribute(loginForm); O
 //        m.addAttribute("loginform", loginForm); X Model 的物件中只有以駱駝式命名的名稱才能取得BindingResult中的錯誤資訊
         m.addAttribute("loginForm", lg);
@@ -95,7 +104,17 @@ public class UsersController {
             return "Login";
         }
         
-        return "ProductHome";
+        String name = lg.getUserName();
+        String password = lg.getPassword();
+        Optional<Users> tmpUser = usersService.findByNameAndPassword(name, password);
+        if(tmpUser.isPresent()){
+            session.setAttribute("name", name);            
+            return "redirect:/menu";
+        }
+        
+        br.rejectValue("userName", "NoMatch", "帳號可能不正確");
+        br.rejectValue("password", "NoMatch", "密碼可能不正確");
+        return "Login";
     }
     
     

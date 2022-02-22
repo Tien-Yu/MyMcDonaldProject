@@ -14,7 +14,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/Thymeleaf.html to edit
         <div class="container"  style="max-width: 800px">
             <h2 class="page-header" style="margin-top: 20px">註冊</h2>
             <div class="well">
-                <form action="" method="POST" th:object="${usersform}">
+                <form action="#" th:action="@{/users/registerSave}" method="POST" th:object="${usersForm}">
                     <div class="form-group">
                         <label for="userName">帳號</label>
                         <input type="text" name="userName" id="userName" class="form-control" th:field="*{userName}"/>                        
