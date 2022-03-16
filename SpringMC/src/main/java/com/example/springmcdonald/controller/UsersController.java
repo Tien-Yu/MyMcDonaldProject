@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
- * next : confirmAddress 與 下單時的處裡
  *
  * @author timothy
  */
@@ -35,8 +34,21 @@ public class UsersController {
         redirect    
      */
     @GetMapping("/account")
-    public String usersHome() {
-
+    public String usersHome(HttpSession session, Model m) {
+        String name = (String)session.getAttribute("name");        
+        Optional<Users> users = usersService.findByName(name);
+        if(users.isPresent()){
+            UsersForm usersForm = new UsersForm();
+            usersForm.setId(users.get().getId()); //新增欄位
+            usersForm.setUserName(users.get().getUserName());
+            usersForm.setPassword(users.get().getPassword());
+            usersForm.setConfirmPassword("");           
+            usersForm.setUserEmail(users.get().getUserEmail());
+            usersForm.setAddress(users.get().getAddress());            
+            m.addAttribute("usersForm", usersForm);       
+        }
+        m.addAttribute("reset", "yes");
+        
         return "UsersHome";
     }
 
@@ -153,5 +165,34 @@ public class UsersController {
 
         return "redirect:/menu";
     }
+    
+    
+    /*
+     * 修改帳號資訊的表單處理邏輯 
+     * @return 
+     */
+    @PostMapping("/accountPost")
+    public String accountPost(@Valid UsersForm usersForm, BindingResult br,HttpSession session, Model m){
+        m.addAttribute("usersForm", usersForm);
+        if (!usersForm.matchPassword()) {
+            br.rejectValue("confirmPassword", "Match", "重複輸入密碼錯誤!");
+        }
+        
+        if (br.hasErrors()) {
+            //交由前端Javascript判斷是否需要保留變更html元素的屬性
+            m.addAttribute("reset", "no");
+            return "UsersHome";            
+        }
+        
+        //Session 與 資料庫更新資訊處理邏輯
+        Users tmpUsers = usersForm.convertToUsers();
+        String name = tmpUsers.getUserName();
+        session.setAttribute("name", name);
+        
+        usersService.insert(tmpUsers);
+
+        return "redirect:/users/account";
+    }
+    
 
 }

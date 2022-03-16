@@ -96,6 +96,7 @@ public class ProductController {
         if (countsp < 0) {
             countsp = 0;
         }
+        //以名字為用戶認證的資訊 -> 存在時即地址也同樣存在, 及不需要進稻填地址的頁面
         if (session.getAttribute("name") == null) {
             if (session.getAttribute("address") == null) {
                 return "ConfirmAddress";

@@ -18,6 +18,9 @@ import org.springframework.beans.BeanUtils;
  */
 @Data
 public class UsersForm {
+    
+    private int id;
+    
     @NotBlank
     @Length(max = 20)
     private String userName;
