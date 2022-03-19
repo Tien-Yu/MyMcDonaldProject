@@ -9,18 +9,52 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/Thymeleaf.html to edit
         <meta charset="UTF-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" href="../static/css/bootstrap.min.css"/>
+        <link rel="stylesheet" th:href="@{/css/user_style.css}" href="../static/css/user_style.css"/>
     </head>    
     <body>
+        <!-- side bar goes here -->
+        <div class="navbar-nav navbar-left" style="padding-left: 20px; padding-top: 80px">
+            <ul id="user-sidebar">
+                <li>
+                    <a href="#" th:href="@{/menu}">回首頁</a>
+                </li>
+                <li>            
+                    <a href="#" th:href="@{/users/account}">基本資料</a>            
+                </li>
+                <li>                 
+                    <a href="#">訂單查詢</a>                   
+                </li>
+                <li>               
+                    <a href="#">歷史紀錄</a>           
+                </li>
+            </ul>
+        </div>
+
 
         <div class="container" style="max-width: 800px">
+
             <h2 class="page-header">帳號資訊</h2>
+            <!-- alert-dismissable fade in ? -->
+            <div class="alert alert-success alert-dismissable fade in" th:unless="${#strings.isEmpty(message)}">
+                <strong>訊息:</strong>
+                <strong th:text="${message}">異動結果提示訊息</strong>
+                <!--<a href="#" class="close" data-dismiss="alert">&timesb;</a>-->
+                <button class="close" data-dismiss="alert">&timesb;</button>                
+                <!--                        
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                -->
+            </div>
+
             <p class="text-right">
                 <input id="edit" type="button" value="更改資料" />
             </p>
+
             <form id="account" action="#" th:action="@{/users/accountPost}" method="POST" th:object="${usersForm}">
-                
+
                 <input type="hidden" th:value="*{id}" name="id"/>
-                
+
                 <div class="form-group">
                     <label for="userName">帳號</label>
                     <input type="text" id="userName" name="userName" class="form-control" readonly="" th:value="*{userName}"/>
@@ -59,42 +93,42 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/Thymeleaf.html to edit
         <script>
             /*Test accessing model attribute in javascript*/
             console.log("[[${reset}]]");
-            
-            /*variables */      
+
+            /*variables */
             let userName = document.getElementById('userName');
             let password = document.getElementById('password');
             let confirmPassword = document.getElementById('confirmPassword');
             let userEmail = document.getElementById('userEmail');
-            let address = document.getElementById('address');            
+            let address = document.getElementById('address');
             let confirmPasswordDiv = document.querySelector('#confirm');
             let submitButton = document.querySelector('#submit');
-            
+
             /*function for edit information*/
-            const editInfo = function() {
+            const editInfo = function () {
                 userName.removeAttribute('readonly');
                 password.removeAttribute('readonly');
                 password.removeAttribute('value');
                 userEmail = userEmail.removeAttribute('readonly');
                 address.removeAttribute('readonly');
                 confirmPasswordDiv.removeAttribute('style');
-                
+
                 submitButton.removeAttribute('style');
                 submitButton.removeAttribute('disabled');
 
             }
-            
+
             /*function for showing password */
-            const showPassword = function(){
+            const showPassword = function () {
                 password.removeAttribute('type');
                 confirmPassword.removeAttribute('type');
             }
-            
+
             /*add event listener*/
             document.querySelector("#edit").addEventListener('click', editInfo);
             document.querySelector('#show').addEventListener('click', showPassword);
-           
+
             /*presist the change while post fail*/
-            if("[[${reset}]]" === "no"){
+            if ("[[${reset}]]" === "no") {
                 editInfo();
             }
 

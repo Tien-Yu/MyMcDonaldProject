@@ -18,6 +18,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  *
@@ -167,12 +168,17 @@ public class UsersController {
     }
     
     
-    /*
-     * 修改帳號資訊的表單處理邏輯 
+    /**
+     * 
+     * @param usersForm
+     * @param br
+     * @param session
+     * @param m
+     * @param redirectAttributes 橫跨POST將資料傳給其他頁面
      * @return 
      */
     @PostMapping("/accountPost")
-    public String accountPost(@Valid UsersForm usersForm, BindingResult br,HttpSession session, Model m){
+    public String accountPost(@Valid UsersForm usersForm, BindingResult br,HttpSession session, Model m, RedirectAttributes redirectAttributes){
         m.addAttribute("usersForm", usersForm);
         if (!usersForm.matchPassword()) {
             br.rejectValue("confirmPassword", "Match", "重複輸入密碼錯誤!");
@@ -190,6 +196,8 @@ public class UsersController {
         session.setAttribute("name", name);
         
         usersService.insert(tmpUsers);
+        
+        redirectAttributes.addFlashAttribute("message", "資料更新成功!!!");
 
         return "redirect:/users/account";
     }
