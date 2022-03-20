@@ -11,12 +11,12 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
 }
 
 ul {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  background-color: #f1f1f1;
-  width: 200px;
-  
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    background-color: #f1f1f1;
+    width: 200px;
+
 }
 
 li a {
@@ -28,13 +28,13 @@ li a {
 }
 
 li a:hover {
-  background-color: #555;
-  color: white;
+    background-color: #555;
+    color: white;
 }
 
-@media only screen and (max-width: 1214px) { 
-  #user-sidebar { 
-    display: none; 
-  } 
+@media only screen and (max-width: 1214px) {
+    #user-sidebar {
+        display: none;
+    }
 }
 

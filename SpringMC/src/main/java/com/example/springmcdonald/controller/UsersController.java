@@ -36,20 +36,20 @@ public class UsersController {
      */
     @GetMapping("/account")
     public String usersHome(HttpSession session, Model m) {
-        String name = (String)session.getAttribute("name");        
+        String name = (String) session.getAttribute("name");
         Optional<Users> users = usersService.findByName(name);
-        if(users.isPresent()){
+        if (users.isPresent()) {
             UsersForm usersForm = new UsersForm();
             usersForm.setId(users.get().getId()); //新增欄位
             usersForm.setUserName(users.get().getUserName());
             usersForm.setPassword(users.get().getPassword());
-            usersForm.setConfirmPassword("");           
+            usersForm.setConfirmPassword("");
             usersForm.setUserEmail(users.get().getUserEmail());
-            usersForm.setAddress(users.get().getAddress());            
-            m.addAttribute("usersForm", usersForm);       
+            usersForm.setAddress(users.get().getAddress());
+            m.addAttribute("usersForm", usersForm);
         }
         m.addAttribute("reset", "yes");
-        
+
         return "UsersHome";
     }
 
@@ -152,10 +152,10 @@ public class UsersController {
         }
 
         if (!floor.equals("")) {
-            address = address.concat(floor+"樓");
+            address = address.concat(floor + "樓");
         }
         if (!room.equals("")) {
-            address = address.concat(room+"號房");
+            address = address.concat(room + "號房");
         }
 
         session.setAttribute("address", address);
@@ -166,41 +166,39 @@ public class UsersController {
 
         return "redirect:/menu";
     }
-    
-    
+
     /**
-     * 
+     *
      * @param usersForm
      * @param br
      * @param session
      * @param m
      * @param redirectAttributes 橫跨POST將資料傳給其他頁面
-     * @return 
+     * @return
      */
     @PostMapping("/accountPost")
-    public String accountPost(@Valid UsersForm usersForm, BindingResult br,HttpSession session, Model m, RedirectAttributes redirectAttributes){
+    public String accountPost(@Valid UsersForm usersForm, BindingResult br, HttpSession session, Model m, RedirectAttributes redirectAttributes) {
         m.addAttribute("usersForm", usersForm);
         if (!usersForm.matchPassword()) {
             br.rejectValue("confirmPassword", "Match", "重複輸入密碼錯誤!");
         }
-        
+
         if (br.hasErrors()) {
             //交由前端Javascript判斷是否需要保留變更html元素的屬性
             m.addAttribute("reset", "no");
-            return "UsersHome";            
+            return "UsersHome";
         }
-        
+
         //Session 與 資料庫更新資訊處理邏輯
         Users tmpUsers = usersForm.convertToUsers();
         String name = tmpUsers.getUserName();
         session.setAttribute("name", name);
-        
+
         usersService.insert(tmpUsers);
-        
+
         redirectAttributes.addFlashAttribute("message", "資料更新成功!!!");
 
         return "redirect:/users/account";
     }
-    
 
 }

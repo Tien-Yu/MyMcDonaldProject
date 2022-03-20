@@ -27,27 +27,45 @@ body{
     flex-wrap: wrap;
 }
 
+/*top nav*/
+
 .wrapper .topbar{
     position: absolute;
     width: 1000px;
-    height: 70px;
-    background: #717171;
-    border-style: ridge;
+    height: auto;
+    background: #dddddd;
+    border-style: unset;
     border-width: 3px;
-    
 }
-
-/*.flex-nav{
-    display: flex;
-    justify-content: space-between;
-}*/
-
-.wrapper .topbar ul li a{
-    color: #000000;
+.wrapper .topbar ul{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    background-color: #333;
+}
+.wrapper .topbar li{
+    float: left;
+}
+.wrapper .topbar li a{
     display: block;
+    text-align: center;
+    text-decoration: none;
+    padding: 14px 16px;
     font-style: italic;
     font-size: 25px;
+    color: #000000;
 }
+.wrapper .topbar li a:hover:not(.active){
+    background-color: #fff;
+}
+.active{
+    background-color: #d9534f;
+}
+
+
+
+
+/*side nav */
 
 .wrapper .sidebar{
     position: absolute;
@@ -61,26 +79,43 @@ body{
 }
 .wrapper .sidebar h3{
     color:#000000;
-    text-transform: uppercase;
     text-align: center;
     margin-bottom: 30px;
 }
-.wrapper .sidebar ul li{
-    padding: 20px;
-    font-size: 20px;
-    border-bottom: 1px solid rgba(0,0,0,0.05);
-    border-top: 1px solid rgba(225,225,225,0.05);
+.wrapper .sidebar ul{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
 }
-.wrapper .sidebar ul li a{
-    color: #000000;
+.wrapper .sidebar li a{
     display: block;
+    text-decoration: none;
+    color: #000000;
+    padding: 14px;
+    font-size: 20px;
 }
+.wrapper .sidebar li a:hover{
+    background-color: #fff;
+}
+
+/* 不要套用時所用
+    .wrapper .sidebar li a:hover:not(.active){
+    background-color: #fff;
+    }
+    .active{
+        background-color: #04AA6D;
+    }
+*/
+
+
+
+/**/
 
 .wrapper .main_content{
     width: 100%;
     margin-left: 200px;
     margin-top: 80px;
-    
+
 }
 .wrapper .main_content .header{
     padding:20px;
@@ -90,10 +125,20 @@ body{
     border-bottom: 1px solid #e0e4e8;
 }
 
-
-.bg-title{   
+.bg-title{
     width: 100%;
     height: 80px;
     background-color: #d9534f;
+}
+
+@media only screen and (max-width: 1214px) {
+    #sidebar {
+        display: none;
+    }
+    #main_content{
+        width: 100%;
+        margin-left:100px;
+        margin-top: 80px;
+    }
 }
 
