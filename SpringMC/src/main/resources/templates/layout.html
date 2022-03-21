@@ -33,7 +33,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/Thymeleaf.html to edit
                 <div class="topbar nav navbar-nav">                   
                     <ul>                     
                         <li>                             
-                            <a href="#" class="active">麥當勞24hr歡樂送</a>
+                            <a href="#" class="my_title">麥當勞24hr歡樂送</a>
                         </li>
                         <li>
                             <a href="#">最新資訊</a>
@@ -85,5 +85,17 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/Thymeleaf.html to edit
         <div class="text-right" style="margin-right: 20px">
             <h5>Copyright &copy; MyCompany Ltd.</h5>
         </div>
+        
+        <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+        <script th:src="@{/js/bootstrap.min.js}" src="../static/js/bootstrap.min.js"></script>
+        <script>
+            $(function(){
+                $('a').each(function(){
+                    if($(this).prop('href') === window.location.href){
+                       $(this).addClass('sidebar_active');                       
+                    }
+                });
+            });            
+        </script>
     </body>
 </html>

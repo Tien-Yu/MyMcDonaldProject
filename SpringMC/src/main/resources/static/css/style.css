@@ -55,13 +55,12 @@ body{
     font-size: 25px;
     color: #000000;
 }
-.wrapper .topbar li a:hover:not(.active){
+.wrapper .topbar li a:hover:not(.my_title){
     background-color: #fff;
 }
-.active{
+.my_title{
     background-color: #d9534f;
 }
-
 
 
 
@@ -97,6 +96,10 @@ body{
 .wrapper .sidebar li a:hover{
     background-color: #fff;
 }
+.sidebar_active{
+    background-color: #dca7a7;
+}
+
 
 /* 不要套用時所用
     .wrapper .sidebar li a:hover:not(.active){
