@@ -117,15 +117,17 @@ body{
 .wrapper .main_content{
     width: 100%;
     margin-left: 200px;
+    margin-right: 200px;
     margin-top: 80px;
 
 }
 .wrapper .main_content .header{
+    width: 60%;
     padding:20px;
     margin-left: 50px;
     background: #fff;
     color: #717171;
-    border-bottom: 1px solid #e0e4e8;
+    border-bottom: 1px solid #e0e4e8;    
 }
 
 .bg-title{
@@ -133,6 +135,19 @@ body{
     height: 80px;
     background-color: #d9534f;
 }
+
+.wrapper .rightbar{
+    position: fixed;
+    width: 200px;
+    height: 500px;
+    margin-top: 100px;    
+    margin-left: 1020px;
+    border-width: 2px;
+    border-style: solid;
+}
+
+
+
 
 @media only screen and (max-width: 1214px) {
     #sidebar {
@@ -144,4 +159,3 @@ body{
         margin-top: 80px;
     }
 }
-

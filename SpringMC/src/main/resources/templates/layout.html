@@ -12,8 +12,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/Thymeleaf.html to edit
         <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" href="../static/css/bootstrap.min.css"/>        
         <link rel=stylesheet th:href="@{/css/style.css}" href="../static/css/style.css" />
     </head>
-    <body>
-        <div class="container">
+    <body>        
+        <div id="page" class="container">
+            <!-- user account info -->
             <div class="container">    
                 <div class="user">
                     <span class="nav navbar-right">
@@ -27,9 +28,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/Thymeleaf.html to edit
                     </span>
                 </div>
             </div>
-
+                        
             <div class="wrapper">
-
+                <!-- topbar -->
                 <div class="topbar nav navbar-nav">                   
                     <ul>                     
                         <li>                             
@@ -46,7 +47,8 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/Thymeleaf.html to edit
                         </li>
                     </ul>
                 </div>
-
+                
+                <!-- sidebar -->
                 <div id="sidebar" class="sidebar">
                     <h3>一般餐點</h3>
                     <ul>
@@ -68,34 +70,50 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/Thymeleaf.html to edit
 
                     </ul>
                 </div>    
-
-                <!--                <div class="main_content">
-                                    <div class="header"><h3>瀏覽菜單</h3></div>-->
-
+                
+                <!-- main content -->
                 <div layout:fragment="content" id="main_content" class="main_content">
                     <p>Welcome to Thymeleaf Layout Dialect</p>
                 </div>
 
-                <!--                </div>-->
+                <!-- rightbar -->
+                <div id="rightbar" class="rightbar">
+                    <ul>
+                        <li>first</li>
+                        <li>second</li>
+                        <li>third</li>
+                    </ul>
+                </div>
+                
+            </div> <!-- end of wrapper -->
+        </div> <!-- end of container -->
 
-            </div>
-
-
+        <!-- bottom -->
+        <div id="bottom" style=" margin-top: 100px; background-color: #00ffff; height: 170px;">
+            <h5 class="text-left" style="padding-top: 150px">Copyright &copy; MyCompany Ltd.</h5>
         </div>
-        <div class="text-right" style="margin-right: 20px">
-            <h5>Copyright &copy; MyCompany Ltd.</h5>
-        </div>
-        
+
         <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
         <script th:src="@{/js/bootstrap.min.js}" src="../static/js/bootstrap.min.js"></script>
         <script>
-            $(function(){
-                $('a').each(function(){
-                    if($(this).prop('href') === window.location.href){
-                       $(this).addClass('sidebar_active');                       
+            /*sidebar hyperlink highlight*/
+            $(function () {
+                $('a').each(function () {
+                    if ($(this).prop('href') === window.location.href) {
+                        $(this).addClass('sidebar_active');
                     }
                 });
-            });            
+            });
+            /*bottom margin to container content*/
+            $(function () {
+                if ($('#page').prop("offsetHeight") < 600) {
+                    $('#bottom').css('margin-top', '600px');
+                } else if ($('#page').prop("offsetHeight") < 900) {
+                    $('#bottom').css('margin-top', '300px');
+                }
+            });
+
         </script>
+
     </body>
 </html>
