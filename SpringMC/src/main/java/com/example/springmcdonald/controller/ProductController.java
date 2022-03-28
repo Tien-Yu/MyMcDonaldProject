@@ -7,11 +7,15 @@ package com.example.springmcdonald.controller;
 import com.example.springmcdonald.pojo.OrderLine;
 import com.example.springmcdonald.pojoform.OrderLineForm;
 import com.example.springmcdonald.pojo.Product;
+import com.example.springmcdonald.pojoform.SelectionForm;
 import com.example.springmcdonald.service.OrderLineService;
 import com.example.springmcdonald.service.ProductService;
+import com.example.springmcdonald.webtools.OrderLineTools;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Queue;
 import java.util.stream.Collectors;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -90,6 +94,7 @@ public class ProductController {
             @RequestParam(defaultValue = "0") int countsp,
             HttpSession session,
             Model m) {
+
         if (count < 0) {
             count = 0;
         }
@@ -120,45 +125,48 @@ public class ProductController {
     }
 
     /**
+     * 新建立一個Selection 物件 or xxxxx 只有兩種模式
+     *
      * @param id 產品編號
-     * @param orderLineForm 暫存前端傳回來的資訊
+     * @param orderLineForm 暫存下單的產品的基本資訊
+     * @param selectionForm 暫存下單的產品的類型用來改變處理方式
      * @param session 儲存訂單資訊
      * @param m 當數量為0時傳給confirmInfo方法用
      * @return
      */
     @PostMapping("/shoppingcart")
-    public String shoppingCart(int id, OrderLineForm orderLineForm, HttpSession session, Model m) {
-        Optional<Product> tmpProd = prodService.findById(id);
-        int price = tmpProd.get().getPrice();
-        int count = orderLineForm.getCount();
-        int countsp = orderLineForm.getCountsp();
+    public String shoppingCart(int id, OrderLineForm orderLineForm, SelectionForm selectionForm, HttpSession session, Model m) {
+        Product product = prodService.findById(id).get();
+        int price = product.getPrice();
+        int count = orderLineForm.getCount();     //可以用來代表單點
+        int countsp = orderLineForm.getCountsp(); //可以用來代表套餐
         int amount = count + countsp;
 
-        //if the form data amount is 0, redirect to confirmInfo page and show the same product
+        //if form data recive 0 amount, redirect back to confirmInfo page with same product
         if (amount == 0) {
             return confirmInfo(id, 0, 0, session, m);
         }
 
-        orderLineForm.setAmount(amount);
-        orderLineForm.setPurchasePrice(price * count + (price + 68) * countsp);
-        orderLineForm.setProduct(tmpProd.get());
+        /* 轉換成 QUEUE  */
+        List<String> mylist = selectionForm.getSelection();
+        Queue<String> tmpqueue = new LinkedList();
+        tmpqueue.addAll(mylist);
 
-        //convert OrderLineForm to OrderLine
-        OrderLine orderLine = orderLineForm.convertToOrderLine();
-
-        //insert record to database
-        orderLineService.insert(orderLine);
-
-        //get the list of OrderLine, if not exists then create one        
-        List<OrderLine> orderLines = (List) session.getAttribute("orderLines");
-        if (orderLines == null) {
-            orderLines = new ArrayList();
-            session.setAttribute("orderLines", orderLines);
+        /* SHARE*/
+        if (selectionForm.getCourse_type() != null) {
+            OrderLineTools.orderLineDivider_share(tmpqueue, price, count, product, orderLineService, session);
         }
-        //add orderLine to the orderLine list
-        orderLines.add(orderLine);
 
-        session.setAttribute("orderLines", orderLines);
+        /*單點或附餐單點區段 - 皆使用count判斷 -> 但需要排除分享餐 */
+        if (count != 0 && selectionForm.getCourse_type() == null) {
+            OrderLineTools.orderLineDivider(tmpqueue, price, count, product, orderLineService, session);
+        }
+
+        /*套餐區段 - 用countsp 判斷*/
+        if (countsp != 0) {
+            OrderLineTools.orderLineDivider_course(tmpqueue, price, countsp, product, orderLineService, session);
+        }
+
         return "ShoppingCart";
     }
 

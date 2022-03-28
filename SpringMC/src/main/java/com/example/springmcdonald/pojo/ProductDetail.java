@@ -25,7 +25,8 @@ public class ProductDetail {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String detail;
-    private int selectable;
+    private int selectable;    
+    private int count;
     
     @ManyToMany(mappedBy = "productDetails")
     private List<Product> products;

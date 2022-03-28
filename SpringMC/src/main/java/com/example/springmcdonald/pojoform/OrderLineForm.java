@@ -7,7 +7,9 @@ package com.example.springmcdonald.pojoform;
 import com.example.springmcdonald.pojo.OrderLine;
 import com.example.springmcdonald.pojo.Product;
 import java.util.List;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.beans.BeanUtils;
 
 /**
@@ -15,12 +17,13 @@ import org.springframework.beans.BeanUtils;
  * @author Nathan
  */
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class OrderLineForm{
 
     private Product product;
     private int amount;    
     private int purchasePrice;
-    private String[] selection;
 
     private int count;
     private int countsp;
