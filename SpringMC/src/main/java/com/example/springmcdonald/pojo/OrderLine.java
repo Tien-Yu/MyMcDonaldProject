@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import lombok.Data;
 
@@ -28,6 +29,9 @@ public class OrderLine {
     private int amount; //產品的數量
     private int purchasePrice; //總價 : 數量 * 單價
     private String[] selection; //應該改成description
+    
+    @ManyToOne
+    private Orders orders;
     
     
 }

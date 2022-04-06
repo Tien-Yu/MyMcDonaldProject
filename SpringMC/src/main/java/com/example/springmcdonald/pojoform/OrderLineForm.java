@@ -28,12 +28,12 @@ public class OrderLineForm{
     private int count;
     private int countsp;
     
-    //物件呼叫方法
+    //物件呼叫方法 - deprecated
     public OrderLine convertToOrderLine(){
         return new OrderLineFormConvert().convertTo(this);
     }
     
-    //內部類別處理轉換邏輯
+    //內部類別處理轉換邏輯 - deprecated
     private class OrderLineFormConvert implements IFormConvert<OrderLineForm, OrderLine>{
         @Override
         public OrderLine convertTo(OrderLineForm s) {

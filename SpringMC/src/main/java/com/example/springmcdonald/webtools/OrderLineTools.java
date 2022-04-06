@@ -8,7 +8,6 @@ import com.example.springmcdonald.pojo.OrderLine;
 import com.example.springmcdonald.pojo.Product;
 import com.example.springmcdonald.service.OrderLineService;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Queue;
 import javax.servlet.http.HttpSession;

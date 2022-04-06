@@ -11,7 +11,6 @@ import com.example.springmcdonald.pojoform.SelectionForm;
 import com.example.springmcdonald.service.OrderLineService;
 import com.example.springmcdonald.service.ProductService;
 import com.example.springmcdonald.webtools.OrderLineTools;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -125,7 +124,6 @@ public class ProductController {
     }
 
     /**
-     * 新建立一個Selection 物件 or xxxxx 只有兩種模式
      *
      * @param id 產品編號
      * @param orderLineForm 暫存下單的產品的基本資訊
@@ -138,7 +136,7 @@ public class ProductController {
     public String shoppingCart(int id, OrderLineForm orderLineForm, SelectionForm selectionForm, HttpSession session, Model m) {
         Product product = prodService.findById(id).get();
         int price = product.getPrice();
-        int count = orderLineForm.getCount();     //可以用來代表單點
+        int count = orderLineForm.getCount();     //可以用來代表單點(分享餐也同樣使用count來記數)
         int countsp = orderLineForm.getCountsp(); //可以用來代表套餐
         int amount = count + countsp;
 
@@ -147,24 +145,24 @@ public class ProductController {
             return confirmInfo(id, 0, 0, session, m);
         }
 
-        /* 轉換成 QUEUE  */
-        List<String> mylist = selectionForm.getSelection();
-        Queue<String> tmpqueue = new LinkedList();
-        tmpqueue.addAll(mylist);
+        /* 轉換成 Queue - 需使用 Queue 的 pull() 方法來達成分割作用 */
+        List<String> selectionList = selectionForm.getSelection();
+        Queue<String> selectionQueue = new LinkedList();
+        selectionQueue.addAll(selectionList);
 
-        /* SHARE*/
+        /* SHARE 的判斷*/
         if (selectionForm.getCourse_type() != null) {
-            OrderLineTools.orderLineDivider_share(tmpqueue, price, count, product, orderLineService, session);
+            OrderLineTools.orderLineDivider_share(selectionQueue, price, count, product, orderLineService, session);
         }
 
-        /*單點或附餐單點區段 - 皆使用count判斷 -> 但需要排除分享餐 */
+        /*單點或附餐單點區段*/
         if (count != 0 && selectionForm.getCourse_type() == null) {
-            OrderLineTools.orderLineDivider(tmpqueue, price, count, product, orderLineService, session);
+            OrderLineTools.orderLineDivider(selectionQueue, price, count, product, orderLineService, session);
         }
 
-        /*套餐區段 - 用countsp 判斷*/
+        /*套餐區段*/
         if (countsp != 0) {
-            OrderLineTools.orderLineDivider_course(tmpqueue, price, countsp, product, orderLineService, session);
+            OrderLineTools.orderLineDivider_course(selectionQueue, price, countsp, product, orderLineService, session);
         }
 
         return "ShoppingCart";
