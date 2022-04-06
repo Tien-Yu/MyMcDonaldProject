@@ -71,15 +71,24 @@ public class OrdersController {
         if (session.getAttribute("name") != null) {
             Users users = usersService.findByName((String) session.getAttribute("name")).get();
             orders.setUsers(users);
+            if (session.getAttribute("phone") == null) {
+                System.out.println("phone is null, must get it form users object");
+            }
         }
-        
-        ordersService.save(orders);
-        
-        /* 分開用戶與訪客 -> 查詢狀態為非完成 */
-        List<Orders> ordersList = new ArrayList<>();
-        session.setAttribute("orders", orders);
-        
 
+        if (session.getAttribute("phone") != null) {
+            orders.setTrackingNumber((String) session.getAttribute("phone"));
+        }
+
+        ordersService.save(orders);
+
+//        /* 分開用戶與訪客 -> 查詢狀態為非完成 */
+//        List<Orders> ordersList = (List)session.getAttribute("orders");
+//        if(ordersList == null){
+//            ordersList = new ArrayList<>();            
+//            session.setAttribute("ordersList", ordersList);
+//        }
+//        ordersList.add(orders);
         /* 判斷訂單有無對應到客戶*/
 //        redirect:/orders/status
         return "OrdersHome";

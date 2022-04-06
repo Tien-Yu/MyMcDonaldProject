@@ -5,6 +5,7 @@
 package com.example.springmcdonald.service;
 
 import com.example.springmcdonald.pojo.Orders;
+import com.example.springmcdonald.pojo.Users;
 import com.example.springmcdonald.repository.OrdersRepository;
 import java.util.List;
 import java.util.Optional;
@@ -42,6 +43,11 @@ public class OrdersService {
     /*查詢狀態為處理或未處理時所用之方法 */
     public List<Orders> findByStatus(String status){
         return ordersRepository.findByStatus(status);
+    }
+    
+    /*查詢用戶或是訪客的Orders時所使用的方法*/
+    public List<Orders> findByUsersAndStatus(Users users, String status){
+        return ordersRepository.findByUsersAndStatus(users, status);
     }
     
     

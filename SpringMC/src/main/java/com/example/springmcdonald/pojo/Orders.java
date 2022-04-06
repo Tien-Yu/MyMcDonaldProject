@@ -35,8 +35,9 @@ public class Orders implements Serializable {
     
     //訂單對應的客戶
     @ManyToOne
-    private Users users;
-//    private int trackingId; //guest none register user - or use a boolean field
+    private Users users;    
+       
+    private String trackingNumber;
     
     //訂單資訊 one to many
     @OneToMany(mappedBy = "orders", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)

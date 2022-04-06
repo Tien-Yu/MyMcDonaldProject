@@ -17,10 +17,7 @@ public interface OrdersRepository extends JpaRepository<Orders, Integer> {
 
     public List<Orders> findByStatus(String status);
    
-    //users status
+    //users status (non users -> null)
     public List<Orders> findByUsersAndStatus(Users users, String status);
-    
-    
-    //??
-    
+        
 }

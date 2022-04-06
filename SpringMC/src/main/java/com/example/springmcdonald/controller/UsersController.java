@@ -142,11 +142,12 @@ public class UsersController {
      * @param floor
      * @param room
      * @param comment
+     * @param phone 查詢訂單時所使用的資訊
      * @param session
      * @return
      */
     @PostMapping("/addressPost")
-    public String addressPost(String address, String floor, String room, String comment, HttpSession session) {
+    public String addressPost(String address, String floor, String room, String comment, String phone, HttpSession session) {
         if (address.length() < 10) {
             return "ConfirmAddress";
         }
@@ -163,6 +164,8 @@ public class UsersController {
         if (!comment.equals("")) {
             session.setAttribute("comment", comment);
         }
+        
+        session.setAttribute("phone", phone);
 
         return "redirect:/menu";
     }
