@@ -8,6 +8,7 @@ import com.example.springmcdonald.pojo.Orders;
 import com.example.springmcdonald.pojo.Users;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 /**
  *
@@ -15,9 +16,15 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 public interface OrdersRepository extends JpaRepository<Orders, Integer> {
 
-    public List<Orders> findByStatus(String status);
+    //non-users(status is not completed)
+    @Query(value = "SELECT * FROM Orders o WHRER o.trackingNumber = ?1 AND o.status <> ?2")
+    public List<Orders> findByTrackingNumberAndStatusExcluding(String phone, String status);
    
-    //users status (non users -> null)
-    public List<Orders> findByUsersAndStatus(Users users, String status);
+    //login users(status is not completed)
+    @Query(value = "SELECT * FROM Orders o WHRER o.users = ?1 AND o.status <> ?2")
+    public List<Orders> findByUsersAndStatusExcluding(Users users, String status);
+    
+    //find all history
+    public List<Orders> findByUsers(Users users);
         
 }

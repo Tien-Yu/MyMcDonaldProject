@@ -30,14 +30,14 @@ public class Orders implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private Calendar orderdate;
-    @ColumnDefault("received")
-    private String status;
+    @ColumnDefault("received") 
+    private String status; //需要先建立出來 才能加上@ColumnDefault
     
     //訂單對應的客戶
     @ManyToOne
     private Users users;    
        
-    private String trackingNumber;
+    private String trackingNumber; //phone number
     
     //訂單資訊 one to many
     @OneToMany(mappedBy = "orders", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)

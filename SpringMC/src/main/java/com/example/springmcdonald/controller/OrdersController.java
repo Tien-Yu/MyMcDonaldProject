@@ -9,8 +9,6 @@ import com.example.springmcdonald.pojo.Orders;
 import com.example.springmcdonald.pojo.Users;
 import com.example.springmcdonald.service.OrdersService;
 import com.example.springmcdonald.service.UsersService;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
@@ -18,7 +16,9 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  *
@@ -40,15 +40,34 @@ public class OrdersController {
      */
     @GetMapping("/status")
     public String show_orders(HttpSession session) {
-        if (true) {
-            //empty orders 
+        /*users*/
+        if (session.getAttribute("name") != null) {
+            Users users = usersService.findByName((String) session.getAttribute("name")).get();
+            List<Orders> orderList
+                    = ordersService.findByUsersAndStatusExcluding(users, "delivered");
+            session.setAttribute("orderList", orderList);
+            return "PurchasedOrders";
         }
 
-        return "OrdersHome";
+        /*non-users*/
+        if (session.getAttribute("phone") != null) {
+            String phone = (String) session.getAttribute("phone");
+            List<Orders> orderList
+                    = ordersService.findByTrackingNumberAndStatusExcluding(phone, "delivered");
+
+            if (orderList == null) {
+                return "confirmTrackingNumber"; //查無訂單資料 (上一頁) - 未建立  重要 > 大部分都會跑到這裡
+            }
+
+            session.setAttribute("orderList", orderList);
+            return "PruchasedOrders";
+        }
+
+        return "confirmTrackingNumber";
     }
 
     /**
-     * Calendar 使用時須用方法轉換數值
+     * Calendar 使用時須用方法轉換數值 > https://www.baeldung.com/dates-in-thymeleaf
      *
      * @param session
      * @return
@@ -56,42 +75,59 @@ public class OrdersController {
     @GetMapping("/submit")
     public String submit(HttpSession session) {
 //        SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-        List<OrderLine> orderLines = (List) session.getAttribute("orderLines");
 
-        /* create order date*/
+        /*get list(orderLines)*/
+        List<OrderLine> orderLines = (List) session.getAttribute("orderLines");
+        if (orderLines == null) {
+            return "ErrorPage";
+        }
+
+        /* create orderdate*/
         Locale locale = Locale.getDefault();
         Calendar calenedar = Calendar.getInstance(locale);
 
-        /*insert into orders fields*/
+        /*insert value to each orders fields*/
         Orders orders = new Orders();
         orders.setOrderLines(orderLines);
         orders.setOrderdate(calenedar);
+
+        session.removeAttribute("orderLines");
 
         /* conditional - login user / non user */
         if (session.getAttribute("name") != null) {
             Users users = usersService.findByName((String) session.getAttribute("name")).get();
             orders.setUsers(users);
             if (session.getAttribute("phone") == null) {
-                System.out.println("phone is null, must get it form users object");
+                System.out.println("phone is null, it can be get form users object(not implemented)");
+                orders.setTrackingNumber("0911031071"); //Hard code                
             }
         }
-
         if (session.getAttribute("phone") != null) {
             orders.setTrackingNumber((String) session.getAttribute("phone"));
         }
 
         ordersService.save(orders);
 
-//        /* 分開用戶與訪客 -> 查詢狀態為非完成 */
-//        List<Orders> ordersList = (List)session.getAttribute("orders");
-//        if(ordersList == null){
-//            ordersList = new ArrayList<>();            
-//            session.setAttribute("ordersList", ordersList);
-//        }
-//        ordersList.add(orders);
-        /* 判斷訂單有無對應到客戶*/
-//        redirect:/orders/status
-        return "OrdersHome";
+        return "OrdersEstablished";
+    }
+
+    /**
+     *
+     * @param phone
+     * @param session
+     * @param redirectAttributes
+     * @return
+     */
+    @PostMapping("phonePosting")
+    public String phonePosting(String phone, HttpSession session, RedirectAttributes redirectAttributes) {
+        if (ordersService.findByTrackingNumberAndStatusExcluding(phone, "delivered") == null) {
+            redirectAttributes.addFlashAttribute("error", "查無訂單資訊");
+            return "redirect:/orders/status";
+        }
+
+        session.setAttribute("phone", phone);
+
+        return "redirect:/orders/status";
     }
 
 }

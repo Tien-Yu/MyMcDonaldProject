@@ -41,13 +41,17 @@ public class OrdersService {
     }
     
     /*查詢狀態為處理或未處理時所用之方法 */
-    public List<Orders> findByStatus(String status){
-        return ordersRepository.findByStatus(status);
+    public List<Orders> findByTrackingNumberAndStatusExcluding(String phone, String status){
+        return ordersRepository.findByTrackingNumberAndStatusExcluding(phone, status);
     }
     
     /*查詢用戶或是訪客的Orders時所使用的方法*/
-    public List<Orders> findByUsersAndStatus(Users users, String status){
-        return ordersRepository.findByUsersAndStatus(users, status);
+    public List<Orders> findByUsersAndStatusExcluding(Users users, String status){
+        return ordersRepository.findByUsersAndStatusExcluding(users, status);
+    }
+    
+    public List<Orders> findByUsers(Users users){
+        return ordersRepository.findByUsers(users);
     }
     
     
