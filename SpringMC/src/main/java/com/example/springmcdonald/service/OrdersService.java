@@ -32,7 +32,7 @@ public class OrdersService {
     
     /* 新增Orders + 改訂單狀態時使用(update)*/
     public void save(Orders orders) {
-        ordersRepository.save(orders);       
+        ordersRepository.save(orders);        
     }
     
     /*刪除Orders 基本上只有測試時使用*/

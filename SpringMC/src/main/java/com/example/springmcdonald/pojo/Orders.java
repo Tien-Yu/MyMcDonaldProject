@@ -15,8 +15,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.PrePersist;
 import lombok.Data;
-import org.hibernate.annotations.ColumnDefault;
+
 
 /**
  *
@@ -30,8 +31,7 @@ public class Orders implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private Calendar orderdate;
-    @ColumnDefault("received") 
-    private String status; //需要先建立出來 才能加上@ColumnDefault
+    private String status;
     
     //訂單對應的客戶
     @ManyToOne
@@ -40,7 +40,15 @@ public class Orders implements Serializable {
     private String trackingNumber; //phone number
     
     //訂單資訊 one to many
-    @OneToMany(mappedBy = "orders", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "orders", cascade = CascadeType.REMOVE)
     private List<OrderLine> orderLines;
+    
+    
+    @PrePersist
+    private void preInsert(){
+        if(this.status == null){
+            this.status = "received";
+        }
+    }
     
 }

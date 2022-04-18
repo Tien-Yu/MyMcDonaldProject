@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/Thymeleaf.html to edit this template
+-->
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" href="../static/css/bootstrap.min.css"/>
+    </head>
+    <body style="background-color: #fff">
+        <div class="container" style="max-width: 800px">
+            <h2 class="page-header" style="margin-top: 100px">訂單查詢</h2>
+            
+            <!-- alert-dismissable fade in ? -->
+            <div class="alert alert-success alert-dismissable fade in" th:unless="${#strings.isEmpty(message)}">
+                <strong>訊息:</strong>
+                <strong th:text="${message}">查無訂單訊息</strong>
+                <button class="close" data-dismiss="alert">&timesb;</button>                
+            </div>
+            
+            <form th:action="@{/orders/phonePosting}" method="POST"> <!--  target="_blank" -->
+                <div class="form-group">
+                    <label for="phone">請輸入您的行動電話</label>
+                    <input class="form-control" type="text" id="phone" name="phone" maxlength="10" pattern="09\d{8}" required=""/>
+                    <br/>
+                    <small>範例 : 09XXXXXXXX</small>
+                </div>
+                <button class="btn btn-primary" type="submit">查詢</button>
+            </form> <!-- end of form -->
+        </div>
+
+
+        <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+        <script th:src="@{/js/bootstrap.min.js}" src="../static/js/bootstrap.min.js"></script>    
+    </body>
+</html>

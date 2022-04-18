@@ -5,6 +5,7 @@
 package com.example.springmcdonald.webtools;
 
 import com.example.springmcdonald.pojo.OrderLine;
+import com.example.springmcdonald.pojo.Orders;
 import com.example.springmcdonald.pojo.Product;
 import com.example.springmcdonald.service.OrderLineService;
 import java.util.ArrayList;
@@ -17,10 +18,11 @@ import javax.servlet.http.HttpSession;
  * @author Nathan
  */
 public class OrderLineTools {
-
-    public static void orderLineDivider(Queue<String> queue, int price, int count, Product product, 
-                                                                                   OrderLineService orderLineService,
-                                                                                   HttpSession session) {
+    
+    public static void orderLineDivider(Queue<String> queue, int price, int count, Product product,
+            OrderLineService orderLineService,
+            HttpSession session) {
+        
         OrderLine orderLine = new OrderLine();
         orderLine.setProduct(product);
         orderLine.setAmount(count);
@@ -28,28 +30,31 @@ public class OrderLineTools {
         orderLineService.insert(orderLine); //insert to database
         sessionSave(session, orderLine); //save information to session
     }
-    
-    public static void orderLineDivider_course(Queue<String> queue, int price, int countsp, Product product, 
-                                                                                            OrderLineService orderLineService,
-                                                                                            HttpSession session) {
+
+    public static void orderLineDivider_course(Queue<String> queue, int price, int countsp, Product product,
+            OrderLineService orderLineService,
+            HttpSession session) {
+
         for (int i = 1; i <= countsp; i++) {
             OrderLine orderLine = new OrderLine();
-                orderLine.setProduct(product);
-                orderLine.setAmount(1);
-                orderLine.setPurchasePrice(price + 68);
-                String[] tmpSelection = new String[2];
-                for (int j = 1; j <= 2; j++) {
-                    tmpSelection[j - 1] = queue.poll();
-                }
-                orderLine.setSelection(tmpSelection);
-                orderLineService.insert(orderLine); //insert to database
-                sessionSave(session, orderLine); //save information to session        
+            orderLine.setProduct(product);
+            orderLine.setAmount(1);
+            orderLine.setPurchasePrice(price + 68);
+            String[] tmpSelection = new String[2];
+            for (int j = 1; j <= 2; j++) {
+                tmpSelection[j - 1] = queue.poll();
+            }
+            orderLine.setSelection(tmpSelection);
+
+            orderLineService.insert(orderLine); //insert to database
+            sessionSave(session, orderLine); //save information to session        
         }
     }
-    
-    public static void orderLineDivider_share(Queue<String> queue, int price, int count, Product product, 
-                                                                                         OrderLineService orderLineService,
-                                                                                         HttpSession session) {
+
+    public static void orderLineDivider_share(Queue<String> queue, int price, int count, Product product,
+            OrderLineService orderLineService,
+            HttpSession session) {
+
         if (product.getId() == 16) {
             for (int i = 1; i <= count; i++) {
                 OrderLine orderLine = new OrderLine();
@@ -57,14 +62,15 @@ public class OrderLineTools {
                 orderLine.setAmount(1);
                 orderLine.setPurchasePrice(price);
                 String[] selection = new String[4];
-                    for (int j = 1; j <= 4; j++) {
-                        selection[j - 1] = queue.poll();
-                    }
-                    orderLine.setSelection(selection);               
-                    orderLineService.insert(orderLine); //insert to database
-                    sessionSave(session, orderLine); //save information to session
+                for (int j = 1; j <= 4; j++) {
+                    selection[j - 1] = queue.poll();
+                }
+                orderLine.setSelection(selection);
+                
+                orderLineService.insert(orderLine); //insert to database
+                sessionSave(session, orderLine); //save information to session
             }
-        }else {
+        } else {
             for (int i = 1; i <= count; i++) {
                 OrderLine orderLine = new OrderLine();
                 orderLine.setProduct(product);
@@ -75,6 +81,7 @@ public class OrderLineTools {
                     selection[j - 1] = queue.poll();
                 }
                 orderLine.setSelection(selection);
+                
                 orderLineService.insert(orderLine); //insert to database
                 sessionSave(session, orderLine); //save information to session
             }

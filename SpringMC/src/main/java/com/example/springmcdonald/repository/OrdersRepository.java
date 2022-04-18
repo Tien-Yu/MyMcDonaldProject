@@ -17,11 +17,11 @@ import org.springframework.data.jpa.repository.Query;
 public interface OrdersRepository extends JpaRepository<Orders, Integer> {
 
     //non-users(status is not completed)
-    @Query(value = "SELECT * FROM Orders o WHRER o.trackingNumber = ?1 AND o.status <> ?2")
+    @Query(value = "SELECT o FROM Orders o WHERE o.trackingNumber = ?1 AND o.status <> ?2")
     public List<Orders> findByTrackingNumberAndStatusExcluding(String phone, String status);
    
     //login users(status is not completed)
-    @Query(value = "SELECT * FROM Orders o WHRER o.users = ?1 AND o.status <> ?2")
+    @Query(value = "SELECT o FROM Orders o WHERE o.users = ?1 AND o.status <> ?2")
     public List<Orders> findByUsersAndStatusExcluding(Users users, String status);
     
     //find all history

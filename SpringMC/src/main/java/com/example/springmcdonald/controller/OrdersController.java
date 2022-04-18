@@ -7,6 +7,7 @@ package com.example.springmcdonald.controller;
 import com.example.springmcdonald.pojo.OrderLine;
 import com.example.springmcdonald.pojo.Orders;
 import com.example.springmcdonald.pojo.Users;
+import com.example.springmcdonald.service.OrderLineService;
 import com.example.springmcdonald.service.OrdersService;
 import com.example.springmcdonald.service.UsersService;
 import java.util.Calendar;
@@ -32,6 +33,8 @@ public class OrdersController {
     OrdersService ordersService;
     @Autowired
     UsersService usersService;
+    @Autowired
+    OrderLineService orderLineService;
 
     /**
      *
@@ -56,14 +59,14 @@ public class OrdersController {
                     = ordersService.findByTrackingNumberAndStatusExcluding(phone, "delivered");
 
             if (orderList == null) {
-                return "confirmTrackingNumber"; //查無訂單資料 (上一頁) - 未建立  重要 > 大部分都會跑到這裡
+                return "FindOrders"; //查無訂單資料 (上一頁) - 未建立  重要 > 大部分都會跑到這裡
             }
 
             session.setAttribute("orderList", orderList);
             return "PruchasedOrders";
         }
 
-        return "confirmTrackingNumber";
+        return "FindOrders";
     }
 
     /**
@@ -75,19 +78,29 @@ public class OrdersController {
     @GetMapping("/submit")
     public String submit(HttpSession session) {
 //        SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        
 
-        /*get list(orderLines)*/
+        /*get list(orderLines) - for the use of condition*/
         List<OrderLine> orderLines = (List) session.getAttribute("orderLines");
         if (orderLines == null) {
             return "ErrorPage";
         }
+        
+        Orders orders = new Orders(); //此Orders需要先在資料庫建立出來才能用來插入到orderLines中
+        ordersService.save(orders);
+        
+        /*update orderLines information*/
+        orderLines.forEach(ol -> {
+            ol.setOrders(orders);            
+            orderLineService.insert(ol);
+        });
+
 
         /* create orderdate*/
         Locale locale = Locale.getDefault();
         Calendar calenedar = Calendar.getInstance(locale);
 
         /*insert value to each orders fields*/
-        Orders orders = new Orders();
         orders.setOrderLines(orderLines);
         orders.setOrderdate(calenedar);
 
@@ -121,7 +134,7 @@ public class OrdersController {
     @PostMapping("phonePosting")
     public String phonePosting(String phone, HttpSession session, RedirectAttributes redirectAttributes) {
         if (ordersService.findByTrackingNumberAndStatusExcluding(phone, "delivered") == null) {
-            redirectAttributes.addFlashAttribute("error", "查無訂單資訊");
+            redirectAttributes.addFlashAttribute("message", "查無" + phone + "的訂單資訊");
             return "redirect:/orders/status";
         }
 
