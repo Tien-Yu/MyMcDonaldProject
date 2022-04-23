@@ -9,6 +9,15 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/Thymeleaf.html to edit
         <meta charset="UTF-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" href="../static/css/bootstrap.min.css"/>
+        <style>
+            .content{
+                margin-bottom: 10px;
+            }
+            .divider{
+                margin: 10px
+            }
+
+        </style>
 
     </head>
     <body>
@@ -24,29 +33,36 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/Thymeleaf.html to edit
                     </tr>
                 </thead>
                 <tbody>
-                    <tr th:each="order : ${session.orderList}"> Order的forEach
+                    <tr th:each="order : ${session.orderList}"> Order的forEach       
+                        <td style="text-align: left; vertical-align: middle" th:with="list=${order.orderLines}">                            
+                            <div class="content" th:each="orderLine : ${list}">
+                                <span th:text="${orderLine.product.name}">
+                                    orderLine的forEach(名稱 + 附餐 / 單點 + 數量)
+                                </span>
+                                <!-- 套餐(有附餐) 單點(有數量的問題) 分享餐(有附餐)需要分開來 -->
+                                <hr class="divider" th:unless="${list.indexOf(orderLine) == list.size()-1}"/>                          
+                            </div>
 
-                        <td>                            
-                            <div>
-                                orderLine的forEach
+                            <div class="content">
+                                orderLine的forEach                      
                             </div>
-                            <hr/>
-                            <div>
-                                orderLine的forEach
-                            </div>
-                            <hr/>
+                            <hr class="divider"/>
+
                         </td>
 
-                        <td style="text-align: center; vertical-align: middle">
-                            100元(orderLine 價錢的加總)
+                        <td id="total" style="text-align: center; vertical-align: middle" th:with="list=${order.orderLines}">
+                            <span th:text="'$'+${#collectiontools.summarization(list)}">
+                                $1000(orders > orderLine價錢的加總)
+                            </span>
+
                         </td>
 
-                        <td style="text-align: center; vertical-align: middle">
-                            2022/08/31(order 中取出日期做轉換 calendar)
+                        <td style="text-align: center; vertical-align: middle" th:text="${#calendars.format(order.orderdate, 'yyyy-MM-dd HH:mm:ss')}">
+                            2022/08/31(日期需經過格式轉換 calendar)
                         </td>
 
                         <td th:text="${order.status}" style="text-align: center; vertical-align: middle">
-                            處理中 (order中取出狀態)
+                            處理中 (訂單的狀態)
                         </td>
 
                     </tr>                    
@@ -58,8 +74,14 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/Thymeleaf.html to edit
         </div>
 
 
-        <script>
-            //單次order 總價的計算利用JavaScript 或 jQuery 來處理 orderLines
+        <script th:inline="javascript">
+            /* replaced by thymeleaf function
+             
+             let contents = document.getElementsByClassName('content');
+             let dividers = document.getElementsByClassName('divider');
+             dividers[contents.length - 1].remove();             
+             */
+
         </script>
         <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
         <script th:src="@{/js/bootstrap.min.js}" src="../static/js/bootstrap.min.js"></script> 

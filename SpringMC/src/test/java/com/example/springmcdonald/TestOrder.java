@@ -6,6 +6,7 @@ package com.example.springmcdonald;
 
 import com.example.springmcdonald.pojo.Orders;
 import com.example.springmcdonald.service.OrdersService;
+import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -22,10 +23,10 @@ public class TestOrder {
     
     @Test
     void testForDefaultValue(){
-        Orders orders = new Orders();
-        ordersService.save(orders);
+        List<Orders> orders =ordersService.findByTrackingNumberAndStatusExcluding("0911031071", "delivered");
         
-        System.out.println(orders.getStatus());
+        
+        orders.forEach(i -> System.out.println(i.getTrackingNumber()));
         
         
     }

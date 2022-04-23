@@ -19,7 +19,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/Thymeleaf.html to edit
                 <strong>訊息:</strong>
                 <strong th:text="${message}">查無訂單訊息</strong>
                 <button class="close" data-dismiss="alert">&timesb;</button>                
-            </div>
+            </div>  
             
             <form th:action="@{/orders/phonePosting}" method="POST"> <!--  target="_blank" -->
                 <div class="form-group">

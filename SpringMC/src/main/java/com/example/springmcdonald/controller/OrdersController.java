@@ -16,6 +16,7 @@ import java.util.Locale;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,10 +40,11 @@ public class OrdersController {
     /**
      *
      * @param session
+     * @param m
      * @return
      */
     @GetMapping("/status")
-    public String show_orders(HttpSession session) {
+    public String show_orders(HttpSession session, Model m) {
         /*users*/
         if (session.getAttribute("name") != null) {
             Users users = usersService.findByName((String) session.getAttribute("name")).get();
@@ -57,13 +59,15 @@ public class OrdersController {
             String phone = (String) session.getAttribute("phone");
             List<Orders> orderList
                     = ordersService.findByTrackingNumberAndStatusExcluding(phone, "delivered");
-
+            System.out.println(phone);
             if (orderList == null) {
+
                 return "FindOrders"; //查無訂單資料 (上一頁) - 未建立  重要 > 大部分都會跑到這裡
+
             }
 
             session.setAttribute("orderList", orderList);
-            return "PruchasedOrders";
+            return "PurchasedOrders";
         }
 
         return "FindOrders";
@@ -77,21 +81,18 @@ public class OrdersController {
      */
     @GetMapping("/submit")
     public String submit(HttpSession session) {
-//        SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-        
-
         /*get list(orderLines) - for the use of condition*/
         List<OrderLine> orderLines = (List) session.getAttribute("orderLines");
         if (orderLines == null) {
             return "ErrorPage";
         }
-        
+
         Orders orders = new Orders(); //此Orders需要先在資料庫建立出來才能用來插入到orderLines中
         ordersService.save(orders);
-        
+
         /*update orderLines information*/
         orderLines.forEach(ol -> {
-            ol.setOrders(orders);            
+            ol.setOrders(orders);
             orderLineService.insert(ol);
         });
 
@@ -133,7 +134,7 @@ public class OrdersController {
      */
     @PostMapping("phonePosting")
     public String phonePosting(String phone, HttpSession session, RedirectAttributes redirectAttributes) {
-        if (ordersService.findByTrackingNumberAndStatusExcluding(phone, "delivered") == null) {
+        if (ordersService.findByTrackingNumberAndStatusExcluding(phone, "delivered").isEmpty()) {
             redirectAttributes.addFlashAttribute("message", "查無" + phone + "的訂單資訊");
             return "redirect:/orders/status";
         }
