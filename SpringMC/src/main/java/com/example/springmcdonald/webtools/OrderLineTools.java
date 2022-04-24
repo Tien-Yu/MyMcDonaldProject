@@ -26,7 +26,7 @@ public class OrderLineTools {
         OrderLine orderLine = new OrderLine();
         orderLine.setProduct(product);
         orderLine.setAmount(count);
-        orderLine.setPurchasePrice(price);
+        orderLine.setPurchasePrice(count*price);
         orderLineService.insert(orderLine); //insert to database
         sessionSave(session, orderLine); //save information to session
     }

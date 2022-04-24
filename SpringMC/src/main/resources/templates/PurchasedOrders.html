@@ -26,29 +26,37 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/Thymeleaf.html to edit
             <table class="table table-bordered">
                 <thead>
                     <tr>
-                        <th>訂單資訊</th>
-                        <th>訂單總金額</th>
-                        <th>下單日期</th>                        
-                        <th>狀態</th>
+                        <th>商品資訊</th>
+                        <th>數量</th>
+                        <th>結帳總金額</th>
+                        <th>結帳日期</th>                        
+                        <th>訂單狀態</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr th:each="order : ${session.orderList}"> Order的forEach       
+                    <tr th:each="order : ${session.orderList}">    
                         <td style="text-align: left; vertical-align: middle" th:with="list=${order.orderLines}">                            
                             <div class="content" th:each="orderLine : ${list}">
-                                <span th:text="${orderLine.product.name}">
-                                    orderLine的forEach(名稱 + 附餐 / 單點 + 數量)
+                                <!-- 單點 - 產品名稱+數量 -->
+                                <span th:if="${orderLine.selection == null}">
+                                    [[${orderLine.product.name}]] (單點) <!--  x [[${orderLine.amount}]] -->
+                                </span>
+                                <!-- 套餐 - 產品名稱+附餐 -->
+                                <span th:if="${orderLine.selection != null}">
+                                    [[${orderLine.product.name}]]&nbsp;[[${#strings.listToString(orderLine.selection)}]]                                    
                                 </span>
                                 <!-- 套餐(有附餐) 單點(有數量的問題) 分享餐(有附餐)需要分開來 -->
                                 <hr class="divider" th:unless="${list.indexOf(orderLine) == list.size()-1}"/>                          
                             </div>
-
-                            <div class="content">
-                                orderLine的forEach                      
-                            </div>
-                            <hr class="divider"/>
-
                         </td>
+
+                        <td style="text-align: center; vertical-align: middle" th:with="list=${order.orderLines}">
+                            <div class="content" th:each="orderLine : ${list}">
+                                <span th:text="${orderLine.amount}">1</span>
+                                <hr class="divider" th:unless="${list.indexOf(orderLine) == list.size()-1}"/>
+                            </div>                            
+                        </td>
+
 
                         <td id="total" style="text-align: center; vertical-align: middle" th:with="list=${order.orderLines}">
                             <span th:text="'$'+${#collectiontools.summarization(list)}">
@@ -68,11 +76,10 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/Thymeleaf.html to edit
                     </tr>                    
                 </tbody>
             </table>
-
-
-
+            <a href="#">
+                關閉(刪除session中電話資訊)
+            </a>
         </div>
-
 
         <script th:inline="javascript">
             /* replaced by thymeleaf function

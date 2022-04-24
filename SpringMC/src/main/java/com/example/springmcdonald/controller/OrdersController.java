@@ -59,7 +59,6 @@ public class OrdersController {
             String phone = (String) session.getAttribute("phone");
             List<Orders> orderList
                     = ordersService.findByTrackingNumberAndStatusExcluding(phone, "delivered");
-            System.out.println(phone);
             if (orderList == null) {
 
                 return "FindOrders"; //查無訂單資料 (上一頁) - 未建立  重要 > 大部分都會跑到這裡
@@ -67,6 +66,7 @@ public class OrdersController {
             }
 
             session.setAttribute("orderList", orderList);
+            session.removeAttribute("phone");           
             return "PurchasedOrders";
         }
 
