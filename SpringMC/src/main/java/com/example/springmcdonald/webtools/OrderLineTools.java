@@ -18,15 +18,15 @@ import javax.servlet.http.HttpSession;
  * @author Nathan
  */
 public class OrderLineTools {
-    
-    public static void orderLineDivider(Queue<String> queue, int price, int count, Product product,
+
+    public static void orderLineDivider(int price, int count, Product product,
             OrderLineService orderLineService,
             HttpSession session) {
-        
+
         OrderLine orderLine = new OrderLine();
         orderLine.setProduct(product);
         orderLine.setAmount(count);
-        orderLine.setPurchasePrice(count*price);
+        orderLine.setPurchasePrice(count * price);
         orderLineService.insert(orderLine); //insert to database
         sessionSave(session, orderLine); //save information to session
     }
@@ -66,7 +66,7 @@ public class OrderLineTools {
                     selection[j - 1] = queue.poll();
                 }
                 orderLine.setSelection(selection);
-                
+
                 orderLineService.insert(orderLine); //insert to database
                 sessionSave(session, orderLine); //save information to session
             }
@@ -81,7 +81,7 @@ public class OrderLineTools {
                     selection[j - 1] = queue.poll();
                 }
                 orderLine.setSelection(selection);
-                
+
                 orderLineService.insert(orderLine); //insert to database
                 sessionSave(session, orderLine); //save information to session
             }

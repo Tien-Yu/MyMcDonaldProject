@@ -22,8 +22,37 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/Thymeleaf.html to edit
     </head>
     <body>
         <div class="container">
-            <h2 class="page-header" style="margin-top: 100px">訂單資料</h2>
-            <table class="table table-bordered">
+            <h2 class="page-header" style="margin-top: 100px" th:unless="${totalPages != null}">訂單資料</h2>
+            <h2 class="page-header" style="margin-top: 100px" th:unless="${totalPages == null}">歷史紀錄</h2>
+            <!-- paging -->
+            <nav th:unless="${totalPages == null}">
+                    <ul style="list-style-type: none; margin: 0; padding: 0; height: 30px">   
+                        <li style="float: right; margin-left: 10px">
+                            <a th:if="${currentPage < totalPages}" th:href="@{'/orders/history/master/'+${currentPage+1}}">
+                                下一頁 >
+                            </a>
+                            <span th:unless="${currentPage < totalPages}">
+                                下一頁 >
+                            </span>
+                        </li>                        
+                        <li style="float: right; margin-left: 10px">
+                            <a th:if="${currentPage > 1}" th:href="@{'/orders/history/master/'+${currentPage-1}}">
+                                < 上一頁
+                            </a>                        
+                            <span th:unless="${currentPage > 1}">
+                                < 上一頁
+                            </span>
+                        </li>
+                        <li style="float: right;">
+                            <span>
+                                每頁 [[${pageSize}]] 筆，共 [[${totalItems}]] 項 : [[${currentPage}]] / [[${totalPages}]]&nbsp;                   
+                            </span>                        
+                        </li>
+                    </ul>
+            </nav>
+
+
+            <table class="table table-bordered table-striped">
                 <thead>
                     <tr>
                         <th>商品資訊</th>
@@ -76,9 +105,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/Thymeleaf.html to edit
                     </tr>                    
                 </tbody>
             </table>
-            <a href="#">
-                關閉(刪除session中電話資訊)
-            </a>
+
         </div>
 
         <script th:inline="javascript">

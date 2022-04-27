@@ -22,72 +22,73 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/Thymeleaf.html to edit
                     <a href="#" th:href="@{/users/account}">基本資料</a>            
                 </li>
                 <li>                 
-                    <a href="#">訂單查詢</a>                   
+                    <a href="#" th:href="@{/orders/status}" target="_blank">訂單查詢</a>                   
                 </li>
                 <li>               
-                    <a href="#">歷史紀錄</a>           
+                    <a href="#" th:href="@{/orders/history/master}" target="_blank">歷史紀錄</a>           
                 </li>
             </ul>
         </div>
 
+        <div>
+            
+            <div class="container" style="max-width: 800px">
+                <h2 class="page-header">帳號資訊</h2>
+                <!-- alert-dismissable fade in ? -->
+                <div class="alert alert-success alert-dismissable fade in" th:unless="${#strings.isEmpty(message)}">
+                    <strong>訊息:</strong>
+                    <strong th:text="${message}">異動結果提示訊息</strong>
+                    <!--<a href="#" class="close" data-dismiss="alert">&timesb;</a>-->
+                    <button class="close" data-dismiss="alert">&timesb;</button>                
+                    <!--                        
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                    -->
+                </div>
+                
+                <p class="text-right">
+                    <input id="edit" type="button" value="更改資料" />
+                </p>
 
-        <div class="container" style="max-width: 800px">
+                <form id="account" action="#" th:action="@{/users/accountPost}" method="POST" th:object="${usersForm}">
 
-            <h2 class="page-header">帳號資訊</h2>
-            <!-- alert-dismissable fade in ? -->
-            <div class="alert alert-success alert-dismissable fade in" th:unless="${#strings.isEmpty(message)}">
-                <strong>訊息:</strong>
-                <strong th:text="${message}">異動結果提示訊息</strong>
-                <!--<a href="#" class="close" data-dismiss="alert">&timesb;</a>-->
-                <button class="close" data-dismiss="alert">&timesb;</button>                
-                <!--                        
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                -->
+                    <input type="hidden" th:value="*{id}" name="id"/>
+
+                    <div class="form-group">
+                        <label for="userName">帳號</label>
+                        <input type="text" id="userName" name="userName" class="form-control" readonly="" th:value="*{userName}"/>
+                        <div class="form-control-static text-danger" th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}">帳號不得為空白</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">
+                            密碼 <input id="show" type="button" value="顯示"/>                    
+                        </label>
+                        <input type="password" id="password" name="password"  class="form-control" readonly="" th:value="*{password}"/>
+                        <div class="form-control-static text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">密碼不得為空白</div>
+                    </div>
+                    <div id="confirm" class="form-group"  style="display: none">
+                        <label for="confirmPassword">確認密碼</label>
+                        <input type="password" id="confirmPassword" name="confirmPassword"  class="form-control" value=""/>
+                        <div class="form-control-static text-danger" th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}">確認密碼錯誤</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="userEmail">信箱</label>
+                        <input type="text" id="userEmail" name="userEmail" class="form-control" readonly="" th:value="*{userEmail}"/>
+                        <div class="form-control-static text-danger" th:if="${#fields.hasErrors('userEmail')}" th:errors="*{userEmail}">電子郵件不得為空白</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="address">地址</label>
+                        <input type="text" id="address" name="address" class="form-control" readonly="" th:value="*{address}"/>
+                        <div class="form-control-static text-danger" th:if="${#fields.hasErrors('address')}" th:errors="*{address}">地址不得為空白</div>
+                    </div>
+                    <!-- only be hidden , can be post-->
+                    <button id="submit" type="submit" style="display: none" disabled="">送出</button>
+                </form>
             </div>
 
-            <p class="text-right">
-                <input id="edit" type="button" value="更改資料" />
-            </p>
-
-            <form id="account" action="#" th:action="@{/users/accountPost}" method="POST" th:object="${usersForm}">
-
-                <input type="hidden" th:value="*{id}" name="id"/>
-
-                <div class="form-group">
-                    <label for="userName">帳號</label>
-                    <input type="text" id="userName" name="userName" class="form-control" readonly="" th:value="*{userName}"/>
-                    <div class="form-control-static text-danger" th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}">帳號不得為空白</div>
-                </div>
-                <div class="form-group">
-                    <label for="password">
-                        密碼 <input id="show" type="button" value="顯示"/>                    
-                    </label>
-                    <input type="password" id="password" name="password"  class="form-control" readonly="" th:value="*{password}"/>
-                    <div class="form-control-static text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">密碼不得為空白</div>
-                </div>
-                <div id="confirm" class="form-group"  style="display: none">
-                    <label for="confirmPassword">確認密碼</label>
-                    <input type="password" id="confirmPassword" name="confirmPassword"  class="form-control" value=""/>
-                    <div class="form-control-static text-danger" th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}">確認密碼錯誤</div>
-                </div>
-                <div class="form-group">
-                    <label for="userEmail">信箱</label>
-                    <input type="text" id="userEmail" name="userEmail" class="form-control" readonly="" th:value="*{userEmail}"/>
-                    <div class="form-control-static text-danger" th:if="${#fields.hasErrors('userEmail')}" th:errors="*{userEmail}">電子郵件不得為空白</div>
-                </div>
-                <div class="form-group">
-                    <label for="address">地址</label>
-                    <input type="text" id="address" name="address" class="form-control" readonly="" th:value="*{address}"/>
-                    <div class="form-control-static text-danger" th:if="${#fields.hasErrors('address')}" th:errors="*{address}">地址不得為空白</div>
-                </div>
-                <!-- only be hidden , can be post-->
-                <button id="submit" type="submit" style="display: none" disabled="">送出</button>
-            </form>
-
-
         </div>
+
 
 
         <script>

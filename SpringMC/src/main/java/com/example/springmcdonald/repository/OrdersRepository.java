@@ -7,6 +7,8 @@ package com.example.springmcdonald.repository;
 import com.example.springmcdonald.pojo.Orders;
 import com.example.springmcdonald.pojo.Users;
 import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -24,7 +26,7 @@ public interface OrdersRepository extends JpaRepository<Orders, Integer> {
     @Query(value = "SELECT o FROM Orders o WHERE o.users = ?1 AND o.status <> ?2")
     public List<Orders> findByUsersAndStatusExcluding(Users users, String status);
     
-    //find all history
-    public List<Orders> findByUsers(Users users);
+    //find all history with paging and sorting
+    public Page<Orders> findAllByUsers(Users users, Pageable pageable);
         
 }

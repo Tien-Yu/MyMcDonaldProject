@@ -146,22 +146,32 @@ public class ProductController {
         }
 
         /* 轉換成 Queue - 需使用 Queue 的 pull() 方法來達成分割作用 */
-        List<String> selectionList = selectionForm.getSelection();
-        Queue<String> selectionQueue = new LinkedList();
-        selectionQueue.addAll(selectionList);
+        
+        Queue<String> selectionQueue = null;        
+        if (selectionForm.getSelection() != null) { //確保 selection 不為 null
+            List<String> selectionList = selectionForm.getSelection();
+            selectionQueue = new LinkedList();
+            selectionQueue.addAll(selectionList);
+        }
+
 
         /* SHARE 的判斷*/
         if (selectionForm.getCourse_type() != null) {
+            System.out.println(selectionForm.getCourse_type());
             OrderLineTools.orderLineDivider_share(selectionQueue, price, count, product, orderLineService, session);
         }
 
         /*單點或附餐單點區段*/
+        //如果一次的下單有套餐+單點 會先經過這邊處理單點
         if (count != 0 && selectionForm.getCourse_type() == null) {
-            OrderLineTools.orderLineDivider(selectionQueue, price, count, product, orderLineService, session);
+            System.out.println(selectionForm.getCourse_type());
+            OrderLineTools.orderLineDivider(price, count, product, orderLineService, session);
         }
 
         /*套餐區段*/
+        //上面處理完單點後如果有countsp會接著處理套餐的部分
         if (countsp != 0) {
+            System.out.println(selectionForm.getCourse_type());
             OrderLineTools.orderLineDivider_course(selectionQueue, price, countsp, product, orderLineService, session);
         }
 

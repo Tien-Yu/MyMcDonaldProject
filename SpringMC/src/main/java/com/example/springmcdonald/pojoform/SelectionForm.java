@@ -16,6 +16,6 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class SelectionForm {
-    private String course_type;
-    private List<String> selection;
+    private String course_type; //only null or share
+    private List<String> selection; 
 }

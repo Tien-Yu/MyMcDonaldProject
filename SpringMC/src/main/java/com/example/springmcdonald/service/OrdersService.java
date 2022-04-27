@@ -10,6 +10,9 @@ import com.example.springmcdonald.repository.OrdersRepository;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 /**
@@ -50,8 +53,24 @@ public class OrdersService {
         return ordersRepository.findByUsersAndStatusExcluding(users, status);
     }
     
-    public List<Orders> findByUsers(Users users){
-        return ordersRepository.findByUsers(users);
+    public Page<Orders> findAllByUsers(Users users, int pageNo, int size){
+        if(pageNo <= 1){
+            pageNo = 1;
+        }
+        
+        Pageable pageable = null;
+                
+        pageable = PageRequest.of(pageNo-1, size);
+        Page<Orders> pageOrders = ordersRepository.findAllByUsers(users, pageable);
+        
+        int totalPages = pageOrders.getTotalPages();
+        if(pageNo >= totalPages){
+            pageNo = pageOrders.getTotalPages();
+        }
+        
+        pageable = PageRequest.of(pageNo-1, size);
+        
+        return ordersRepository.findAllByUsers(users, pageable);
     }
     
     

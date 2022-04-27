@@ -15,11 +15,14 @@ import java.util.List;
 import java.util.Locale;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
@@ -66,11 +69,54 @@ public class OrdersController {
             }
 
             session.setAttribute("orderList", orderList);
-            session.removeAttribute("phone");           
+            session.removeAttribute("phone");
             return "PurchasedOrders";
         }
 
         return "FindOrders";
+    }
+
+    @GetMapping("/history/master/{pageNo}")
+    public String users_orders(@PathVariable(value = "pageNo") int pageNo,
+                               @RequestParam(defaultValue = "5") int size, HttpSession session, Model m) {
+        /*users*/
+        if (session.getAttribute("name") != null) {
+            Users users = usersService.findByName((String) session.getAttribute("name")).get();
+            Page<Orders> pageOrders
+                    = ordersService.findAllByUsers(users, pageNo, size);
+
+            List<Orders> orderList = pageOrders.getContent();
+            
+            //if there is only one page, pageNo value will always be 1 (Thymeleaf use)
+            int totalPages = pageOrders.getTotalPages();            
+            if(totalPages == 1){
+                pageNo = 1;
+            }
+            if(pageNo < 1){
+                pageNo = 1;
+            }else if(pageNo > totalPages){
+                pageNo = totalPages;
+                orderList = null;
+            }
+
+            //當前頁次
+            m.addAttribute("currentPage", pageNo);
+            //
+            m.addAttribute("pageSize", size);
+            //總頁次
+            m.addAttribute("totalPages", totalPages);
+            //總筆數
+            m.addAttribute("totalItems", pageOrders.getTotalElements());
+
+            session.setAttribute("orderList", orderList);
+            return "PurchasedOrders";
+        }
+        return "redirect:/menu";
+    }
+    
+    @GetMapping("/history/master")
+    public String orders_history(HttpSession session, Model model){
+        return users_orders(1, 5, session, model);        
     }
 
     /**
