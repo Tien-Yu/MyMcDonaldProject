@@ -17,8 +17,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/Thymeleaf.html to edit
                 margin: 10px
             }
 
-        </style>
-
+        </style>        
     </head>
     <body>
         <div class="container">
@@ -26,29 +25,40 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/Thymeleaf.html to edit
             <h2 class="page-header" style="margin-top: 100px" th:unless="${totalPages == null}">歷史紀錄</h2>
             <!-- paging -->
             <nav th:unless="${totalPages == null}">
-                    <ul style="list-style-type: none; margin: 0; padding: 0; height: 30px">   
-                        <li style="float: right; margin-left: 10px">
-                            <a th:if="${currentPage < totalPages}" th:href="@{'/orders/history/master/'+${currentPage+1}}">
-                                下一頁 >
-                            </a>
-                            <span th:unless="${currentPage < totalPages}">
-                                下一頁 >
-                            </span>
-                        </li>                        
-                        <li style="float: right; margin-left: 10px">
-                            <a th:if="${currentPage > 1}" th:href="@{'/orders/history/master/'+${currentPage-1}}">
-                                < 上一頁
-                            </a>                        
-                            <span th:unless="${currentPage > 1}">
-                                < 上一頁
-                            </span>
-                        </li>
-                        <li style="float: right;">
-                            <span>
-                                每頁 [[${pageSize}]] 筆，共 [[${totalItems}]] 項 : [[${currentPage}]] / [[${totalPages}]]&nbsp;                   
-                            </span>                        
-                        </li>
-                    </ul>
+                <ul style="list-style-type: none; margin: 0; padding: 0; height: 30px">   
+
+                    <li style="float: left">
+                        <span>更改顯示筆數:</span>
+                        <select class="form-group" style="width: 60px"  onchange="location = this.value">
+                            <option th:value="@{/orders/history/master/1?size=5}">預設</option>
+                            <option th:value="@{/orders/history/master/1?size=10}">10</option>
+                            <option th:value="@{/orders/history/master/1?size=15}">15</option>
+                            <option th:value="@{/orders/history/master/1?size=20}">20</option>
+                        </select>
+                    </li>
+                    
+                    <li style="float: right; margin-left: 10px">
+                        <a th:if="${currentPage < totalPages}" th:href="@{'/orders/history/master/'+${currentPage+1}}+'?size='+${pageSize}">
+                            下一頁 >
+                        </a>
+                        <span th:unless="${currentPage < totalPages}">
+                            下一頁 >
+                        </span>
+                    </li>                        
+                    <li style="float: right; margin-left: 10px">
+                        <a th:if="${currentPage > 1}" th:href="@{'/orders/history/master/'+${currentPage-1}}+'?size='+${pageSize}">
+                            < 上一頁
+                        </a>                        
+                        <span th:unless="${currentPage > 1}">
+                            < 上一頁
+                        </span>
+                    </li>
+                    <li style="float: right;">
+                        <span>
+                            每頁 [[${pageSize}]] 筆，共 [[${totalItems}]] 項 : [[${currentPage}]] / [[${totalPages}]]&nbsp;                   
+                        </span>                        
+                    </li>
+                </ul>
             </nav>
 
 
@@ -108,16 +118,19 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/Thymeleaf.html to edit
 
         </div>
 
-        <script th:inline="javascript">
-            /* replaced by thymeleaf function
-             
-             let contents = document.getElementsByClassName('content');
-             let dividers = document.getElementsByClassName('divider');
-             dividers[contents.length - 1].remove();             
-             */
-
-        </script>
         <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
         <script th:src="@{/js/bootstrap.min.js}" src="../static/js/bootstrap.min.js"></script> 
+        <script th:inline="javascript">
+                            let pageSize = "[[${pageSize}]]";
+
+                            $('option').each(function () {
+                                if ($(this).text() === pageSize) {
+                                    $(this).attr("selected", "true");
+                                }
+                                console.log($(this).text());
+                                console.log($(this).text() === pageSize);
+                            });
+
+        </script>
     </body>
 </html>

@@ -36,6 +36,8 @@ body{
     background: #dddddd;
     border-style: unset;
     border-width: 3px;
+
+    border-radius:10px;
 }
 .wrapper .topbar ul{
     list-style-type: none;
@@ -68,36 +70,44 @@ body{
 
 .wrapper .sidebar{
     position: absolute;
-    width:200px;
+    width:auto;
     height: auto;
     margin-top: 100px;
-    background: #ff9900;
+    background: #ffc012;
     padding: 30px 0;
-    border-style: ridge;
+    border-style: none;
     border-width: 3px;
+    border-radius:10px;
 }
-.wrapper .sidebar h3{
-    color:#000000;
-    text-align: center;
-    margin-bottom: 30px;
-}
+
 .wrapper .sidebar ul{
     list-style-type: none;
     margin: 0;
     padding: 0;
 }
+.wrapper .sidebar li p{
+    display: block;
+    text-decoration: none;
+    color: whitesmoke;
+    padding-left: 28px;
+    font-size: 16px;
+    font-style: inherit;
+
+}
 .wrapper .sidebar li a{
     display: block;
     text-decoration: none;
-    color: #000000;
+    color: #8e6a23;
     padding: 14px;
-    font-size: 20px;
+    font-size: 16px;
+    font-style: inherit;
 }
 .wrapper .sidebar li a:hover{
     background-color: #fff;
 }
 .sidebar_active{
     background-color: #dca7a7;
+    color: #ff3300;
 }
 
 
@@ -127,7 +137,7 @@ body{
     margin-left: 50px;
     background: #fff;
     color: #717171;
-    border-bottom: 1px solid #e0e4e8;    
+    border-bottom: 1px solid #e0e4e8;
 }
 
 .bg-title{
@@ -137,10 +147,10 @@ body{
 }
 
 .wrapper .rightbar{
-    position: fixed;
+    position: absolute;
     width: 200px;
     height: 500px;
-    margin-top: 100px;    
+    margin-top: 100px;
     margin-left: 1020px;
     border-width: 2px;
     border-style: solid;
@@ -151,11 +161,11 @@ body{
 
 @media only screen and (max-width: 1214px) {
     #sidebar {
-        display: none;
+        /*display: none;*/
     }
-    #main_content{
+/*    #main_content{
         width: 100%;
         margin-left:100px;
         margin-top: 80px;
-    }
+    }*/
 }

@@ -101,7 +101,7 @@ public class OrdersController {
 
             //當前頁次
             m.addAttribute("currentPage", pageNo);
-            //
+            //每頁筆數
             m.addAttribute("pageSize", size);
             //總頁次
             m.addAttribute("totalPages", totalPages);
