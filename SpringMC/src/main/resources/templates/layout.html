@@ -11,84 +11,143 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/Thymeleaf.html to edit
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" href="../static/css/bootstrap.min.css"/>        
         <link rel=stylesheet th:href="@{/css/style.css}" href="../static/css/style.css" />
+        <style>
+            /*user account dropdown selection */
+            .dropdown {
+                position: relative;
+                display: inline-block;
+            }
+            .dropbtn {
+                cursor: pointer;
+                border: none;
+            }
+            .dropdown-content {
+                display: none;
+                position: absolute;
+                background-color: #f9f9f9;
+                min-width: 120px;
+                box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+                z-index: 1;
+                border-radius: 5px;
+            }
+            .dropdown-content a {
+                color: black;
+                padding: 10px 15px;
+                text-align: left;
+                display: block;
+            }
+            .dropdown-content a:hover {
+                background-color: #f1f1f1;
+                text-decoration: none;
+                color: #E10C1A;
+            }
+            .dropdown:hover .dropdown-content {
+                display: block;
+            }
+        </style>
+
     </head>
     <body style="background-color: #f3f5f9">        
         <div id="page" class="container">
             <!-- user account info -->
             <div class="container">    
                 <div class="user">
-                    <span class="nav navbar-right">
-                        <a th:if="${session.name == null}" href="#" th:href="@{/users/login}">登入</a>
-                        <span th:if="${session.name != null}" >
-                            歡迎! [[${session.name}]]&nbsp;
-                            <a href="#" th:href="@{/users/logout}">登出</a>
-                        </span>                       
-                        |
-                        <a href="#" th:href="@{/orders/status}" target="_blank">追蹤訂單</a>
-                    </span>
+                    <div class="nav navbar-right">
+                        <ul>
+                            <li>
+                                <span class="glyphicon glyphicon-user"></span>
+                                &nbsp;|&nbsp;
+                            </li>
+                            <li>
+                                <a th:if="${session.name == null}" href="#" th:href="@{/users/login}" style="color: black">登入</a>
+                            </li>
+                            <li>
+                                <div class="dropdown">
+                                    <span class="dropbtn" th:if="${session.name != null}">
+                                        &nbsp;[[${session.name}]]&nbsp;
+                                        <div class="dropdown-content">
+                                            <a href="#" >功能1</a>
+                                            <a href="#" >功能2</a>
+                                            <a href="#" >功能3</a>
+                                            <a href="#" th:href="@{/users/logout}">登出</a>
+                                        </div>                                   
+                                    </span>
+                                </div>
+                                |&nbsp;
+                            </li>
+                            <li>
+                                <a href="#" th:href="@{/orders/status}" target="_blank" style="color: black">追蹤訂單</a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
 
             <div class="wrapper">
                 <!-- topbar -->
                 <div class="topbar">                   
-                    <ul>                     
-                        <li>                            
-                            <a href="#" >
-                                麥當勞24hr歡樂送                            
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                最新資訊
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" th:href="@{/users/account}">
-                                我的帳戶
-                            </a>
-                        </li>
-                        <li>
-                            <a href="https://google.com">
-                                支援
-                            </a>
-                        </li>
-                    </ul>
+                    <div style="background-color: #E10C1A;">
+                        <a href="#">
+                            <img src="../static/icon_img/topbar_title.png" th:src="@{/icon_img/topbar_title.png}" alt="title"/>                          
+                        </a>
+                    </div>
+                    <div style="">
+                        <ul>                                            
+                            <li style="border-right: 1px solid #222; padding-left: 30px;">
+                                <a href="#">
+                                    <span class="glyphicon glyphicon-menu-hamburger"></span>&nbsp;
+                                    瀏覽菜單
+                                </a>
+                            </li>
+                            <li style="border-right: 1px solid #222;">
+                                <a href="#" th:href="@{/users/account}">
+                                    <span class="glyphicon glyphicon-user"></span>&nbsp;
+                                    我的帳戶
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://google.com">
+                                    <span class="glyphicon glyphicon-earphone"></span>&nbsp;
+                                    支援
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
 
                 <!-- sidebar -->
                 <div id="sidebar" class="sidebar">
                     <ul>
                         <li>
-                            <p>一般餐點</p>         
+                            <p class="sidebar-title">一般餐點</p>         
                         </li>
                         <li>
                             <a href="#" th:href="@{/menu/share}">
-                                <span class="glyphicon glyphicon-leaf"></span>
+                                <span class="glyphicon glyphicon-leaf" ></span>&nbsp;
                                 快樂分享餐
                             </a>
                         </li>
                         <li>
                             <a href="#" th:href="@{/menu/main_course}">
-                                <span class="glyphicon glyphicon-leaf"></span>                            
+                                <span class="glyphicon glyphicon-leaf"></span>&nbsp;
                                 超值全餐和主餐單點
                             </a>
                         </li>
                         <li>
                             <a href="#" th:href="@{/menu/sub_course}">
-                                <span class="glyphicon glyphicon-leaf"></span>
+                                <span class="glyphicon glyphicon-leaf"></span>&nbsp;
                                 配餐單點
                             </a>
                         </li>                      
                         <li>
                             <a href="#" th:href="@{/menu/drinks}">
-                                <span class="glyphicon glyphicon-leaf"></span>
+                                <span class="glyphicon glyphicon-leaf"></span>&nbsp;
                                 飲料
                             </a>
                         </li>
                         <li>
                             <a href="#" th:href="@{/menu/dessert}">
-                                <span class="glyphicon glyphicon-leaf"></span>
+                                <span class="glyphicon glyphicon-leaf"></span>&nbsp;
                                 點心與拼盤
                             </a>
                         </li>
@@ -153,10 +212,10 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/Thymeleaf.html to edit
         <script>
             /*sidebar hyperlink highlight*/
             $(function () {
-                $('a').each(function () {
+                $('#sidebar a').each(function () {
                     if ($(this).prop('href') === window.location.href) {
                         $(this).css('color', '#ff3308');
-                        $(this).children('span').css('color', 'green');                    
+                        $(this).children('span').css('color', 'green');
                     }
                 });
             });

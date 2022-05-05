@@ -10,33 +10,50 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/Thymeleaf.html to edit
         <meta charset="UTF-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" href="../static/css/bootstrap.min.css"/>        
-       
+        <style>
+/*            .img-block {
+                width: 100%;
+                display: block;
+            }*/
+
+        </style>
     </head>
     <body>
         <div layout:fragment="content">    
-            <div class="header"><h4>超值全餐和主餐單點</h4></div>
-            <div class="container" style="max-width: 1000px">
-                <div style="margin-top: 20px">
-                    <article class="img-thumbnail" style="padding: 50px; border-width: 2px" th:each="p : ${list}">
-                        <h4 style="margin-top: 0px" th:text="${p.name}" class="text-center">name</h4>
-                        <div style="width: 150px; height: auto"><img style="width: 150px; height: 130px" th:src="${p.photo?.photo_location}" alt="photo"/>
-                            <div class="text-center">套餐:[[${p.price+50}]]</div>
-                            <div class="text-center">單點:[[${p.price}]]</div>                            
-                            <div th:switch="${p.state}" class="text-center">
-                                <span class="btn btn-warning" th:case="0">缺貨中</span>
-                                <span class="btn btn-default" th:case="1" >
-                                    <a href="#" th:href="@{/menu/{id}/confirmInfo(id=${p.id})}">購買</a>
-                                </span>                                   
-                                
-                            </div>
-                        </div>
-                    </article>
-                </div>
+            <div class="header">
+                <a href="#">一般餐點</a>
+                <span class="glyphicon glyphicon-triangle-right" style="font-size: 12px"></span>
+                超值全餐和主餐單點           
             </div>
-            
+            <div class="container" style="max-width: 800px">
+                <div style="margin-top: 20px; display: block; width: 700px">
+                    <!-- product -->
+                    <div th:each="p : ${list}" style="float: left; padding-right: 10px;">
+                        <div style="margin-bottom: 20px; border: 1px solid transparent; border-radius: 2px; background-color: #fff; box-shadow: 0 0 3px #888888;">
+                            <!-- body -->
+                            <div style="padding: 15px;">
+                                <img class="img-block" th:src="${p.photo?.photo_location}" alt="photo" style="; width: 100%; height: 100%"/>
+                                <h5 th:text="${p.name}">Product Name</h5>
+                            </div>
+                            <!-- footer -->                                        
+                            <div style="background-color: #f5f5f5;border-top: 1px solid #ddd; padding: 10px 15px;">                            
+                                <div>Product Info</div>
+                                <div th:switch="${p.state}">
+                                    <span class="btn btn-warning" th:case="0">缺貨中</span>
+                                    <span class="btn btn-default" th:case="1" >
+                                        <a href="#" th:href="@{/menu/{id}/confirmInfo(id=${p.id})}">購買</a>
+                                    </span>
+                                </div>
+                            </div>  
+                        </div>
+                        
+                    </div><!-- End of loop -->
+                    
+                </div><!-- End of product block -->
+
+            </div><!-- End of container -->
+
         </div>
-
-
 
 
         <!-- 提示訊息關閉的功能 -->
