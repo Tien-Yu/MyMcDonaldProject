@@ -130,7 +130,7 @@ public class OrdersController {
         /*get list(orderLines) - for the use of condition*/
         List<OrderLine> orderLines = (List) session.getAttribute("orderLines");
         if (orderLines == null) {
-            return "ErrorPage";
+            return "OrdersEstablished";
         }
 
         Orders orders = new Orders(); //此Orders需要先在資料庫建立出來才能用來插入到orderLines中

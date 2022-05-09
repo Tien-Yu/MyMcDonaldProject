@@ -85,16 +85,16 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/Thymeleaf.html to edit
 
             <div class="wrapper">
                 <!-- topbar -->
-                <div class="topbar">                   
+                <div id="topbar" class="topbar">                   
                     <div style="background-color: #E10C1A;">
                         <a href="#">
                             <img src="../static/icon_img/topbar_title.png" th:src="@{/icon_img/topbar_title.png}" alt="title"/>                          
                         </a>
                     </div>
-                    <div style="">
+                    <div>
                         <ul>                                            
                             <li style="border-right: 1px solid #222; padding-left: 30px;">
-                                <a href="#">
+                                <a href="#" id="menu">
                                     <span class="glyphicon glyphicon-menu-hamburger"></span>&nbsp;
                                     瀏覽菜單
                                 </a>
@@ -118,37 +118,37 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/Thymeleaf.html to edit
                 <!-- sidebar -->
                 <div id="sidebar" class="sidebar">
                     <ul>
-                        <li>
+                        <li style="box-shadow: 0 2px 2px #d69c00; ">
                             <p class="sidebar-title">一般餐點</p>         
                         </li>
-                        <li>
+                        <li style="border-bottom: 1px solid #ffd256;">
                             <a href="#" th:href="@{/menu/share}">
-                                <span class="glyphicon glyphicon-leaf" ></span>&nbsp;
-                                快樂分享餐
+                                <span id="icon" class="glyphicon glyphicon-leaf" ></span>&nbsp;
+                                <span id="text">快樂分享餐</span>
                             </a>
                         </li>
-                        <li>
+                        <li style="border-bottom: 1px solid #ffd256;">
                             <a href="#" th:href="@{/menu/main_course}">
-                                <span class="glyphicon glyphicon-leaf"></span>&nbsp;
-                                超值全餐和主餐單點
+                                <span id="icon" class="glyphicon glyphicon-leaf"></span>&nbsp;
+                                <span id="text">超值全餐和主餐單點</span>
                             </a>
                         </li>
-                        <li>
+                        <li style="border-bottom: 1px solid #ffd256;">
                             <a href="#" th:href="@{/menu/sub_course}">
-                                <span class="glyphicon glyphicon-leaf"></span>&nbsp;
-                                配餐單點
+                                <span id="icon" class="glyphicon glyphicon-leaf"></span>&nbsp;
+                                <span id="text">配餐單點</span>
                             </a>
                         </li>                      
-                        <li>
+                        <li style="border-bottom: 1px solid #ffd256;">
                             <a href="#" th:href="@{/menu/drinks}">
-                                <span class="glyphicon glyphicon-leaf"></span>&nbsp;
-                                飲料
+                                <span id="icon" class="glyphicon glyphicon-leaf"></span>&nbsp;
+                                <span id="text">飲料</span>
                             </a>
                         </li>
                         <li>
                             <a href="#" th:href="@{/menu/dessert}">
-                                <span class="glyphicon glyphicon-leaf"></span>&nbsp;
-                                點心與拼盤
+                                <span id="icon" class="glyphicon glyphicon-leaf"></span>&nbsp;                        
+                                <span id="text">點心與拼盤</span>
                             </a>
                         </li>
 
@@ -162,11 +162,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/Thymeleaf.html to edit
 
                 <!-- rightbar -->
                 <div id="rightbar" class="rightbar">
-                    <ul>
-                        <li>first</li>
-                        <li>second</li>
-                        <li>third</li>
-                    </ul>
+                    <a href="#">
+                        <img src="../static/func_img/how_mcdelivery_works_portrait_zh.png" th:src="@{/func_img/how_mcdelivery_works_portrait_zh.png}" alt="right_bar">
+                    </a>
                 </div>
 
             </div> <!-- end of wrapper -->
@@ -210,12 +208,25 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/Thymeleaf.html to edit
         <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
         <script th:src="@{/js/bootstrap.min.js}" src="../static/js/bootstrap.min.js"></script>
         <script>
+            /*sidebar hover event*/
+            $("#sidebar a").hover(function () {
+                $(this).children('#icon').css('color', 'green');
+                $(this).children('#text').css('color', '#ff3308');
+            }, function () {
+                if ($(this).prop('href') !== window.location.href) {
+                    $(this).children('#icon').css('color', '');
+                    $(this).children('#text').css('color', '');
+                }
+            });
+
             /*sidebar hyperlink highlight*/
             $(function () {
                 $('#sidebar a').each(function () {
                     if ($(this).prop('href') === window.location.href) {
-                        $(this).css('color', '#ff3308');
-                        $(this).children('span').css('color', 'green');
+                        $(this).children('#icon').css('color', 'green');
+                        $(this).children('#text').css('color', '#ff3308');
+                        
+                        $('#topbar #menu').css('color', '#ffc012');           
                     }
                 });
             });

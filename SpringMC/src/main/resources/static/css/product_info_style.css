@@ -1,0 +1,48 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : 2022年5月9日, 下午3:38:15
+    Author     : Nathan
+*/
+/*panel panel-default*/
+.product-box{
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+    border-radius: 2px;
+    background-color: #fff;
+    box-shadow: 0 0 3px #888888;
+    font-weight: bolder;
+}
+/*panel-body*/
+.product-body{
+    padding: 15px;
+}
+/*panel-footer*/
+.product-footer{
+    background-color: #f5f5f5;
+    border-top: 1px solid #ddd;
+    padding: 10px 15px;
+    display: flex;
+    justify-content: space-between;
+}
+.product-footer-share{
+    background-color: #f5f5f5;
+    padding: 10px 15px;
+}
+
+
+
+.btn-red{
+    background-color: #d21920;
+    border-color: #d21920;
+    transition: 0.3s;
+}
+.btn-red:hover{
+    background-color: #b41920;
+}
+.btn-red a{
+    text-decoration: none;
+    color: #fff;
+}
