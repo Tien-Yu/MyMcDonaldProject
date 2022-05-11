@@ -47,8 +47,8 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/Thymeleaf.html to edit
         </style>
 
     </head>
-    <body style="background-color: #f3f5f9">        
-        <div id="page" class="container">
+    <body style="background-color: #f3f5f9;"> 
+        <div id="page" class="container" style="height: 100%">
             <!-- user account info -->
             <div class="container">    
                 <div class="user">
@@ -83,7 +83,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/Thymeleaf.html to edit
                 </div>
             </div>
 
-            <div class="wrapper">
+            <div id="wrapper" class="wrapper">
                 <!-- topbar -->
                 <div id="topbar" class="topbar">                   
                     <div style="background-color: #E10C1A;">
@@ -94,7 +94,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/Thymeleaf.html to edit
                     <div>
                         <ul>                                            
                             <li style="border-right: 1px solid #222; padding-left: 30px;">
-                                <a href="#" id="menu">
+                                <a href="#" id="menu" th:href="@{/menu}">
                                     <span class="glyphicon glyphicon-menu-hamburger"></span>&nbsp;
                                     瀏覽菜單
                                 </a>
@@ -157,53 +157,128 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/Thymeleaf.html to edit
 
                 <!-- main content -->
                 <div layout:fragment="content" id="main_content" class="main_content">
-                    <p>Welcome to Thymeleaf Layout Dialect</p>
-                </div>
+                    <p>Welcome to Thymeleaf Layout Dialect</p>                    
+                </div>               
 
                 <!-- rightbar -->
                 <div id="rightbar" class="rightbar">
-                    <a href="#">
-                        <img src="../static/func_img/how_mcdelivery_works_portrait_zh.png" th:src="@{/func_img/how_mcdelivery_works_portrait_zh.png}" alt="right_bar">
+                    <a href="#" th:href="@{/menu/confirmAddress}" th:unless="${session.orderLines != null || session.name != null || session.address != null}">
+                        <img src="../static/func_img/how_mcdelivery_works_portrait_zh.png" th:src="@{/func_img/how_mcdelivery_works_portrait_zh.png}" alt="right_bar"/>                        
                     </a>
-                </div>
+                    <!-- あとでThymeleaf Toolsにファンクションを追加 -->
+                    <div th:if="${session.orderLines != null || session.name != null || session.address != null}">
+                        <div style="height: 848px; width: 307px; border: black 1px solid">                            
+                            <a href="#" th:href="@{/menu/shoppingcart}">購物車</a>
+                        </div>
+                    </div>
+
+                </div>            
 
             </div> <!-- end of wrapper -->
+
         </div> <!-- end of container -->
 
-        <!-- bottom -->
-        <div id="bottom" style=" margin-top: 100px; background-color: #dddddd; height: auto;">
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th>title1</th>
-                        <th>title2</th>
-                        <th>title3</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>content 1-1</td>
-                        <td>content 2-1</td>
-                        <td>content 3-1</td>
-                    </tr>
-                    <tr>
-                        <td>content 1-2</td>
-                        <td>content 2-2</td>
-                        <td>content 3-2</td>
-                    </tr>
-                    <tr>
-                        <td>content 1-3</td>
-                        <td>content 2-3</td>
-                        <td>content 3-3</td>
-                    </tr>
-                    <tr>
-                        <td colspan="3" class="text-right">
-                            <strong>Copyright &copy; MyCompany Ltd.</strong>
-                        </td>                        
-                    </tr>
-                </tbody>
-            </table>    
-        </div>
+        <!-- footer -->
+        <div id="footer" class="footer">
+            <div class="container">
+                <div class="row">
+                    <div class="column">
+                        <ul>
+                            <li>
+                                <div class="title">
+                                    瀏覽菜單
+                                </div>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    快樂分享餐
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    超值全餐和主菜單點
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    配餐單點
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    飲料
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    點心與拼盤
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="column">
+                        <ul>
+                            <li>
+                                <div class="title">
+                                    支援
+                                </div>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    使用條款
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    隱私權保護聲明
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    常見問題
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    飲養資訊
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    政府規範產品標示
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="column">
+                        <ul>
+                            <li>
+                                <div class="title">
+                                    了解更多
+                                </div>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    麥當勞官方網站
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    麥當勞官方粉絲團
+                                </a>
+                            </li>                           
+                        </ul>
+                    </div>
+                </div> <!-- End of row -->        
+            </div> <!-- End of container -->
+        </div> <!-- End of footer -->
+
+
+
+
+
+        <!-- bottom style="margin-top: 100px; background-color: #dddddd; height: auto;"-->
+
 
         <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
         <script th:src="@{/js/bootstrap.min.js}" src="../static/js/bootstrap.min.js"></script>
@@ -216,6 +291,19 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/Thymeleaf.html to edit
                 if ($(this).prop('href') !== window.location.href) {
                     $(this).children('#icon').css('color', '');
                     $(this).children('#text').css('color', '');
+                    if ($('#topbar #menu').prop('href') === window.location.href) {
+                        $('#sidebar a').first().children('#icon').css('color', 'green');
+                        $('#sidebar a').first().children('#text').css('color', '#ff3308');
+                    }
+                }
+            });
+
+            /*menu home specific hyperlink highlight*/
+            $(function () {
+                if ($('#topbar #menu').prop('href') === window.location.href) {
+                    $('#topbar #menu').css('color', '#ffc012');
+                    $('#sidebar a').first().children('#icon').css('color', 'green');
+                    $('#sidebar a').first().children('#text').css('color', '#ff3308');
                 }
             });
 
@@ -225,21 +313,37 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/Thymeleaf.html to edit
                     if ($(this).prop('href') === window.location.href) {
                         $(this).children('#icon').css('color', 'green');
                         $(this).children('#text').css('color', '#ff3308');
-                        
-                        $('#topbar #menu').css('color', '#ffc012');           
+
+                        $('#topbar #menu').css('color', '#ffc012');
                     }
                 });
             });
-            /*bottom margin to container content*/
+            
+            /*bottom margin to container content(wrapper content)*/
+            let wrapperheight = $('#wrapper').prop("offsetHeight");
             $(function () {
-                if ($('#page').prop("offsetHeight") < 600) {
-                    $('#bottom').css('margin-top', '600px');
-                } else if ($('#page').prop("offsetHeight") < 900) {
-                    $('#bottom').css('margin-top', '300px');
+                if (wrapperheight > 1200) {
+                    let spacing = wrapperheight - 950;
+                    $('#footer').css('margin-top', spacing + 'px');
+                } else if (wrapperheight > 1000) {
+                    let spacing = wrapperheight - 850;
+                    $('#footer').css('margin-top', spacing + 'px');
                 }
             });
 
+            /* while browser's y-index over 1200 - change the footer min-height
+             * deprecated - after insert column value height is no longer needed to modify
+             * 
+             * 
+             let pageheight = $('html').prop('offsetHeight');
+             let sumheight = pageheight - 1200;
+             $(function () {
+             if (pageheight > 1200) {
+             $('#footer').css('min-height', sumheight + 'px');
+             }
+             });
+             
+             */
         </script>
-
     </body>
 </html>

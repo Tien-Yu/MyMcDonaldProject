@@ -6,10 +6,15 @@
     list-style: none;
     text-decoration: none;
 }
+
 body{
     background: #f3f5f9;
+    overflow: auto;
+    height: 1200px;
+
 }
 
+/*user block*/
 .user{
     position: relative;
     flex-wrap: wrap;
@@ -20,7 +25,6 @@ body{
     font-size: 15px;
     width: 1150px;
 }
-
 .user ul{
     margin: 0;
     padding: 0;
@@ -30,6 +34,7 @@ body{
     float:left;
 }
 
+/*wrapper*/
 .wrapper{
     display: flex;
     position: relative;
@@ -37,7 +42,6 @@ body{
 }
 
 /*top nav*/
-
 .wrapper .topbar{
     position: absolute;
     display: flex;
@@ -62,13 +66,11 @@ body{
     text-decoration: none;
     padding: 14px 16px;
 }
-
 .wrapper .topbar div ul{
     margin: 0;
     padding: 0;
     list-style-type: none;
 }
-
 .wrapper .topbar div li{
     float: left;
     /*position: relative;*/
@@ -79,26 +81,6 @@ body{
     display: flex;
     color: #fff;
 }
-
-/*.wrapper .topbar li a{
-    display: block;
-    text-align: center;
-    text-decoration: none;
-    padding: 14px 16px;
-    font-style: italic;
-    font-size: 25px;
-    color: #fff;
-}*/
-
-/*.wrapper .topbar div a{
-    
-    text-align: center;
-    
-    
-    font-style: italic;
-    font-size: 25px;
-    
-}*/
 .wrapper .topbar li a:hover{
     color: #ffc012;
 }
@@ -106,7 +88,6 @@ body{
 
 
 /*side nav */
-
 .wrapper .sidebar{
     position: absolute;
     width: 200px;
@@ -118,7 +99,6 @@ body{
     border-width: 3px;
     border-radius:10px;
 }
-
 .wrapper .sidebar ul{
     list-style-type: none;
     margin: 0;
@@ -131,7 +111,6 @@ body{
     padding-left: 28px;
     font-size: 18px;
     font-style: inherit;
-
 }
 .wrapper .sidebar p{
     display: flex;
@@ -151,8 +130,7 @@ body{
     font-style: inherit;
 }
 
-/**/
-
+/*main_content*/
 .wrapper .main_content{
     width: 100%;
     margin-left: 200px;
@@ -175,7 +153,7 @@ body{
     height: 80px;
     background-color: #d9534f;
 }
-
+/*right bar image*/
 .wrapper .rightbar{
     position: absolute;
     width: auto;
@@ -186,16 +164,41 @@ body{
 
 }
 
-
-
-
-@media only screen and (max-width: 1214px) {
-    #sidebar {
-        /*display: none;*/
-    }
-    /*    #main_content{
-            width: 100%;
-            margin-left:100px;
-            margin-top: 80px;
-        }*/
+/*page footer*/
+.footer{
+    display: block;
+    margin-top: 200px;
+    background-color: #d3d3d3;
+    background-image: linear-gradient(315deg, #d3d3d3 0%, #57606f 74%);
+    color: white;
+    text-align: center;
+    min-height: 200px;
+    bottom: 0;
 }
+.footer .column{
+    width: 30%;
+    float: left;
+    text-align: left;
+    padding: 25px;
+}
+.footer .column .title{
+    display: block;
+    margin-bottom: 20px;
+    font-family: "Flama Condensed Medium", "SimHei", "Microsoft YaHei", "STXihei", "σìÄµûçτ╗åΘ╗æ", sans-serif;
+    font-size: 20px;
+}
+.footer .column a{
+    display: block;
+    text-decoration: none;
+    color: black;
+    margin-bottom: 20px;
+    font-size: 16px;    
+}
+.footer .column a:hover{
+    text-decoration: none;
+    font-size: 25px;
+    color: #3d3d3d;
+    transition: 0.5s;
+}
+
+/* css function */

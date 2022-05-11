@@ -77,6 +77,12 @@ public class ProductController {
         return "Dessert";
     }
 
+    @GetMapping("/confirmAddress")
+    public String confirmAddress() {
+       return "ConfirmAddress";
+           
+    }
+
     /**
      * 加入購物車前的確認(加上網址列參數用來判斷產品數量)
      *
@@ -146,8 +152,7 @@ public class ProductController {
         }
 
         /* 轉換成 Queue - 需使用 Queue 的 pull() 方法來達成分割作用 */
-        
-        Queue<String> selectionQueue = null;        
+        Queue<String> selectionQueue = null;
         if (selectionForm.getSelection() != null) { //確保 selection 不為 null
             List<String> selectionList = selectionForm.getSelection();
             selectionQueue = new LinkedList();
@@ -194,8 +199,11 @@ public class ProductController {
         List<OrderLine> oldList = (List) session.getAttribute("orderLines");
         List<OrderLine> newList = oldList.stream().filter(o -> o.getId() != id).collect(Collectors.toList());
         orderLineService.remove(id);
+        if(newList.isEmpty()){
+           session.removeAttribute("orderLines");
+           return "redirect:/menu/shoppingcart";
+        }
         session.setAttribute("orderLines", newList);
-//        return shoppingCart(session);
         return "redirect:/menu/shoppingcart";
     }
 
