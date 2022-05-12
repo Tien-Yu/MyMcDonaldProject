@@ -77,12 +77,6 @@ public class ProductController {
         return "Dessert";
     }
 
-    @GetMapping("/confirmAddress")
-    public String confirmAddress() {
-       return "ConfirmAddress";
-           
-    }
-
     /**
      * 加入購物車前的確認(加上網址列參數用來判斷產品數量)
      *

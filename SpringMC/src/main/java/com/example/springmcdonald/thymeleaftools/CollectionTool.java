@@ -17,12 +17,15 @@ public final class CollectionTool{
         if(list == null){
             return 0;
         }
-//        Class c = Class.forName("com.example.springmcdonald.pojo.OrderLine");
-//        Method m = c.getDeclaredMethod("getPurchasePrice");
         Integer total = list.stream().map(o -> o.getPurchasePrice()).reduce(0, (a, b) -> a+b);
-
-        return total;
-        
+        return total;       
+    }
+    public int summarization_freight(List<OrderLine> list) throws Exception{
+        if(list == null){
+            return 0;
+        }
+        Integer total = list.stream().map(o -> o.getPurchasePrice()).reduce(0, (a, b) -> a+b);        
+        return total+60;       
     }
     
 }

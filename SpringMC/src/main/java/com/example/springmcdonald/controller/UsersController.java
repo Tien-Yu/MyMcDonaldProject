@@ -126,6 +126,8 @@ public class UsersController {
         Optional<Users> tmpUser = usersService.findByNameAndPassword(name, password);
         if (tmpUser.isPresent()) {
             session.setAttribute("name", name);
+            session.setAttribute("user", tmpUser.get());
+            session.removeAttribute("address");           
             return "redirect:/menu";
         }
 
