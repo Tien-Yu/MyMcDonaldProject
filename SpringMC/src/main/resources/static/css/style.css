@@ -162,9 +162,9 @@ body{
     margin-top: 100px;
     margin-left: 892px;
 }
-/*right bar cart*/
+/*rightbar cart(delivery info)*/
 .rightbar .cart{
-    height: 848px;
+    height: auto; /*848*/
     width: 307px;
     background-color: #fff;
     /*    box-shadow: 5px 0 5px -5px black, -5px 0 5px -5px black;*/
@@ -173,14 +173,12 @@ body{
     display: block;
 
 }
-
 .rightbar .cart .title{
     text-align: center;
     font-family: "ヒラギノ角ゴ Pro W3","Hiragino Kaku Gothic Pro","メイリオ",Meiryo,"ＭＳ Ｐゴシック",sans-serif;
     font-size: 22px;
     padding: 5px 0;
 }
-
 .rightbar .cart .item{
     padding: 20px 10px;
     font-family: 'ＭＳ Ｐゴシック', 'MS PGothic', 'メイリオ', Meiryo, sans-serif;
@@ -189,15 +187,40 @@ body{
     width: 50%;
     float: left;
 }
-
 .rightbar .cart .item .detail{
     float: right;
 }
-
 .rightbar .cart .item .btn-disable{
     pointer-events: none;
     background-color: gray;
     color: #fff;
+}
+
+/*rightbar info product(orderLines info)*/
+.rightbar .orderline{
+    height: auto; /*848*/
+    width: 307px;
+    background-color: #fff;
+    box-shadow: 2px 5px 10px 2px gray;
+    padding: 20px;
+    display: block;
+}
+
+.rightbar .orderline .simpleview{
+    padding: 10px 5px;    
+
+}
+
+.rightbar .orderline .simpleview img{
+    height: 20%;
+    width: 20%;
+}
+
+.rightbar .orderline .simpleview .text{
+    text-align: center;
+    vertical-align: bottom;
+    margin-left: 70px;
+    font-size: 14px;
 }
 
 
