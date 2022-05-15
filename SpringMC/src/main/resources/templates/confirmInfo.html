@@ -10,161 +10,212 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/Thymeleaf.html to edit
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <!--使用本地端伺服器資源-->
         <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" href="../static/css/bootstrap.min.css"/>
+        <link rel="stylesheet" th:href="@{/css/confirminfo_style.css}" href="../static/css/confirminfo_style.css"/>
     </head>
-    <body th:object="${product}">
-        <div class="container" style="max-width: 800px">
+    <body style="background-color: #f3f5f9;" th:object="${product}">
+        <div class="header row">
+            <div class="total-count col-sm-2">
+                <div>
+                    <strong id="totalcount"></strong>
+                </div>
+                <div>
+                    <span>數量</span>
+                </div>                
+            </div>
 
-            <div class="well">
-                <form action="#" th:action="@{/menu/shoppingcart}" method="POST">
-                    <!-- 產品圖片 -->
-                    <input type="hidden" th:value="*{id}" name="id"/>
-                    <div class="form-group">
-                        <img style="width: 50%; height: 50%" th:src="${product.photo?.photo_location}" alt="photo"/>
-                    </div>
+            <!-- 1 -->
+            <img class="img_a" src="" th:src="${product.photo?.photo_location}" alt="photo" th:if="${!#strings.equals(product.category, 'SHARE')}"/>
+            <img class="img_b" src="" th:src="${product.photo?.photo_location}" alt="photo" th:if="${#strings.equals(product.category, 'SHARE')}"/> 
+            <!-- 2 -->
+            <div class="img-name col-sm-6" th:if="${!#strings.equals(product.category, 'SHARE')}">
+                <strong>[[${product.name}]]</strong>
+            </div>            
+            <div class="img-name col-sm-5" th:if="${#strings.equals(product.category, 'SHARE')}">
+                <strong>[[${product.name}]]</strong>
+            </div>
 
-                    <!-- 分享餐與其他單點 共用區段 -->
-                    <div class="form-group">
-                        <span th:text="*{name}"></span>
-                        <label>數量:</label>         
-                        <a class="btn btn-default" href="#" th:href="@{'/menu/'+*{id}+'/confirmInfo?count='+${count-1}+'&countsp='+${countsp}}">-</a>    
-                        <input name="count" type="text" th:value="${count}"/>
-                        <a class="btn btn-default" href="#" th:href="@{'/menu/'+*{id}+'/confirmInfo?count='+${count+1}+'&countsp='+${countsp}}">+</a> 
-                        <label>價格:</label>
-                        <span th:text="'$'+*{price}"></span>
-                    </div>
+            <div class="cancel col-sm-2">
+                <a href="#" th:href="@{/menu}">
+                    <strong>X</strong>
+                </a>
+            </div>
+        </div>
 
-                    <!-- 分享餐 訊息區段-->                    
-                    <div th:if="${#strings.equals(product.category, 'SHARE')}">
-                        <input type="hidden" name="course_type" value="share"/> <!-- 判斷為分享餐所需要的資訊 -->
-                        <div>
-                            <table th:unless="${count == 0}" th:each="c : ${#numbers.sequence(1, count)}" class="table table-hover">
-                                <thead>
-                                    <tr>
-                                        <th>主餐</th>
-                                        <th>附餐</th>
-                                        <th>配餐</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td th:if="${pd.selectable != 1}" th:each="pd : ${product.productDetails}">
-                                            <div th:each="c : ${#numbers.sequence(1, pd.count)}">
-                                                <span th:text="${pd.detail}"></span>                                            
-                                            </div>                                            
-                                        </td>
-                                        <td th:if="${pd.selectable == 1}" th:each="pd : ${product.productDetails}" class="">
-                                            <div th:each="c : ${#numbers.sequence(1, pd.count)}">
-                                                <span th:text="${pd.detail}"></span>  
-                                                <select name="selection" th:if="${pd.selectable==1}">
-                                                    <div th:each="d : ${drink}">
-                                                        <option>[[${d.name}]]</option>
-                                                    </div> 
-                                                </select>
-                                            </div>
-                                        </td>
-                                    </tr>                    
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    
-                    <!-- 其他單點 -->
-                    <div class="form-group" th:unless="${#strings.equals(product.category, 'SHARE') || #strings.equals(product.category, 'MAIN')}">
-                        <div th:unless="${count == 0}">
-                            <table th:each="c : ${#numbers.sequence(1, count)}" class="table table-hover">
-                                <thead>
-                                    <tr>
-                                        <th>單點</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            <span th:text="*{name}">產品</span>
-                                        </td>
-                                    </tr>              
-                                </tbody>
-                            </table>          
-                        </div>
-                    </div>
 
-                    <!-- 套餐專用區段 -->
-                    <div class="form-group" th:if="${#strings.equals(product.category, 'MAIN')}">
-                        <span th:text="*{name}+' 套餐'"></span>
-                        <label>數量:</label>         
-                        <a class="btn btn-default" href="#" th:href="@{'/menu/'+*{id}+'/confirmInfo?count='+${count}+'&countsp='+${countsp-1}}">-</a>    
-                        <input name="countsp" type="text" th:value="${countsp}"/>
-                        <a class="btn btn-default" href="#" th:href="@{'/menu/'+*{id}+'/confirmInfo?count='+${count}+'&countsp='+${countsp+1}}">+</a> 
-                        <label>價格:</label>
-                        <span th:text="'$'+*{price+68}"></span>
-                    </div>
 
-                    <!-- 主餐單點&套餐 訊息區段-->
-                    <div th:if="${#strings.equals(product.category, 'MAIN')}">                        
-                        <!-- 單點 -->
-                        <div th:unless="${count == 0}">                            
-                            <table th:each="c : ${#numbers.sequence(1, count)}" class="table table-hover">
-                                <thead>
-                                    <tr>
-                                        <th>單點</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            <span th:text="*{name}">產品</span>
-                                        </td>
-                                    </tr>              
-                                </tbody>
-                            </table>
-                        </div>
-                        <!-- 套餐 -->
-                        <div th:unless="${countsp == 0}">
-                            <table th:each="c : ${#numbers.sequence(1, countsp)}" class="table table-hover">
-                                <thead>
-                                    <tr>
-                                        <th>套餐</th>
-                                        <th>附餐</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            <span th:text="*{name}"></span>
-                                        </td>
-                                        <td>
-                                            <div th:each="pd : ${product.productDetails}">
-                                                <span th:text="${pd.detail}"></span>
-                                                <select name="selection" th:if="${pd.selectable==1}">
-                                                    <div th:each="d : ${drink}">
-                                                        <option>[[${d.name}]]</option>
-                                                    </div> 
-                                                </select>
-                                                <select name="selection" th:if="${pd.selectable==2}">
-                                                    <div th:each="s : ${sub}">
-                                                        <option>[[${s.name}]]</option>
-                                                    </div>                                        
-                                                </select>
-                                            </div>
-                                        </td>
-                                    </tr>              
-                                </tbody>
-                            </table>                            
-                        </div>
+        <div class="container" style="padding-top: 15px;">
+            <form action="#" th:action="@{/menu/shoppingcart}" method="POST">         
+                <input type="hidden" th:value="*{id}" name="id"/>
+                <div class="form-group" style="font-size: 25px; color: gray">
+                    步驟一: 選擇您的餐點
+                </div>
+
+                <!-- 分享餐與其他單點 共用區段 -->               
+                <div class="form-group">
+                    <span th:text="*{name}"></span>
+                    <label>數量:</label>         
+                    <a class="btn btn-default" href="#" th:href="@{'/menu/'+*{id}+'/confirmInfo?count='+${count-1}+'&countsp='+${countsp}}">-</a>    
+                    <input name="count" type="text" th:value="${count}"/>
+                    <a class="btn btn-default" href="#" th:href="@{'/menu/'+*{id}+'/confirmInfo?count='+${count+1}+'&countsp='+${countsp}}">+</a> 
+                    <label>價格:</label>
+                    <span th:text="'$'+*{price}"></span>
+                </div>
+
+                <!-- 分享餐 訊息區段-->                    
+                <div th:if="${#strings.equals(product.category, 'SHARE')}">
+                    <input type="hidden" name="course_type" value="share"/> <!-- 判斷為分享餐所需要的資訊 -->
+                    <div>
+                        <table th:unless="${count == 0}" th:each="c : ${#numbers.sequence(1, count)}" class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>主餐</th>
+                                    <th>附餐</th>
+                                    <th>配餐</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td th:if="${pd.selectable != 1}" th:each="pd : ${product.productDetails}">
+                                        <div th:each="c : ${#numbers.sequence(1, pd.count)}">
+                                            <span th:text="${pd.detail}"></span>                                            
+                                        </div>                                            
+                                    </td>
+                                    <td th:if="${pd.selectable == 1}" th:each="pd : ${product.productDetails}" class="">
+                                        <div th:each="c : ${#numbers.sequence(1, pd.count)}">
+                                            <span th:text="${pd.detail}"></span>  
+                                            <select name="selection" th:if="${pd.selectable==1}">
+                                                <div th:each="d : ${drink}">
+                                                    <option>[[${d.name}]]</option>
+                                                </div> 
+                                            </select>
+                                        </div>
+                                    </td>
+                                </tr>                    
+                            </tbody>
+                        </table>
                     </div>
-                    
-                    <!-- submit button -->
-                    <div class="form-group">
-                        <p>
-                            <button type="submit">加入購物車</button>
-                        </p>
+                </div>
+
+                <!-- 其他單點 -->
+                <div class="form-group" th:unless="${#strings.equals(product.category, 'SHARE') || #strings.equals(product.category, 'MAIN')}">
+                    <div th:unless="${count == 0}">
+                        <table th:each="c : ${#numbers.sequence(1, count)}" class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>單點</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <span th:text="*{name}">產品</span>
+                                    </td>
+                                </tr>              
+                            </tbody>
+                        </table>          
                     </div>
-                </form> <!-- end of form -->
-            </div> <!-- end of well -->
+                </div>
+
+                <!-- 套餐專用追加區段 00000000000000000000000000000-->
+                <div class="form-group" th:if="${#strings.equals(product.category, 'MAIN')}">
+                    <span th:text="*{name}+' 套餐'"></span>
+                    <label>數量:</label>         
+                    <a class="btn btn-default" href="#" th:href="@{'/menu/'+*{id}+'/confirmInfo?count='+${count}+'&countsp='+${countsp-1}}">-</a>    
+                    <input name="countsp" type="text" th:value="${countsp}"/>
+                    <a class="btn btn-default" href="#" th:href="@{'/menu/'+*{id}+'/confirmInfo?count='+${count}+'&countsp='+${countsp+1}}">+</a> 
+                    <label>價格:</label>
+                    <span th:text="'$'+*{price+68}"></span>
+                </div>
+
+                <!-- 主餐單點&套餐 訊息區段-->
+                <div th:if="${#strings.equals(product.category, 'MAIN')}">                        
+                    <!-- 單點 -->
+                    <div th:unless="${count == 0}">                            
+                        <table th:each="c : ${#numbers.sequence(1, count)}" class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>單點</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <span th:text="*{name}">產品</span>
+                                    </td>
+                                </tr>              
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- 套餐 -->
+                    <div th:unless="${countsp == 0}">
+                        <table th:each="c : ${#numbers.sequence(1, countsp)}" class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>套餐</th>
+                                    <th>附餐</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <span th:text="*{name}"></span>
+                                    </td>
+                                    <td>
+                                        <div th:each="pd : ${product.productDetails}">
+                                            <span th:text="${pd.detail}"></span>
+                                            <select name="selection" th:if="${pd.selectable==1}">
+                                                <div th:each="d : ${drink}">
+                                                    <option>[[${d.name}]]</option>
+                                                </div> 
+                                            </select>
+                                            <select name="selection" th:if="${pd.selectable==2}">
+                                                <div th:each="s : ${sub}">
+                                                    <option>[[${s.name}]]</option>
+                                                </div>                                        
+                                            </select>
+                                        </div>
+                                    </td>
+                                </tr>              
+                            </tbody>
+                        </table>                            
+                    </div>
+                </div>
+
+                <!-- submit button -->
+                <div class="form-group">
+                    <p>
+                        <button type="submit">加入購物車</button>
+                    </p>
+                </div>
+            </form> <!-- end of form -->
+
         </div> <!-- end of container -->
 
         <!--使用本地端伺服器資源-->
         <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
-        <script th:src="@{/js/bootstrap.min.js}" src="../static/js/bootstrap.min.js"/>    
+        <script th:src="@{/js/bootstrap.min.js}" src="../static/js/bootstrap.min.js"></script>
+        <script>
+            /*url param*/
+
+            const queryString = window.location.search;
+            if (queryString === '') {
+                document.getElementById('totalcount').innerHTML = 0;
+            } else {
+                const urlParam = new URLSearchParams(queryString);
+                let count = parseInt(urlParam.get('count'));
+                let countsp = parseInt(urlParam.get('countsp'));
+                let total = count + countsp;
+                if(total < 0){
+                    total = 0;
+                }                
+                document.getElementById('totalcount').innerHTML = total;
+
+                if (total >= 10) {
+                    $(function () {
+                        $('#totalcount').css('padding-right', 0);
+                    });
+                }
+            }
+        </script>
     </body>
 </html>

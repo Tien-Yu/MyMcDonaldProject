@@ -47,7 +47,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/Thymeleaf.html to edit
         </style>
     </head>
     <body style="background-color: #f3f5f9;"> 
-        <div id="page" class="container" style="height: 100%">
+        <div id="page" class="container" style="height: 100%;">
             <!-- user account info -->
             <div class="container">    
                 <div class="user">
@@ -69,7 +69,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/Thymeleaf.html to edit
                                             <a href="#" >功能2</a>
                                             <a href="#" >功能3</a>
                                             <a href="#" th:href="@{/users/logout}">登出</a>
-                                        </div>                                   
+                                        </div>
                                     </span>
                                 </div>
                                 |&nbsp;
@@ -84,14 +84,14 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/Thymeleaf.html to edit
 
             <div id="wrapper" class="wrapper">
                 <!-- topbar -->
-                <div id="topbar" class="topbar">                   
+                <div id="topbar" class="topbar">
                     <div style="background-color: #E10C1A;">
                         <a href="#">
-                            <img src="../static/icon_img/topbar_title.png" th:src="@{/icon_img/topbar_title.png}" alt="title"/>                          
+                            <img src="../static/icon_img/topbar_title.png" th:src="@{/icon_img/topbar_title.png}" alt="title"/>
                         </a>
                     </div>
                     <div>
-                        <ul>                                            
+                        <ul>
                             <li style="border-right: 1px solid #222; padding-left: 30px;">
                                 <a href="#" id="menu" th:href="@{/menu}">
                                     <span class="glyphicon glyphicon-menu-hamburger"></span>&nbsp;
@@ -117,7 +117,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/Thymeleaf.html to edit
                 <!-- sidebar -->
                 <div id="sidebar" class="sidebar">
                     <ul>
-                        <li style="box-shadow: 0 2px 2px #d69c00; ">
+                        <li style="box-shadow: 0 2px 2px #d69c00;">
                             <p class="sidebar-title">一般餐點</p>         
                         </li>
                         <li style="border-bottom: 1px solid #ffd256;">
@@ -137,7 +137,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/Thymeleaf.html to edit
                                 <span id="icon" class="glyphicon glyphicon-leaf"></span>&nbsp;
                                 <span id="text">配餐單點</span>
                             </a>
-                        </li>                      
+                        </li>
                         <li style="border-bottom: 1px solid #ffd256;">
                             <a href="#" th:href="@{/menu/drinks}">
                                 <span id="icon" class="glyphicon glyphicon-leaf"></span>&nbsp;
@@ -146,7 +146,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/Thymeleaf.html to edit
                         </li>
                         <li>
                             <a href="#" th:href="@{/menu/dessert}">
-                                <span id="icon" class="glyphicon glyphicon-leaf"></span>&nbsp;                        
+                                <span id="icon" class="glyphicon glyphicon-leaf"></span>&nbsp;
                                 <span id="text">點心與拼盤</span>
                             </a>
                         </li>
@@ -156,21 +156,21 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/Thymeleaf.html to edit
 
                 <!-- main content -->
                 <div layout:fragment="content" id="main_content" class="main_content">
-                    <p>Welcome to Thymeleaf Layout Dialect</p>                    
-                </div>               
+                    <p>Welcome to Thymeleaf Layout Dialect</p>
+                </div>
 
                 <!-- rightbar -->
                 <div id="rightbar" class="rightbar">
                     <a href="#" th:href="@{/users/confirmAddress}" th:unless="${session.orderLines != null || session.name != null || session.address != null}">
-                        <img src="../static/func_img/how_mcdelivery_works_portrait_zh.png" th:src="@{/func_img/how_mcdelivery_works_portrait_zh.png}" alt="right_bar"/>                        
+                        <img src="../static/func_img/how_mcdelivery_works_portrait_zh.png" th:src="@{/func_img/how_mcdelivery_works_portrait_zh.png}" alt="right_bar"/>          
                     </a>
                     <!--  あとでThymeleaf Toolsにファンクションを追加 -->
                     <div th:if="${session.orderLines != null || session.name != null || session.address != null}">
                         <div class="cart">
                             <div class="title">
                                 カート
-                            </div>                            
-                            <hr/>                            
+                            </div>
+                            <hr/>
                             <div class="row item">
                                 <div class="subject">
                                     <div>
@@ -204,7 +204,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/Thymeleaf.html to edit
                                 <div class="subject">
                                     <div>小計：</div>
                                     <div>配送料：</div>
-                                    <div style="font-size: 20px;">総計：</div>                                
+                                    <div style="font-size: 20px;">総計：</div>
                                 </div>
                                 <div class="detail">
                                     <div>
@@ -218,15 +218,14 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/Thymeleaf.html to edit
                                     <div style="font-size: 20px; color: green;">
                                         <span th:if="${session.orderLines == null}">NT$0</span>
                                         <span th:if="${session.orderLines != null}" th:text="'NT$'+${#collectiontools.summarization_freight(session.orderLines)}"></span>
-                                    </div>   
+                                    </div>
                                 </div>
-
                             </div>
                             <div class="row item">
-                                <a class="btn btn-block" href="#" style="background-color: red; color: #fff" th:if="${session.orderLines != null}"  th:href="@{/menu/shoppingcart}">
-                                    決済                            
+                                <a class="btn btn-block btn-style" href="#" style="background-color: red; color: #fff" th:if="${session.orderLines != null}"  th:href="@{/menu/shoppingcart}">
+                                    決済
                                 </a>
-                                <div class="btn btn-block btn-disable" th:if="${session.orderLines == null}">
+                                <div class="btn btn-block btn-style btn-disable" th:if="${session.orderLines == null}">
                                     決済
                                 </div>
                             </div>
@@ -234,44 +233,53 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/Thymeleaf.html to edit
                                 お客様のカートに商品はありません
                             </div>
                         </div> <!-- end of cart(delivery info) -->     
-                        
+
                         <div class="orderline" th:unless="${session.orderLines == null}">
-                            <div>
-                                <div>注文</div>
+                            <div >
+                                <div style="font-size: 18px; font-weight: 500; margin-top: 10px">注文</div>
                             </div>
                             <div th:if="${session.orderLines.size() > 3}">
                                 <div class="row simpleview" th:each="i : ${#numbers.sequence(0, 2)}" th:with="orderLine=${session.orderLines[i]}">
-                                    <img style="margin-top: 29px" src="../static/product_img/001.jpg" th:src="${orderLine.product.photo?.photo_location}" th:if="${orderLine.product.category.equals('SHARE')}">
-                                    <img src="../static/product_img/001.jpg" th:src="${orderLine.product.photo?.photo_location}" th:if="${!orderLine.product.category.equals('SHARE')}">
+                                    <img style="margin-top: 29px" src="../static/product_img/001.jpg" th:src="${orderLine.product.photo?.photo_location}" th:if="${orderLine.product.category.equals('SHARE')}"/>
+                                    <img src="../static/product_img/001.jpg" th:src="${orderLine.product.photo?.photo_location}" th:if="${!orderLine.product.category.equals('SHARE')}"/>
                                     <span class="text" th:if="${orderLine.product.category.equals('MAIN')}">
                                         <span th:if="${orderLine.selection != null}">[[${orderLine.product.name}]] (套餐)</span>
-                                        <span th:if="${orderLine.selection == null}">[[${orderLine.product.name}]] (單點)</span>                                        
+                                        <span th:if="${orderLine.selection == null}">[[${orderLine.product.name}]] (單點)</span>
                                         <span>x [[${orderLine.amount}]]</span>
                                     </span>
                                     <span class="text" th:if="${!orderLine.product.category.equals('MAIN')}">
-                                        <span>[[${orderLine.product.name}]]</span>                                        
+                                        <span>[[${orderLine.product.name}]]</span>
                                         <span>x [[${orderLine.amount}]]</span>
-                                    </span>                                    
+                                    </span>
                                 </div>
-                                <div>
-                                    ...
-                                </div>   
+                                <div class="row simpleview">
+                                    ...（あと[[${session.orderLines.size() -3 }]]個の商品）>> 
+                                    <a href="#" th:href="@{/menu/shoppingcart}">
+                                        もっと詳しい情報
+                                    </a>
+                                    
+                                </div>
                             </div>
                             <div th:if="${session.orderLines.size() <= 3}">                                
                                 <div class="row simpleview" th:each="i : ${#numbers.sequence(0, session.orderLines.size()-1)}" th:with="orderLine=${session.orderLines[i]}">
-                                    <img style="margin-top: 29px" src="../static/product_img/001.jpg" th:src="${orderLine.product.photo?.photo_location}" th:if="${orderLine.product.category.equals('SHARE')}">
-                                    <img src="../static/product_img/001.jpg" th:src="${orderLine.product.photo?.photo_location}" th:if="${!orderLine.product.category.equals('SHARE')}">
+                                    <img style="margin-top: 29px" src="../static/product_img/001.jpg" th:src="${orderLine.product.photo?.photo_location}" th:if="${orderLine.product.category.equals('SHARE')}"/>
+                                    <img src="../static/product_img/001.jpg" th:src="${orderLine.product.photo?.photo_location}" th:if="${!orderLine.product.category.equals('SHARE')}"/>
                                     <span class="text" th:if="${orderLine.product.category.equals('MAIN')}">
                                         <span th:if="${orderLine.selection != null}">[[${orderLine.product.name}]] (套餐)</span>
                                         <span th:if="${orderLine.selection == null}">[[${orderLine.product.name}]] (單點)</span>                                        
                                         <span>x [[${orderLine.amount}]]</span>
                                     </span>
                                     <span class="text" th:if="${!orderLine.product.category.equals('MAIN')}">
-                                        <span>[[${orderLine.product.name}]]</span>                                        
+                                        <span>[[${orderLine.product.name}]]</span>
                                         <span>x [[${orderLine.amount}]]</span>
-                                    </span> 
+                                    </span>
                                 </div>
-                            </div>                            
+                                 <div class="row simpleview">
+                                    <a href="#" th:href="@{/menu/shoppingcart}">
+                                        もっと詳しい情報
+                                    </a>                                    
+                                </div>
+                            </div>
                         </div> <!-- end of cart(orderLines info) -->
                     </div> <!-- end of cart -->
 
@@ -377,7 +385,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/Thymeleaf.html to edit
             </div> <!-- End of container -->            
         </div> <!-- End of footer -->
 
-        
+
         <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
         <script th:src="@{/js/bootstrap.min.js}" src="../static/js/bootstrap.min.js"></script>
         <script>

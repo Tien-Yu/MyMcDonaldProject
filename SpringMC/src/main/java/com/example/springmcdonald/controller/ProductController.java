@@ -193,9 +193,9 @@ public class ProductController {
         List<OrderLine> oldList = (List) session.getAttribute("orderLines");
         List<OrderLine> newList = oldList.stream().filter(o -> o.getId() != id).collect(Collectors.toList());
         orderLineService.remove(id);
-        if(newList.isEmpty()){
-           session.removeAttribute("orderLines");
-           return "redirect:/menu/shoppingcart";
+        if (newList.isEmpty()) {
+            session.removeAttribute("orderLines");
+            return "redirect:/menu/shoppingcart";
         }
         session.setAttribute("orderLines", newList);
         return "redirect:/menu/shoppingcart";
