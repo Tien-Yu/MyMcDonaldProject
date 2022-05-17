@@ -262,8 +262,8 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/Thymeleaf.html to edit
                             </div>
                             <div th:if="${session.orderLines.size() <= 3}">                                
                                 <div class="row simpleview" th:each="i : ${#numbers.sequence(0, session.orderLines.size()-1)}" th:with="orderLine=${session.orderLines[i]}">
-                                    <img style="margin-top: 29px" src="../static/product_img/001.jpg" th:src="${orderLine.product.photo?.photo_location}" th:if="${orderLine.product.category.equals('SHARE')}"/>
-                                    <img src="../static/product_img/001.jpg" th:src="${orderLine.product.photo?.photo_location}" th:if="${!orderLine.product.category.equals('SHARE')}"/>
+                                    <img style="margin-top: 29px" src="" th:src="${orderLine.product.photo?.photo_location}" th:if="${orderLine.product.category.equals('SHARE')}"/>
+                                    <img src="" th:src="${orderLine.product.photo?.photo_location}" th:if="${!orderLine.product.category.equals('SHARE')}"/>
                                     <span class="text" th:if="${orderLine.product.category.equals('MAIN')}">
                                         <span th:if="${orderLine.selection != null}">[[${orderLine.product.name}]] (套餐)</span>
                                         <span th:if="${orderLine.selection == null}">[[${orderLine.product.name}]] (單點)</span>                                        

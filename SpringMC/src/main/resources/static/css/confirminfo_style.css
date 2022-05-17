@@ -19,6 +19,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
 body{
     background: #f3f5f9;
 }
+
 /* header content*/
 .header{
     background-color: #fff;
@@ -27,7 +28,6 @@ body{
     justify-content: center;
     box-shadow: 0 0 10px 2px gray;
 }
-
 .header .img_a{
     margin-bottom: 50px;
 }
@@ -41,7 +41,6 @@ body{
     min-width:  358px;
     max-width:  358px;
 }
-
 .header .img-name{
     margin-top: 50px;
     font-size: 25px;
@@ -50,7 +49,6 @@ body{
     margin-top: 50px;
     font-size: 25px;
 }
-
 .header .total-count{
     margin-top: 50px;
     padding-right: 20px;
@@ -68,3 +66,144 @@ body{
 }
 
 /*main content*/
+.step-header{
+    font-size: 25px;
+    color: gray;
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 10px;
+}
+
+/*step1*/
+.step1-content{
+    background-color: #fff;
+    padding: 10px;
+    box-shadow: 0 5px 5px #cccccc;
+    min-width:  580px;
+}
+.step1-content .control{
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 0;
+    align-items: center;
+}
+.step1-content .control .input-member{
+    float: left;
+    text-align: center;
+    vertical-align: middle;
+    text-decoration: none;
+}
+.input-member input{
+    height:40px;
+    width: 60px;
+    text-align: center;
+    font-size: 20px;
+    border:1px solid #ddd;
+}
+.minus, .plus{
+    height:40px;
+    width: 40px;
+    border:1px solid #ddd;
+    font-size: 20px;
+    background-color: black;
+    color: #fff;
+    padding: 5px;
+}
+.minus:hover{
+    background-color: red;
+}
+.plus:hover{
+    background-color: green;
+}
+
+/*step2*/
+.step2-content{
+    box-shadow: 0 5px 5px #cccccc;
+    min-width:  580px;
+}
+.step2-content .infomation{
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+.infomation .p-name{
+    font-size: 20px;
+    display: flex;
+}
+.infomation .p-detail{
+    font-size: 15px;
+
+}
+.infomation .p-select{
+    font-size: 15px;
+}
+.infomation .p-blank{
+    /* do nothing */
+}
+.infomation .remove{
+    padding-right: 20px;
+    padding-left: 5px;
+    color: gray;
+    text-decoration: none;
+    transition: 0.3s;
+}
+.infomation .remove:hover{
+    color: darkgray;
+    text-decoration: none;
+}
+.infomation select {
+    background-color: lightgray;
+    width: 140px;
+    height: auto;
+    font-size: 17px;
+    text-align: left;
+    margin-left: 10px;
+    -webkit-appearance: button;
+    appearance: button;
+    outline: none;
+    border-radius: 5px;
+    font-family: sans-serif;
+}
+.infomation select:hover{
+    box-shadow: 0 0 10px 1px #66ccff;
+}
+
+/*step3*/
+.step3-content{
+    display:flex;
+    justify-content: space-between;
+}
+.step3-content button{
+    background-color: gray;
+    color: black;
+    font-size: 20px;
+    width: 200px;
+    padding: 10px 10px;
+    text-align: center;
+    border: none;
+    border-radius: 10px;
+}
+.step3-content button:hover{
+   transition: 0.8s;
+   padding: 20px 20px;
+   background-color: #cc0000;
+   color: #fff;   
+}
+
+/*footer content*/
+.footer{
+    display: flex;
+    justify-content: space-between;
+    background-color: #fff;
+    bottom: 0;
+    position: fixed;
+    width: 100%;
+    height: 150px;
+    padding: 10px 10px;
+    box-shadow: 0 0 10px 2px gray;
+}
+.footer .content{    
+    padding: 20px;
+}
