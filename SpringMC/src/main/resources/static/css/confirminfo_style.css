@@ -90,8 +90,7 @@ body{
 }
 .step1-content .control .input-member{
     float: left;
-    text-align: center;
-    vertical-align: middle;
+    text-align: center;    
     text-decoration: none;
 }
 .input-member input{
@@ -108,7 +107,7 @@ body{
     font-size: 20px;
     background-color: black;
     color: #fff;
-    padding: 5px;
+    padding: 5px;    
 }
 .minus:hover{
     background-color: red;
@@ -134,7 +133,6 @@ body{
 }
 .infomation .p-detail{
     font-size: 15px;
-
 }
 .infomation .p-select{
     font-size: 15px;

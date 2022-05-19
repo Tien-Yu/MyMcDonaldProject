@@ -210,7 +210,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/Thymeleaf.html to edit
                 <span class="glyphicon glyphicon-shopping-cart" ></span>                
             </div>
             <div class="content" style="font-size: 25px">
-                <span>小計</span>&nbsp;
+                <span>購物車中小計</span>&nbsp;
                 <span th:if="${session.orderLines == null}">NT$0</span>
                 <span th:if="${session.orderLines != null}" th:text="'NT$'+${#collectiontools.summarization(session.orderLines)}"></span>
             </div>
