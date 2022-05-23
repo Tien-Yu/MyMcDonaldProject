@@ -18,6 +18,7 @@ import java.util.Queue;
 import java.util.stream.Collectors;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -174,17 +175,34 @@ public class ProductController {
             OrderLineTools.orderLineDivider_course(selectionQueue, price, countsp, product, orderLineService, session);
         }
 
-        return "ShoppingCart";
+//        return "ShoppingCart";
+        return "redirect:/menu/shoppingcart";
     }
 
     /**
      * PostMapping 沒辦法直接透過網址列url存取
      *
+     * @param suggest
      * @param session
+     * @param m
      * @return
      */
     @GetMapping("/shoppingcart")
-    public String shoppingCart(HttpSession session) {
+    public String shoppingCart(@RequestParam(defaultValue = "1") int suggest, HttpSession session, Model m) {               
+        
+        Page<Product> pageProducts = prodService.findAllByCategoryNot("SHARE", suggest, 5);
+        List<Product> suggestlist = pageProducts.getContent();
+        
+        int totalPages = pageProducts.getTotalPages();        
+        
+        if (suggest < 1) {
+            suggest = 1;
+        }else if(suggest > totalPages){
+            suggest = totalPages;
+        }
+        m.addAttribute("totalpages", totalPages);
+        m.addAttribute("suggest", suggest);
+        m.addAttribute("suggestlist", suggestlist);
         return "ShoppingCart";
     }
 

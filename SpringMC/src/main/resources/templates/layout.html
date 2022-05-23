@@ -230,7 +230,10 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/Thymeleaf.html to edit
                                 </div>
                             </div>
                             <div class="row item" style="text-align: center" th:unless="${session.orderLines != null}">
-                                お客様のカートに商品はありません
+                                <a href="#" th:href="@{/menu/shoppingcart}">
+                                    お客様のカートに商品はありません
+                                </a>
+                                
                             </div>
                         </div> <!-- end of cart(delivery info) -->     
 

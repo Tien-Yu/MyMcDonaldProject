@@ -5,14 +5,18 @@
 package com.example.springmcdonald;
 
 import com.example.springmcdonald.pojo.Orders;
+import com.example.springmcdonald.pojo.Product;
 import com.example.springmcdonald.pojo.Users;
 import com.example.springmcdonald.service.OrdersService;
+import com.example.springmcdonald.service.ProductService;
 import com.example.springmcdonald.service.UsersService;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 /**
  *
@@ -20,19 +24,20 @@ import org.springframework.data.domain.Page;
  */
 
 @SpringBootTest
-public class TestOrder {
+public class TestJPA {
     @Autowired
     OrdersService ordersService;
     @Autowired
     UsersService usersService;
+    @Autowired
+    ProductService productService;
     
     @Test
     void test(){
-       Users users = usersService.findByName("timothy").get();        
-       Page<Orders> orders = ordersService.findAllByUsers(users, 1, 1);
-        System.out.println(orders.getTotalPages());
-        System.out.println(orders.getTotalElements());
+      
+        Page<Product> products = productService.findAllByCategoryNot("SHARE", 1, 5);
+        products.stream().map(p -> p.getName()).forEach(System.out::println);
         
-        
+
     }
 }

@@ -11,6 +11,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/Thymeleaf.html to edit
         <!--使用本地端伺服器資源-->
         <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" href="../static/css/bootstrap.min.css"/>
         <link rel="stylesheet" th:href="@{/css/shoppingcart_style.css}" href="../static/css/shoppingcart_style.css"/>
+        <link rel="stylesheet" th:href="@{/css/product_info_style.css}" href="../static/css/product_info_style.css"/>  
     </head>
     <body style="background-color: #f3f5f9;">
         <div id="header" class="header">
@@ -38,45 +39,74 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/Thymeleaf.html to edit
 
                     <a class="btn btn-default" style="width:160px; margin-left: 50px" href="#" th:href="@{/orders/status}"> 配送状況を確認 </a>
                 </div>
-            </div> <!-- end of empty content -->
+            </div>  <!-- end of empty content  --> 
 
-            <div id="cart" class="cart" th:if="${session.orderLines != null}">
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th>產品名稱</th>
-                            <th>數量</th>
-                            <th>總價</th>
-                            <th>附餐</th>
-                            <th>#</th>
+            <div id="cart" class="cart" th:if="${session.orderLines != null}">                
+                <table class="table table-hover" style="margin-bottom: 0;">
+                    <thead style="padding: 10px;">
+                        <tr class="table-header">                   
+                            <th style="width: 40%">商品名稱</th>
+                            <th style="width: 30%">附餐</th>
+                            <th style="width: 10%;">數量</th>
+                            <th style="width: 20%">商品總價</th>                            
                         </tr>
                     </thead>
                     <tbody>
-                        <tr th:each="orderLine : ${session.orderLines}">
-                            <td th:text="${orderLine.product.name}"></td>
-                            <td th:text="*{orderLine.amount}"></td>
-                            <td th:text="*{orderLine.purchasePrice}"></td>
+                        <tr class="table-content" th:each="orderLine : ${session.orderLines}">
+
+                            <td style="display: flex;">
+                                <a class="btn btn-danger" href="#" th:href="@{/menu/{id}/remove(id=${orderLine.id})}" style="margin-right: 20px;">X</a>
+                                <span th:text="${orderLine.product.name}">product name</span>                                
+                            </td>
                             <td>
-                                可能要判斷selection 為null 的情況 
-                                <div th:each="selec : ${orderLine.selection}">
-                                    加個標註之類的 
-                                    <span th:text="${selec}">text</span>
+                                <!--可能要判斷selection 為null 的情況--> 
+                                <div th:each="selec : ${orderLine.selection}" >
+                                    <!-- 加個標註之類的 -->          
+                                    <div th:text="${selec}">select</div>
                                 </div>
 
                             </td>
-                            <td>
-                                <a class="btn btn-danger" href="#" th:href="@{/menu/{id}/remove(id=${orderLine.id})}">X</a>
-                            </td>
-                        </tr>
+                            <td th:text="*{orderLine.amount}">1</td>
+                            <td th:text="'$'+*{orderLine.purchasePrice}">$0</td>
+
+                        </tr>                                              
                     </tbody>
                 </table>
-                <p>
-                    <a class="btn btn-primary" href="#" th:href="@{/orders/submit}" th:if="${session.orderLines != null}">結帳</a>
-                    <a class="btn btn-primary" href="#" th:href="@{/menu}">繼續購物</a>
-                </p>
+                <!-- 結帳資料 -->
+                <div class="general">
+                    <div class="general-content">
+                        <div style="width: 90%">共 [[${session.orderLines.size()}]] 個商品金額小計 : </div>
+                        <div style="width: 10%;" th:text="'$'+${#collectiontools.summarization(session.orderLines)}">$0</div>                        
+                    </div>
+                    <div class="general-content">
+                        <div style="width: 90%">
+                            <span style="font-size: 13px; color: gray">(麥當勞24h歡樂送)</span>
+                            &nbsp;
+                            <span>運費 :</span>
+                        </div>
+                        <div style="width: 10%">$60</div>
+                    </div>
+                    <div class="general-content">
+                        <div style="width: 90%;">總金額 : </div>
+                        <div style="width: 10%; font-size: 25px; color: red" th:text="${#collectiontools.summarization_freight(session.orderLines)}">$0</div>
+                    </div>
+                </div>
+
+                <div class="confirm-order">
+                    <a id="btn-confirm" class="btn" href="#" th:href="@{/orders/submit}" th:if="${session.orderLines != null}">結帳</a>                           
+                    <div id="delivery-date" class="delivery-date">
+                        <span>預計送達時間 : </span>
+                        <span id="date1"></span>
+                        ～
+                        <span id="date2"></span>
+                    </div>                                 
+                    <a class="btn" href="#" th:href="@{/menu}">繼續購物</a>                    
+                </div>
+
+
             </div>  <!-- End of cart -->                         
         </div> <!-- end of container -->
-        
+
         <div id="footer" class="footer" th:if="${session.orderLines == null}">
             <div class="container">
                 <div class="row">
@@ -167,13 +197,53 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/Thymeleaf.html to edit
                             </li>                           
                         </ul>
                     </div>      
-                </div> <!-- End of row -->        
+                </div>  <!-- End of row -->        
                 <div>　マックドナルドテスト </div>
-            </div> <!-- End of footer container -->   
-        </div> <!-- End of footer -->
-
+            </div>  <!-- End of footer container -->   
+        </div>  <!-- End of footer -->        
         <div id="product-link" class="product-link" th:if="${session.orderLines != null}">
+            <a th:href="@{/menu/shoppingcart}+'?suggest='+${suggest-1}" style="align-items: center">
+                <div class="reduce">
+                    <div class="left"></div>
+                </div>
+            </a>                
+            <div style="display: flex;">
+                <div th:each="p : ${suggestlist}" style="margin: 10px 10px; ">
+                    <div class="product-box" style="margin-bottom: 0; width: 280px; height: auto;"> <!-- box-shadow -->
+                        <!-- body -->
+                        <div class="product-body">
+                            <img class="img-block" th:src="${p.photo?.photo_location}" alt="photo" style="; width: 100%; height: 100%"/>
+                            <h5 th:text="${p.name}" style="text-align: center;  font-size: 20px; margin-bottom: 0">Product Name</h5>
+                        </div>
+                        <!-- footer -->                                        
+                        <div class="product-footer">                         
+                            <div>
+                                <div style="font-size: 13px; color: green">價格NT$[[${p.price}]]起</div>                                    
+                            </div>
+                            <div th:switch="${p.state}">
+                                <div class="btn btn-warning" th:case="0" style="width: 80px">缺貨中</div>
+                                <div class="btn btn-block btn-red" th:case="1"  style="width: 80px">
+                                    <a href="#" th:href="@{/menu/{id}/confirmInfo(id=${p.id})}">訂餐</a>
+                                </div>
+                            </div>
+                        </div>  
+                    </div>
+                </div><!-- End of loop -->
+            </div><!-- End of content -->
 
+            <a th:href="@{/menu/shoppingcart}+'?suggest='+${suggest+1}">
+                <div class="add">
+                    <div class="right"></div>
+                </div>
+            </a>       
+        </div>
+        <div th:if="${session.orderLines != null}" class="pagination-info">
+            <div>
+                <div th:each="i : ${#numbers.sequence(1, totalpages)}" class="dot-iterater">
+                    <div th:if="${suggest != i}" class="page-dot"></div>
+                    <div th:if="${suggest == i}" class="current-page-dot"></div>
+                </div>
+            </div>
         </div>
 
         <!--使用本地端伺服器資源-->
@@ -205,7 +275,21 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/Thymeleaf.html to edit
                     $('#footer').css('margin-top', '');
                 }
             }); // end of function
-
+        </script>
+        <script>
+            $('#btn-confirm').hover(function () {
+                $('#delivery-date').addClass('delivery-date-hover');
+            }, function () {
+                $('#delivery-date').removeClass('delivery-date-hover');
+            });
+        </script>
+        <script>
+            let date1 = new Date();
+            let date2 = new Date();
+            date1.setMinutes(date1.getMinutes() + 30);
+            date2.setMinutes(date2.getMinutes() + 60);
+            document.getElementById("date1").innerHTML = date1.toLocaleString([], {year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit'});
+            document.getElementById("date2").innerHTML = date2.toLocaleString([], {year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit'});
         </script>
     </body>
 </html>
