@@ -54,8 +54,8 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/Thymeleaf.html to edit
                     <tbody>
                         <tr class="table-content" th:each="orderLine : ${session.orderLines}">
 
-                            <td style="display: flex;">
-                                <a class="btn btn-danger" href="#" th:href="@{/menu/{id}/remove(id=${orderLine.id})}" style="margin-right: 20px;">X</a>
+                            <td style="display: flex;">                               
+                                <a class="glyphicon glyphicon-trash" onclick="deleteAlert(event);" href="#" th:href="@{/menu/{id}/remove(id=${orderLine.id})}" style="margin-right: 20px;"></a>
                                 <span th:text="${orderLine.product.name}">product name</span>                                
                             </td>
                             <td>
@@ -64,7 +64,6 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/Thymeleaf.html to edit
                                     <!-- 加個標註之類的 -->          
                                     <div th:text="${selec}">select</div>
                                 </div>
-
                             </td>
                             <td th:text="*{orderLine.amount}">1</td>
                             <td th:text="'$'+*{orderLine.purchasePrice}">$0</td>
@@ -93,7 +92,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/Thymeleaf.html to edit
                 </div>
 
                 <div class="confirm-order">
-                    <a id="btn-confirm" class="btn" href="#" th:href="@{/orders/submit}" th:if="${session.orderLines != null}">結帳</a>                           
+                    <a id="btn-confirm" class="btn" href="#" onclick="successMessage(event)" th:href="@{/orders/submit}" th:if="${session.orderLines != null}">結帳</a>                           
                     <div id="delivery-date" class="delivery-date">
                         <span>預計送達時間 : </span>
                         <span id="date1"></span>
@@ -246,35 +245,33 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/Thymeleaf.html to edit
             </div>
         </div>
 
-        <!--使用本地端伺服器資源-->
         <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
         <script th:src="@{/js/bootstrap.min.js}" src="../static/js/bootstrap.min.js"></script>
         <script>
-            /* product link adjust */
-            $(window).on('resize load', function () {
-                let cartHeight = $('#cart').height();
-                let marginAdjust = 600 - cartHeight + 200;
-                if (cartHeight <= 600) {
-                    $('#product-link').css('margin-top', marginAdjust);
-                } else {
+                        /* product link adjust */
+                        $(window).on('resize load', function () {
+                            let cartHeight = $('#cart').height();
+                            let marginAdjust = 600 - cartHeight + 200;
+                            if (cartHeight <= 600) {
+                                $('#product-link').css('margin-top', marginAdjust);
+                            }
+                        }); // end of function
 
-                }
-            }); // end of function
-
-            /* footer adjust */
-            $(window).on('resize load', function () {
-                let windowHeight = $(window).height();
-                let headerHeight = $('#header').height();
-                let containerHeight = $('#container').height();
-                let footerHeight = $('#footer').height();
-                if (windowHeight <= 1000) {
-                    $('#footer').css('position', 'static');
-                    $('#footer').css('margin-top', 1000 - headerHeight - containerHeight - footerHeight);
-                } else {
-                    $('#footer').css('position', 'fixed');
-                    $('#footer').css('margin-top', '');
-                }
-            }); // end of function
+                        /* footer adjust */
+                        $(window).on('resize load', function () {
+                            let windowHeight = $(window).height();
+                            let headerHeight = $('#header').height();
+                            let containerHeight = $('#container').height();
+                            let footerHeight = $('#footer').height();
+                            if (windowHeight <= 1000) {
+                                $('#footer').css('position', 'static');
+                                $('#footer').css('margin-top', 1000 - headerHeight - containerHeight - footerHeight);
+                            } else {
+                                $('#footer').css('position', 'fixed');
+                                $('#footer').css('margin-top', '');
+                            }
+                        }); // end of function
         </script>
         <script>
             $('#btn-confirm').hover(function () {
@@ -282,14 +279,48 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/Thymeleaf.html to edit
             }, function () {
                 $('#delivery-date').removeClass('delivery-date-hover');
             });
+        </script>       
+        <script>
+            function deleteAlert(event) {
+                event.preventDefault();
+                swal({
+                    title: "Are you sure?",
+                    text: "Once deleted, you will not be able to recover this imaginary file!",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true
+                }).then((willDelete) => {
+                    if (willDelete) {
+                        window.location = jQuery(event.target).attr("href"); /*http://cat-son.blogspot.com/2012/11/javascript-windowlocation.html#sthash.V8gQ7oR0.dpbs*/
+                    } else {
+                        swal("Thankyou!");
+                    }
+                });
+            }
+
+            function successMessage(event) {
+                event.preventDefault();
+                swal({
+                    title: "Thank You!",
+                    text: "訂單已成立 感謝您的購買!",
+                    icon: "success",
+                    button: "close"
+                }).then(() => {                    
+                    window.location = jQuery(event.target).attr("href");
+                    console.log(window.location);
+                });
+            }
+
         </script>
         <script>
             let date1 = new Date();
             let date2 = new Date();
             date1.setMinutes(date1.getMinutes() + 30);
             date2.setMinutes(date2.getMinutes() + 60);
-            document.getElementById("date1").innerHTML = date1.toLocaleString([], {year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit'});
-            document.getElementById("date2").innerHTML = date2.toLocaleString([], {year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit'});
+            if (document.getElementById("date1") !== null) {
+                document.getElementById("date1").innerHTML = date1.toLocaleString([], {year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit'});
+                document.getElementById("date2").innerHTML = date2.toLocaleString([], {year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit'});
+            }
         </script>
     </body>
 </html>

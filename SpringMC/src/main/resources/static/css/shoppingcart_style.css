@@ -67,6 +67,16 @@ body{
     text-align: center;
     font-size: 16px;
 }
+.table-content a{
+    text-decoration: none;
+    color: silver;
+    font-size: 18px;
+}
+.table-content a:hover{
+    text-decoration: none;
+    color: red;
+}
+
 
 .cart .general{
     background-color: #fff9e6; /*#f9f2ec*/ /*#fff2e6*/

@@ -222,7 +222,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/Thymeleaf.html to edit
                                 </div>
                             </div>
                             <div class="row item">
-                                <a class="btn btn-block btn-style" href="#" style="background-color: red; color: #fff" th:if="${session.orderLines != null}"  th:href="@{/menu/shoppingcart}">
+                                <a class="btn btn-block btn-style" href="#" onclick="successMessage(event);" style="background-color: red; color: #fff" th:if="${session.orderLines != null}" th:href="@{/orders/submit}+'?onclick=homepage'">
                                     決済
                                 </a>
                                 <div class="btn btn-block btn-style btn-disable" th:if="${session.orderLines == null}">
@@ -233,7 +233,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/Thymeleaf.html to edit
                                 <a href="#" th:href="@{/menu/shoppingcart}">
                                     お客様のカートに商品はありません
                                 </a>
-                                
+
                             </div>
                         </div> <!-- end of cart(delivery info) -->     
 
@@ -260,7 +260,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/Thymeleaf.html to edit
                                     <a href="#" th:href="@{/menu/shoppingcart}">
                                         もっと詳しい情報
                                     </a>
-                                    
+
                                 </div>
                             </div>
                             <div th:if="${session.orderLines.size() <= 3}">                                
@@ -277,7 +277,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/Thymeleaf.html to edit
                                         <span>x [[${orderLine.amount}]]</span>
                                     </span>
                                 </div>
-                                 <div class="row simpleview">
+                                <div class="row simpleview">
                                     <a href="#" th:href="@{/menu/shoppingcart}">
                                         もっと詳しい情報
                                     </a>                                    
@@ -390,6 +390,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/Thymeleaf.html to edit
 
 
         <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
         <script th:src="@{/js/bootstrap.min.js}" src="../static/js/bootstrap.min.js"></script>
         <script>
             /*sidebar hover event*/
@@ -455,12 +456,29 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/Thymeleaf.html to edit
              */
         </script>
         <script>
+            function successMessage(event) {
+                event.preventDefault();
+                swal({
+                    title: "Thank You!",
+                    text: "訂單已成立 感謝您的購買!",
+                    icon: "success",
+                    button: "close"
+                }).then(() => {
+                    window.location = jQuery(event.target).attr("href");
+                    console.log(window.location);
+                });
+            }
+        </script>
+        <script>
             let date1 = new Date();
             let date2 = new Date();
             date1.setMinutes(date1.getMinutes() + 30);
             date2.setMinutes(date2.getMinutes() + 60);
-            document.getElementById("date1").innerHTML = date1.toLocaleString([], {year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit'});
-            document.getElementById("date2").innerHTML = date2.toLocaleString([], {year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit'});
+            if (document.getElementById("date1") !== null) {
+                document.getElementById("date1").innerHTML = date1.toLocaleString([], {year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit'});
+                document.getElementById("date2").innerHTML = date2.toLocaleString([], {year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit'});
+            }
+
         </script>
     </body>
 </html>

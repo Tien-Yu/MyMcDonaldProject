@@ -122,11 +122,12 @@ public class OrdersController {
     /**
      * Calendar 使用時須用方法轉換數值 > https://www.baeldung.com/dates-in-thymeleaf
      *
+     * @param onclick
      * @param session
      * @return
      */
     @GetMapping("/submit")
-    public String submit(HttpSession session) {
+    public String submit(@RequestParam(defaultValue = "") String onclick ,HttpSession session) {
         /*get list(orderLines) - for the use of condition*/
         List<OrderLine> orderLines = (List) session.getAttribute("orderLines");        
         if (orderLines == null) {
@@ -167,8 +168,12 @@ public class OrdersController {
         }
 
         ordersService.save(orders);
-
-        return "OrdersEstablished";
+        
+        if(onclick.equals("homepage")){            
+            return "redirect:/menu";
+        }
+        
+        return "redirect:/menu/shoppingcart";
     }
 
     /**
