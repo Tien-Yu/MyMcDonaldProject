@@ -83,7 +83,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/Thymeleaf.html to edit
                     </div>
                     <div class="general-content">
                         <div style="width: 90%;">總金額 : </div>
-                        <div style="width: 10%; font-size: 25px; color: red" th:text="${#collectiontools.summarization_freight(session.orderLines)}">$0</div>
+                        <div style="width: 10%; font-size: 25px; color: red" th:text="'$'+${#collectiontools.summarization_freight(session.orderLines)}">$0</div>
                     </div>
                 </div>
 
