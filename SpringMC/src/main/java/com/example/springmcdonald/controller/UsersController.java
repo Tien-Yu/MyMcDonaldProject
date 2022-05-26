@@ -126,7 +126,7 @@ public class UsersController {
         Optional<Users> tmpUser = usersService.findByNameAndPassword(name, password);
         if (tmpUser.isPresent()) {
             session.setAttribute("name", name);
-            session.setAttribute("user", tmpUser.get());
+            session.setAttribute("users", tmpUser.get());
             session.removeAttribute("address");           
             return "redirect:/menu";
         }
@@ -200,7 +200,6 @@ public class UsersController {
         session.setAttribute("name", name);
 
         usersService.insert(tmpUsers);
-
         redirectAttributes.addFlashAttribute("message", "資料更新成功!!!");
 
         return "redirect:/users/account";

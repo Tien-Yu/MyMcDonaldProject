@@ -81,10 +81,10 @@ public class OrdersController {
                                @RequestParam(defaultValue = "5") int size, HttpSession session, Model m) {
         /*users*/
         if (session.getAttribute("name") != null) {
-            Users users = usersService.findByName((String) session.getAttribute("name")).get();
+            Users users = usersService.findByName((String) session.getAttribute("name")).get(); 
+           
             Page<Orders> pageOrders
-                    = ordersService.findAllByUsers(users, pageNo, size);
-
+                    = ordersService.findAllByUsers(users, pageNo, size);            
             List<Orders> orderList = pageOrders.getContent();
             
             //if there is only one page, pageNo value will always be 1 (Thymeleaf use)
@@ -116,6 +116,10 @@ public class OrdersController {
     
     @GetMapping("/history/master")
     public String orders_history(HttpSession session, Model model){
+        Users users = usersService.findByName((String) session.getAttribute("name")).get();
+        if(users.getOrders().isEmpty()){            
+            return "PurchasedOrders";
+        }        
         return users_orders(1, 5, session, model);        
     }
 

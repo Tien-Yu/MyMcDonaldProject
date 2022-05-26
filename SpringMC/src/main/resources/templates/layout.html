@@ -6,7 +6,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/Thymeleaf.html to edit
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" 
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
     <head>
-        <title>TODO supply a title</title>
+        <title>Layout</title>
         <meta charset="UTF-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" href="../static/css/bootstrap.min.css"/>        
@@ -185,7 +185,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/Thymeleaf.html to edit
                                         [[${session.address}]]
                                     </span>
                                     <span th:if="${session.name != null && session.address == null}">
-                                        [[${session.user.address}]]
+                                        [[${session.users?.address}]]
                                     </span>
 
                                 </div>
@@ -213,7 +213,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/Thymeleaf.html to edit
                                     </div>
                                     <div>
                                         <span th:if="${session.orderLines == null}">NT$0</span>
-                                        <span th:if="${session.orderLines != null}">NT$60</span>
+                                        <span th:if="${session.orderLines != null}">NT$30</span>
                                     </div>
                                     <div style="font-size: 20px; color: green;">
                                         <span th:if="${session.orderLines == null}">NT$0</span>
@@ -429,17 +429,18 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/Thymeleaf.html to edit
                 });
             });
 
-            /*bottom margin to container content(wrapper content)*/
-            let wrapperheight = $('#wrapper').prop("offsetHeight");
-            $(function () {
+            /*bottom margin to container content(wrapper content)*/            
+            $(window).on('resize load', function(){
+                let wrapperheight = $('#wrapper').prop("offsetHeight");
                 if (wrapperheight > 1200) {
                     let spacing = wrapperheight - 950;
                     $('#footer').css('margin-top', spacing + 'px');
                 } else if (wrapperheight > 1000) {
                     let spacing = wrapperheight - 850;
                     $('#footer').css('margin-top', spacing + 'px');
-                }
+                }                
             });
+
 
             /* while browser's y-index over 1200 - change the footer min-height
              * deprecated - after insert column value height is no longer needed to modify

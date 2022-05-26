@@ -25,7 +25,7 @@ public final class CollectionTool{
             return 0;
         }
         Integer total = list.stream().map(o -> o.getPurchasePrice()).reduce(0, (a, b) -> a+b);        
-        return total+60;       
+        return total+30;       
     }
     
 }

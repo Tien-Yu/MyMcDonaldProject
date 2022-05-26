@@ -22,7 +22,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/Thymeleaf.html to edit
 
             </div>
             <div class="identity">
-                <span th:if="${session.user != null}" th:text="${session.user.userName}">user name</span>                
+                <span th:if="${session.users != null}" th:text="${session.users.userName}">user name</span>                
             </div> 
         </div>   
 
@@ -46,28 +46,24 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/Thymeleaf.html to edit
                     <thead style="padding: 10px;">
                         <tr class="table-header">                   
                             <th style="width: 40%">商品名稱</th>
-                            <th style="width: 30%">附餐</th>
+                            <th style="width: 30%">搭配</th>
                             <th style="width: 10%;">數量</th>
                             <th style="width: 20%">商品總價</th>                            
                         </tr>
                     </thead>
                     <tbody>
                         <tr class="table-content" th:each="orderLine : ${session.orderLines}">
-
                             <td style="display: flex;">                               
                                 <a class="glyphicon glyphicon-trash" onclick="deleteAlert(event);" href="#" th:href="@{/menu/{id}/remove(id=${orderLine.id})}" style="margin-right: 20px;"></a>
                                 <span th:text="${orderLine.product.name}">product name</span>                                
                             </td>
-                            <td>
-                                <!--可能要判斷selection 為null 的情況--> 
-                                <div th:each="selec : ${orderLine.selection}" >
-                                    <!-- 加個標註之類的 -->          
+                            <td>                   
+                                <div th:each="selec : ${orderLine.selection}" >                                
                                     <div th:text="${selec}">select</div>
                                 </div>
                             </td>
                             <td th:text="*{orderLine.amount}">1</td>
                             <td th:text="'$'+*{orderLine.purchasePrice}">$0</td>
-
                         </tr>                                              
                     </tbody>
                 </table>
@@ -83,7 +79,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/Thymeleaf.html to edit
                             &nbsp;
                             <span>運費 :</span>
                         </div>
-                        <div style="width: 10%">$60</div>
+                        <div style="width: 10%">$30</div>
                     </div>
                     <div class="general-content">
                         <div style="width: 90%;">總金額 : </div>
@@ -285,7 +281,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/Thymeleaf.html to edit
                 event.preventDefault();
                 swal({
                     title: "Are you sure?",
-                    text: "Once deleted, you will not be able to recover this imaginary file!",
+                    text: "This action can not be restored!",
                     icon: "warning",
                     buttons: true,
                     dangerMode: true
@@ -293,7 +289,10 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/Thymeleaf.html to edit
                     if (willDelete) {
                         window.location = jQuery(event.target).attr("href"); /*http://cat-son.blogspot.com/2012/11/javascript-windowlocation.html#sthash.V8gQ7oR0.dpbs*/
                     } else {
-                        swal("Thankyou!");
+                        swal("Thank You!", "deletion has been canceled!", {
+                            button: "close"
+
+                        });
                     }
                 });
             }
@@ -305,7 +304,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/Thymeleaf.html to edit
                     text: "訂單已成立 感謝您的購買!",
                     icon: "success",
                     button: "close"
-                }).then(() => {                    
+                }).then(() => {
                     window.location = jQuery(event.target).attr("href");
                     console.log(window.location);
                 });

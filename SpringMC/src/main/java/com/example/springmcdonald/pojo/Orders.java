@@ -43,7 +43,7 @@ public class Orders implements Serializable {
     @OneToMany(mappedBy = "orders", cascade = CascadeType.REMOVE)
     private List<OrderLine> orderLines;
     
-    
+   
     @PrePersist
     private void preInsert(){
         if(this.status == null){

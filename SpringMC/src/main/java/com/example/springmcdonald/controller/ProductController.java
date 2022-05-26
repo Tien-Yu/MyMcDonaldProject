@@ -7,9 +7,11 @@ package com.example.springmcdonald.controller;
 import com.example.springmcdonald.pojo.OrderLine;
 import com.example.springmcdonald.pojoform.OrderLineForm;
 import com.example.springmcdonald.pojo.Product;
+import com.example.springmcdonald.pojo.Users;
 import com.example.springmcdonald.pojoform.SelectionForm;
 import com.example.springmcdonald.service.OrderLineService;
 import com.example.springmcdonald.service.ProductService;
+import com.example.springmcdonald.service.UsersService;
 import com.example.springmcdonald.webtools.OrderLineTools;
 import java.util.LinkedList;
 import java.util.List;
@@ -39,12 +41,17 @@ public class ProductController {
     ProductService prodService;
     @Autowired
     OrderLineService orderLineService;
-
+    @Autowired
+    UsersService usersService;
     /*
         redirect
      */
     @GetMapping("")
-    public String homepage(Model m) {
+    public String homepage(Model m, HttpSession s) {
+        if(s.getAttribute("name") != null){
+            Users users = usersService.findByName((String)s.getAttribute("name")).get();
+            s.setAttribute("users", users);            
+        }        
         return share_menu(m);
     }
 
@@ -194,7 +201,7 @@ public class ProductController {
         List<Product> suggestlist = pageProducts.getContent();
         
         int totalPages = pageProducts.getTotalPages();        
-        
+                
         if (suggest < 1) {
             suggest = 1;
         }else if(suggest > totalPages){

@@ -5,7 +5,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/Thymeleaf.html to edit
 -->
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
     <head>
-        <title>TODO supply a title</title>
+        <title>Status | McProject</title>
         <meta charset="UTF-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" href="../static/css/bootstrap.min.css"/>
@@ -14,7 +14,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/Thymeleaf.html to edit
                 margin-bottom: 10px;
             }
             .divider{
-                margin: 10px
+                margin: 10px;
             }
 
         </style>        
@@ -36,7 +36,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/Thymeleaf.html to edit
                             <option th:value="@{/orders/history/master/1?size=20}">20</option>
                         </select>
                     </li>
-                    
+
                     <li style="float: right; margin-left: 10px">
                         <a th:if="${currentPage < totalPages}" th:href="@{'/orders/history/master/'+${currentPage+1}}+'?size='+${pageSize}">
                             下一頁 >
@@ -61,19 +61,25 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/Thymeleaf.html to edit
                 </ul>
             </nav>
 
-
-            <table class="table table-bordered table-striped">
+            <!-- -->
+            <table class="table table-bordered table-striped" >
                 <thead>
                     <tr>
+                        <th>結帳日期</th>  
                         <th>商品資訊</th>
                         <th>數量</th>
+                        <th>商品金額</th>
+                        <th>運費</th>
                         <th>結帳總金額</th>
-                        <th>結帳日期</th>                        
+
                         <th>訂單狀態</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr th:each="order : ${session.orderList}">    
+                        <td style="text-align: center; vertical-align: middle" th:text="${#calendars.format(order.orderdate, 'yyyy-MM-dd HH:mm:ss')}">
+                            2022/08/31(日期需經過格式轉換 calendar)
+                        </td>
                         <td style="text-align: left; vertical-align: middle" th:with="list=${order.orderLines}">                            
                             <div class="content" th:each="orderLine : ${list}">
                                 <!-- 單點 - 產品名稱+數量 -->
@@ -82,32 +88,38 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/Thymeleaf.html to edit
                                 </span>
                                 <!-- 套餐 - 產品名稱+附餐 -->
                                 <span th:if="${orderLine.selection != null}">
-                                    [[${orderLine.product.name}]]&nbsp;[[${#strings.listToString(orderLine.selection)}]]                                    
+                                    [[${orderLine.product.name}]] <br/>
+                                    
+                                    搭配:[[${#strings.listToString(orderLine.selection)}]]
                                 </span>
                                 <!-- 套餐(有附餐) 單點(有數量的問題) 分享餐(有附餐)需要分開來 -->
                                 <hr class="divider" th:unless="${list.indexOf(orderLine) == list.size()-1}"/>                          
-                            </div>
+                            </div>                                                     
                         </td>
 
                         <td style="text-align: center; vertical-align: middle" th:with="list=${order.orderLines}">
                             <div class="content" th:each="orderLine : ${list}">
+                                <div th:if="${orderLine.selection != null}" style="visibility: hidden">div</div>
                                 <span th:text="${orderLine.amount}">1</span>
                                 <hr class="divider" th:unless="${list.indexOf(orderLine) == list.size()-1}"/>
                             </div>                            
                         </td>
-
-
                         <td id="total" style="text-align: center; vertical-align: middle" th:with="list=${order.orderLines}">
                             <span th:text="'$'+${#collectiontools.summarization(list)}">
-                                $1000(orders > orderLine價錢的加總)
+                                $1000(訂單商品金額)
                             </span>
 
                         </td>
-
-                        <td style="text-align: center; vertical-align: middle" th:text="${#calendars.format(order.orderdate, 'yyyy-MM-dd HH:mm:ss')}">
-                            2022/08/31(日期需經過格式轉換 calendar)
+                        <td id="total" style="text-align: center; vertical-align: middle">
+                            <span>
+                                $30
+                            </span>
                         </td>
-
+                        <td id="total" style="text-align: center; vertical-align: middle" th:with="list=${order.orderLines}">
+                            <span th:text="'$'+${#collectiontools.summarization_freight(list)}">
+                                $1000(結帳總金額)
+                            </span>
+                        </td>
                         <td th:text="${order.status}" style="text-align: center; vertical-align: middle">
                             處理中 (訂單的狀態)
                         </td>
@@ -115,7 +127,6 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/Thymeleaf.html to edit
                     </tr>                    
                 </tbody>
             </table>
-
         </div>
 
         <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
