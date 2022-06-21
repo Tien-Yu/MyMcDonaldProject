@@ -1,8 +1,10 @@
 # MyMcdonaldProject
 Project run video : https://youtu.be/WF7Ee65TuoE
 
+* Spring-boot application
+
 * Database
-  * dirver PostgreSQL
+  * dirver - PostgreSQL
   * ElephantDB
   * Tables
     * product
